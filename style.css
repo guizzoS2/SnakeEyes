@@ -1,0 +1,311 @@
+/* Configurações gerais */
+body {
+    font-family: 'Georgia', serif; 
+    background-color: #f5e4c3; 
+    color: #3b2e1e; 
+    margin: 0;
+    padding: 0;
+}
+
+/* Título principal */
+h1 {
+    font-family: 'Courier New', monospace; 
+    font-size: 32px;
+    color: #3b2e1e;
+    text-align: center;
+    text-shadow: 2px 2px 0 #ffffff, -2px -2px 0 #c18f5a;
+    margin-bottom: 20px;
+}
+
+/* Div principal */
+.creation-div {
+    padding: 20px;
+    background: #f5e4c3;
+    border: 3px solid #8b5e34; 
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilo dos textos e entradas de dados */
+.creation-div label {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.creation-div input[type="text"],
+.creation-div input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 2px solid #8b5e34;
+    border-radius: 5px;
+    background: #fffbe6; 
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.atributes-gun-drum{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.organize-atributes {
+    display: flex;
+    justify-content: space-between; 
+    gap: 20px; 
+}
+
+/* Colunas de atributos */
+.atributes-gun-drum {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 10px; 
+}
+
+.atribute-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.atribute-value {
+    font-size: 16px;
+    font-weight: bold;
+    width: 30px;
+    text-align: center;
+    color: #3b2e1e;
+    background-color: #fffbe6;
+    border: 2px solid #8b5e34;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.atribute-btn {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #8b5e34;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s;
+}
+
+.atribute-btn:hover {
+    background-color: #a66f3d;
+}
+
+/* Botão desabilitado */
+.atribute-btn:disabled {
+    background-color: #b0a398; 
+    color: #f4f4f4;
+    cursor: not-allowed; 
+    box-shadow: none; 
+}
+
+/* Desativar hover para botões desabilitados */
+.atribute-btn:disabled:hover {
+    background-color: #b0a398; 
+}
+
+.atributes-gun-drum input[type="text"],
+.atributes-gun-drum input[type="number"] {
+    width: calc(20% - 10px);
+    text-align: center; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 10px;
+    font-size: 16px; 
+    height: 40px;
+    border: 2px solid #8b5e34; 
+    border-radius: 5px;
+    background: #fffbe6; 
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Div de antecedentes */
+.antecedente {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 2px solid #8b5e34;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #f9e7c7, #f5d9aa);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.antecedente h3 {
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #4a3217;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.antecedente p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #3b2e1e;
+}
+
+.antecedente label {
+    font-size: 14px;
+    color: #3b2e1e;
+}
+
+.antecedente input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Div de habilidades */
+.habilidades-div {
+    padding: 20px;
+    background: #f5e4c3;
+    border: 3px solid #8b5e34;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.habilidade {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 2px solid #8b5e34;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #f9e7c7, #f5d9aa);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.habilidade h3 {
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    margin: 0 0 10px;
+    color: #4a3217;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.habilidade p:nth-child(2) {
+    margin: 5px 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #3b2e1e;
+}
+
+.habilidade p:nth-child(3) {
+    margin: 5px 0 10px;
+    font-size: 14px;
+    color: #3b2e1e;
+}
+
+.habilidade label {
+    font-size: 14px;
+    color: #3b2e1e;
+    cursor: pointer;
+}
+
+.habilidade input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Botões ou interações */
+button {
+    background: #8b5e34;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+    background: #a66f3d;
+}
+
+/* Estilo geral de textos */
+p, label {
+    font-family: 'Georgia', serif;
+    color: #3b2e1e;
+}
+
+/* Inputs de número */
+.creation-div input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+.creation-div input[type="number"]::-webkit-inner-spin-button,
+.creation-div input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    opacity: 0;
+    width: 250px;
+    background-color: #f7e4c2;
+    color: #4a3217;
+    text-align: left;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid #8b5e34;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 105%;
+    transform: translateY(-50%);
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+
+/* Setinha abaixo do tooltip */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -5px;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #8b5e34 transparent transparent;
+}
+
+/* Show the tooltip text when hovering */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip:not(:hover) .tooltiptext {
+    visibility: hidden;
+    opacity: 0;
+    transition-delay: 0.1s;
+}

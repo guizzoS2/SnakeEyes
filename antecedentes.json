@@ -1,0 +1,38 @@
+[
+    {
+        "nome": "Viajante",
+        "bonus": "Sagacidade 2",
+        "habilidade": "Sigam-me os Bons!",
+        "descricao": "Considerando todas as suas experiências e viagens, você sabe muito bem se guiar pelo deserto e encontrar abrigos. Você pode rodar 1 dado adicional e pegar o maior quando estiver se guiando pelo deserto."
+    },
+    {
+        "nome": "Casca-Grossa",
+        "bonus": "Força 2",
+        "habilidade": "Encontrão",
+        "descricao": "Descarte duas cartas pares. Você pode deslocar-se até 4.5m e golpear um oponente com uma única ação. Se você acertar, aumente o seu dano em +1."
+    },
+    {
+        "nome": "Caçador de Recompensas",
+        "bonus": "Celeridade 2",
+        "habilidade": "Mãos-Ágeis",
+        "descricao": "Descarte uma carta da sua mão para recarregar como uma ação livre."
+    },
+    {
+        "nome": "Estudiosa",
+        "bonus": "Sabedoria 2",
+        "habilidade": "Eu vi sobre isso uma vez…",
+        "descricao": "Descarte duas cartas menores que 6. Você pode rerolar um dado em um teste de sabedoria ou mente."
+    },
+    {
+        "nome": "Sobrevivente",
+        "bonus": "Resiliência 2",
+        "habilidade": "Nervos de Aço",
+        "descricao": "Você já passou por apertos piores que esse, você já sobreviveu a pesadelos piores, não é esse que vai te parar. Se você estiver abaixo de ⅓ da sua saúde, receba -1 de Estresse, e compre 2 cartas."
+    },
+    {
+        "nome": "Marcada",
+        "bonus": "Mente 2",
+        "habilidade": "Marca",
+        "descricao": "Você possui a capacidade de manipular um dos quatro aspectos das Marcas – Sombra, Luz, Aço ou Natureza, moldando-os ao seu favor em diferentes situações."
+    }
+]
