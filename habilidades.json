@@ -1,47 +1,47 @@
 [
     {
         "Nome": "Desviar",
-        "Requisito": "Celeridade 1",
+        "Requisito": { "atributo": "celeridade", "valor": 1 },
         "Descrição": "Descarte 2 cartas ímpares da sua mão. Ao ser alvo de um disparo, você pode deslocar-se até uma cobertura próxima, aumentando a dificuldade do teste adversário em no máximo 2."
     },
     {
         "Nome": "Mais uma cicatriz",
-        "Requisito": "Resiliência 2",
+        "Requisito": { "atributo": "resiliência", "valor": 2 },
         "Descrição": "Descarte 2 ou mais cartas de face da sua mão, recupere uma quantidade de vida equivalente a quantidade de cartas descartadas * resiliência."
     },
     {
         "Nome": "Sigam-me os Bons!",
-        "Requisito": "Sagacidade 1",
+        "Requisito": { "atributo": "sagacidade", "valor": 1 },
         "Descrição": "Considerando todas as suas experiências e viagens, você sabe muito bem se guiar pelo deserto e encontrar abrigos. Você pode rodar 1 dado adicional e pegar o maior quando estiver se guiando pelo deserto."
     },
     {
         "Nome": "Nervos de Aço",
-        "Requisito": "Resiliência 1",
+        "Requisito": { "atributo": "resiliência", "valor": 1 },
         "Descrição": "Você já passou por apertos piores que esse, você já sobreviveu a pesadelos piores, não é esse que vai te parar. Se você estiver abaixo de ⅓ da sua saúde, receba -1 de Estresse, e compre 2 cartas."
     },
     {
         "Nome": "Boa companhia",
-        "Requisito": "Sagacidade 2",
+        "Requisito": { "atributo": "sagacidade", "valor": 2 },
         "Descrição": "Suas artes, piadas ou peripécias sempre trouxeram um bom humor, mesmo nas piores das situações: Descarte toda a sua mão, todos os aliados ao seu redor recuperam 1 de Estresse. Esse efeito tem uma recarga de 48 horas individuais para cada alvo."
     },
     {
         "Nome": "Mãos-Ágeis",
-        "Requisito": "Celeridade 1",
+        "Requisito": { "atributo": "celeridade", "valor": 1 },
         "Descrição": "Descarte uma carta da sua mão para recarregar como uma ação livre."
     },
     {
         "Nome": "Descarregar a Raiva",
-        "Requisito": "Força 2",
+        "Requisito": { "atributo": "força", "valor": 2 },
         "Descrição": "Descarte cartas que somam mais de 20. Seus próximos 3 ataques causa dano adicional equivalente ao seu Estresse. Se você reduzir a vida do alvo a 0 ou menos, você perde 1 de Estresse."
     },
     {
         "Nome": "Encontrão",
-        "Requisito": "Força 1",
+        "Requisito": { "atributo": "força", "valor": 1 },
         "Descrição": "Descarte duas cartas pares. Você pode deslocar-se até 4.5m e golpear um oponente com uma única ação. Se você acertar, aumente o seu dano em +1."
     },
     {
         "Nome": "Eu vi sobre isso uma vez…",
-        "Requisito": "Sabedoria 1",
+        "Requisito": { "atributo": "sabedoria", "valor": 1 },
         "Descrição": "Descarte duas cartas menores que 6. Você pode rerolar um dado em um teste de sabedoria ou mente."
     }
 ]

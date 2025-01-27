@@ -103,8 +103,6 @@ function aplicarBonus(selecionado) {
     atualizarPontosRestantes(); 
 }
 
-
-
 function atualizarPontosRestantes() {
     const pontosRestantesEl = document.querySelector('.pontos-restantes');
     const atributos = document.querySelectorAll('.atribute-value');
@@ -113,7 +111,7 @@ function atualizarPontosRestantes() {
     atributos.forEach(atributo => {
         const valorAtual = parseInt(atributo.textContent, 10) || 0;
         if (antecedenteAtual && antecedenteAtual.atributo === atributo.id) {
-            soma += valorAtual - antecedenteAtual.valor; 
+            soma += valorAtual - antecedenteAtual.valor;
         } else {
             soma += valorAtual;
         }
@@ -121,9 +119,33 @@ function atualizarPontosRestantes() {
 
     const pontosRestantes = 4 - soma;
     pontosRestantesEl.textContent = pontosRestantes;
+
+    // Reavaliar pré-requisitos das habilidades
+    const habilidadeCheckboxes = document.querySelectorAll('.habilidade input[type="checkbox"]');
+    habilidadeCheckboxes.forEach(checkbox => {
+        const requisito = JSON.parse(checkbox.dataset.requisito);
+        const atributoAtual = document.getElementById(requisito.atributo).textContent;
+        const label = checkbox.parentElement;
+        // Verifica se a habilidade está associada ao antecedente selecionado
+        if (antecedenteAtual && checkbox.dataset.nome === antecedenteAtual.habilidade) {
+            checkbox.disabled = true; 
+            checkbox.checked = true; 
+            label.classList.remove('label-disabled');
+            label.lastChild.textContent = ' Selecionada (Antecedente)';
+        } else if (parseInt(atributoAtual, 10) < requisito.valor) {
+            checkbox.disabled = true; 
+            checkbox.checked = false; 
+            label.classList.add('label-disabled');
+            label.lastChild.textContent = ' Pré-requisito não atendido';
+        } else {
+            checkbox.disabled = false;
+            label.classList.remove('label-disabled');
+            label.lastChild.textContent = ' Selecionar';
+        }
+    });
+
     return pontosRestantes;
 }
-
 
 function alterarValor(atributo, operacao) {
     const valorEl = document.getElementById(atributo);
@@ -140,7 +162,6 @@ function alterarValor(atributo, operacao) {
     atualizarPontosRestantes();
 }
 
-
 function configurarBotoes() {
     const botoes = document.querySelectorAll('.atribute-btn');
     botoes.forEach(botao => {
@@ -151,7 +172,6 @@ function configurarBotoes() {
         });
     });
 }
-
 
 function carregarHabilidades() {
     const habilidadesDiv = document.getElementById('habilidades-div');
@@ -165,7 +185,7 @@ function carregarHabilidades() {
         divHabilidade.appendChild(titulo);
 
         const requisito = document.createElement('p');
-        requisito.textContent = `Requisito: ${habilidade.Requisito}`;
+        requisito.textContent = `Requisito: ${habilidade.Requisito.atributo} ${habilidade.Requisito.valor}`;
         divHabilidade.appendChild(requisito);
 
         const descricao = document.createElement('p');
@@ -173,33 +193,34 @@ function carregarHabilidades() {
         divHabilidade.appendChild(descricao);
 
         const labelCheckbox = document.createElement('label');
+        labelCheckbox.classList.add('label-disabled');
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.name = 'habilidade';
-        checkbox.dataset.nome = habilidade.Nome; 
-        labelCheckbox.appendChild(checkbox);
-        labelCheckbox.appendChild(document.createTextNode(' Selecionar'));
-        divHabilidade.appendChild(labelCheckbox);
+        checkbox.dataset.nome = habilidade.Nome;
+        checkbox.dataset.requisito = JSON.stringify(habilidade.Requisito);
 
+        // Verifica se o jogador atende ao pré-requisito
+        const atributoAtual = document.getElementById(habilidade.Requisito.atributo).textContent;
+        if (parseInt(atributoAtual, 10) < habilidade.Requisito.valor) {
+            checkbox.disabled = true; // Desabilita se o requisito não for atendido
+            labelCheckbox.appendChild(checkbox);
+            labelCheckbox.appendChild(document.createTextNode(' Pré-requisito não atendido'));
+        } else {
+            labelCheckbox.appendChild(checkbox);
+            labelCheckbox.appendChild(document.createTextNode(' Selecionar'));
+        }
+
+        divHabilidade.appendChild(labelCheckbox);
         habilidadesDiv.appendChild(divHabilidade);
     });
 
-    // Evento para garantir apenas uma checkbox marcada
-    habilidadesDiv.addEventListener('change', (event) => {
+    habilidadesDiv.addEventListener('change', event => {
         if (event.target.type === 'checkbox') {
             const checkboxes = document.querySelectorAll('input[name="habilidade"]');
-    
-            // Verifica se o checkbox clicado está associado a um antecedente
-            const antecedenteSelecionado = [...checkboxes].some(
-                checkbox => checkbox.checked && checkbox.disabled
-            );
-    
             checkboxes.forEach(checkbox => {
                 if (checkbox !== event.target) {
-                    if (antecedenteSelecionado && checkbox.disabled) {
-                        return; 
-                    }
-                    checkbox.checked = false; 
+                    checkbox.checked = false;
                 }
             });
         }
