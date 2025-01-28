@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Cartas</title>
+    <link rel="stylesheet" href="cardgame.css">
+</head>
+<body>
+    <div class="column">
+        <div class="container">
+            <div id="deck" class="deck" title="Clique para comprar uma carta">
+                <span id="deck-count" class="tooltip">52</span>
+            </div>
+            <div id="discard-pile" class="discard-pile">
+            </div>
+        </div>
+                <!-- Modal para exibir as cartas descartadas -->
+        <div id="discard-modal" class="modal hidden">
+            <div class="modal-content">
+                <button id="close-modal" class="close-button">X</button>
+                <div id="discarded-cards" class="discarded-cards"></div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="hand" class="hand">
+
+            </div>
+            <div id="hand-controls">
+                <button id="sort-by-suit">Ordenar por Naipe</button>
+                <button id="sort-by-value">Ordenar por Valor</button>
+            </div>
+        
+            <button id="restart-button">Restart</button>
+        </div>
+    </div>
+
+    <script src="cardgame.js"></script>
+</body>
+</html>
