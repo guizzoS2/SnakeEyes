@@ -344,7 +344,7 @@ function abrirFicha() {
             try {
                 const ficha = JSON.parse(e.target.result);
 
-                const novaJanela = window.open('ficha.html', '_blank');
+                const novaJanela = window.open('ficha/ficha.html', '_blank');
 
                 novaJanela.onload = () => {
                     novaJanela.carregarFicha(ficha); 
@@ -416,7 +416,7 @@ function atualizarDivMarca() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('antecedentes.json')
+    fetch('json/antecedentes.json')
         .then(response => response.json())
         .then(data => {
             antecedentes = data;
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Erro ao carregar antecedentes.json:', error));
 
-    fetch('habilidades.json')
+    fetch('json/habilidades.json')
         .then(response => response.json())
         .then(data => {
             habilidades = data;
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Erro ao carregar habilidades.json:', error));
 
-    fetch('marcas.json')
+    fetch('json/marcas.json')
         .then(response => response.json())
         .then(data => {
             marcas = data;

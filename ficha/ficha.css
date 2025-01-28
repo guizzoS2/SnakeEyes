@@ -177,7 +177,7 @@ body {
 
 .card-game-container .deck {
     cursor: pointer;
-    background-image: url("cards/Back.png");
+    background-image: url("../images/cards/BACK.png");
     background-size: cover;
 }
 
