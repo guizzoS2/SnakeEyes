@@ -1,0 +1,96 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.character-div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+/* firs div */
+.social-info {
+    flex: 1;
+    padding: 20px;
+}
+
+.social-info h2 {
+    margin-top: 0;
+}
+
+.social-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.social-info ul li {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.character-status {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+.character-status h3 {
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.character-status .status-box {
+    margin-bottom: 20px;
+}
+
+.status-box p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.character-photo {
+    width: 200px;
+    height: 200px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+}
+
+/* second div */
+.atributes-info, .habilidades-info {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.atributes-info h2, .habilidades-info h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.atributes-info ul, .habilidades-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.atributes-info ul li, .habilidades-info ul li {
+    margin: 10px 0;
+    font-size: 16px;
+}

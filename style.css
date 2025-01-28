@@ -317,3 +317,71 @@ p, label {
     cursor: not-allowed;
   }
   
+.creation-div .ficha-btn {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+/* marca */
+.marca-div {
+    padding: 20px;
+    background: #f5e4c3;
+    border: 3px solid #8b5e34;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+}
+
+.marca {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 2px solid #8b5e34;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #f9e7c7, #f5d9aa);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.marca h1 {
+    font-family: 'Courier New', monospace; 
+    font-size: 32px;
+    color: #3b2e1e;
+    text-align: center;
+    text-shadow: 2px 2px 0 #ffffff, -2px -2px 0 #c18f5a;
+    margin-bottom: 20px;
+}
+
+.marca h3 {
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    margin: 0 0 10px;
+    color: #4a3217;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.marca p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #3b2e1e;
+}
+
+.marca label {
+    font-size: 14px;
+    color: #3b2e1e;
+    cursor: pointer;
+}
+
+.marca input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.marca input[type="checkbox"]:checked + label {
+    color: #a66f3d;
+    font-weight: bold;
+}
+
+.marca input[type="checkbox"]:disabled + label {
+    color: #999;
+    text-decoration: line-through;
+}

@@ -1,0 +1,23 @@
+[
+    {
+      "nome": "Luz",
+      "descricao": "A representação da Justiça e da Vingança, também como a cicatrização e determinação. Guiados pelo Sol e por seus seguidores, a Luz foca mais em punir os “Desgraçados” e guiar os vivos pelo caminho correto e no final, para uma “Boa Morte”.",
+      "habilidades": []
+    },
+    {
+      "nome": "Sombra",
+      "descricao": "A representação da sagacidade e feitiçaria, também como a escuridão e trapaça. Caçados pelo Sol, a sempre presente Sombra esgueira pelo mundo, oferecendo poder para aqueles fortes o suficiente para contê-lo.",
+      "habilidades": []
+    },
+    {
+      "nome": "Aço",
+      "descricao": "A representação da criatividade e engenhosidade, também como próteses e armas. São os mais ligados e conectados a suas criações, famílias de ferreiros e armeiros seguem o Aço para criar suas próprias ferramentas e maneiras de lidar com o mundo.",
+      "habilidades": []
+    },
+    {
+      "nome": "Vento",
+      "descricao": "A representação da natureza e o ciclo da vida, também como os animais e criaturas. Os Andarilhos vagam pelos vastos desertos, sempre sabendo por onde e como seguir em frente, tendem a manter a ordem natural do mundo e não se aglomeram em cidades.",
+      "habilidades": []
+    }
+  ]
+  

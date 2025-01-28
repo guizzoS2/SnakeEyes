@@ -1,6 +1,7 @@
 let antecedentes = [];
 let antecedenteAtual = null;
 let habilidades = [];
+let marcas = [];
 
 function carregarAntecedentes() {
     const originDiv = document.getElementById('origin-div');
@@ -63,44 +64,42 @@ function aplicarBonus(selecionado) {
         atributo.textContent = 0;
     });
 
-    // Reativa todos os checkboxes de habilidades e redefine os textos para "Selecionar"
     const habilidadeCheckboxes = document.querySelectorAll('.habilidade input[type="checkbox"]');
     habilidadeCheckboxes.forEach(checkbox => {
-        checkbox.disabled = false; 
-        checkbox.checked = false; 
+        checkbox.disabled = false;
+        checkbox.checked = false;
         const label = checkbox.parentElement;
-        label.lastChild.textContent = " Selecionar"; 
+        label.lastChild.textContent = " Selecionar";
     });
 
-    // Aplica o bônus do antecedente selecionado e desabilita os botões correspondentes
     if (selecionado.checked) {
         const atributo = document.getElementById(selecionado.dataset.bonus);
         atributo.textContent = selecionado.dataset.valor;
 
-        // Desabilita os botões do atributo relacionado ao antecedente
         const botoesAtributo = document.querySelectorAll(`[data-atribute="${selecionado.dataset.bonus}"]`);
         botoesAtributo.forEach(botao => botao.disabled = true);
 
         antecedenteAtual = {
+            nome: antecedentes.find(a => a.habilidade === selecionado.dataset.habilidade)?.nome || "Sem Antecedente",
             atributo: selecionado.dataset.bonus,
             valor: parseInt(selecionado.dataset.valor),
-            habilidade: selecionado.dataset.habilidade 
+            habilidade: selecionado.dataset.habilidade
         };
 
-        // Marca e desabilita o checkbox da habilidade relacionada ao antecedente
         const habilidadeRelacionada = [...habilidadeCheckboxes].find(
             checkbox => checkbox.dataset.nome === antecedenteAtual.habilidade
         );
 
         if (habilidadeRelacionada) {
-            habilidadeRelacionada.checked = true; 
+            habilidadeRelacionada.checked = true;
             habilidadeRelacionada.disabled = true;
             const label = habilidadeRelacionada.parentElement;
             label.lastChild.textContent = " Selecionado (Antecedente)";
         }
     }
 
-    atualizarPontosRestantes(); 
+    atualizarDivMarca(); 
+    atualizarPontosRestantes();
 }
 
 function atualizarPontosRestantes() {
@@ -215,9 +214,184 @@ function carregarHabilidades() {
         habilidadesDiv.appendChild(divHabilidade);
     });
 
-    habilidadesDiv.addEventListener('change', event => {
+    habilidadesDiv.addEventListener('change', (event) => {
         if (event.target.type === 'checkbox') {
             const checkboxes = document.querySelectorAll('input[name="habilidade"]');
+    
+            const antecedenteSelecionado = [...checkboxes].some(
+                checkbox => checkbox.checked && checkbox.disabled
+            );
+    
+            checkboxes.forEach(checkbox => {
+                if (checkbox !== event.target) {
+                    if (antecedenteSelecionado && checkbox.disabled) {
+                        return; 
+                    }
+                    checkbox.checked = false; 
+                }
+            });
+        }
+    });
+    
+}
+
+function criarFicha() {
+    const nomePersonagem = document.querySelector('input[name="ocName"]').value || "Sem Nome";
+    const nomeJogador = document.querySelector('input[name="plName"]').value || "Jogador";
+    const recompensa = parseInt(document.querySelector('input[name="reward"]').value, 10) || 0;
+    const bando = document.querySelector('input[name="group"]').value || "Sem Bando";
+
+    // Capturar a marca selecionada
+    const marcaCheckbox = document.querySelector('.marca-div input[type="checkbox"]:checked');
+    const marca = marcaCheckbox ? marcaCheckbox.value : "Sem Marca";
+
+    const atributos = {
+        força: parseInt(document.getElementById('força').textContent, 10),
+        sagacidade: parseInt(document.getElementById('sagacidade').textContent, 10),
+        mente: parseInt(document.getElementById('mente').textContent, 10),
+        resiliência: parseInt(document.getElementById('resiliência').textContent, 10),
+        sabedoria: parseInt(document.getElementById('sabedoria').textContent, 10),
+        celeridade: parseInt(document.getElementById('celeridade').textContent, 10),
+    };
+
+    // Calc de vitalidade com resiliência
+    const rolarD6 = () => Math.floor(Math.random() * 6) + 1;
+    let vitalidadeBonus = 0;
+
+    for (let i = 0; i < atributos.resiliência; i++) {
+        const dadoRolado = rolarD6();
+        const bonusPorResiliencia = Math.floor((dadoRolado + 1) / 2);
+        vitalidadeBonus += bonusPorResiliencia;
+    }
+
+    const vitalidadeMaxima = 6 + vitalidadeBonus;
+
+    // Habilidades com Nome e Descrição
+    const habilidadesSelecionadas = Array.from(document.querySelectorAll('.habilidade input[type="checkbox"]'))
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => {
+            const nome = checkbox.dataset.nome;
+            const habilidadeEncontrada = habilidades.find(habilidade => habilidade.Nome === nome);
+
+            if (habilidadeEncontrada) {
+                return {
+                    Nome: habilidadeEncontrada.Nome,
+                    Descrição: habilidadeEncontrada.Descrição
+                };
+            } else {
+                console.error(`Habilidade "${nome}" não encontrada no JSON de habilidades.`);
+                return { Nome: nome, Descrição: "Descrição não encontrada." };
+            }
+        });
+
+    const antecedenteSelecionado = antecedenteAtual
+        ? {
+            nome: antecedentes.find(a => a.habilidade === antecedenteAtual.habilidade)?.nome || "Sem Antecedente",
+            atributo: antecedenteAtual.atributo,
+            valor: antecedenteAtual.valor,
+            habilidade: antecedenteAtual.habilidade
+        }
+        : null;
+
+    // Construindo o JSON da ficha
+    const ficha = {
+        nomePersonagem,
+        nomeJogador,
+        recompensa,
+        bando,
+        marca,
+        atributos,
+        habilidadesSelecionadas,
+        antecedenteSelecionado,
+        vitalidade: {
+            maximo: vitalidadeMaxima,
+            atual: vitalidadeMaxima,
+        },
+        estresse: {
+            maximo: 6,
+            atual: 0,
+        }
+    };
+
+    const fichaJSON = JSON.stringify(ficha, null, 2);
+
+    const blob = new Blob([fichaJSON], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${nomePersonagem || 'ficha'}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+
+    alert(`Vitalidade máxima calculada: ${vitalidadeMaxima}`);
+}
+
+
+function abrirFicha() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+
+    input.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            alert('Nenhum arquivo selecionado!');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const ficha = JSON.parse(e.target.result);
+
+                const novaJanela = window.open('ficha.html', '_blank');
+
+                novaJanela.onload = () => {
+                    novaJanela.carregarFicha(ficha); 
+                };
+            } catch (error) {
+                alert('Erro ao ler o arquivo JSON. Certifique-se de que o formato está correto.');
+            }
+        };
+
+        reader.readAsText(file);
+    });
+
+    input.click();
+}
+
+function carregarMarcas() {
+    const marcaDiv = document.getElementById('marca-div');
+
+
+    marcas.forEach(marca => {
+        const divMarca = document.createElement('div');
+        divMarca.classList.add('marca');
+
+        const titulo = document.createElement('h3');
+        titulo.textContent = marca.nome;
+        divMarca.appendChild(titulo);
+
+        const descricao = document.createElement('p');
+        descricao.textContent = marca.descricao;
+        divMarca.appendChild(descricao);
+
+        const labelCheckbox = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'marca';
+        checkbox.value = marca.nome;
+        labelCheckbox.appendChild(checkbox);
+        labelCheckbox.appendChild(document.createTextNode(' Selecionar'));
+        divMarca.appendChild(labelCheckbox);
+
+        marcaDiv.appendChild(divMarca);
+    });
+
+    // Lógica para garantir que apenas um checkbox seja marcado
+    marcaDiv.addEventListener('change', (event) => {
+        if (event.target.type === 'checkbox') {
+            const checkboxes = document.querySelectorAll('input[name="marca"]');
             checkboxes.forEach(checkbox => {
                 if (checkbox !== event.target) {
                     checkbox.checked = false;
@@ -227,24 +401,54 @@ function carregarHabilidades() {
     });
 }
 
+function atualizarDivMarca() {
+    const marcaDiv = document.getElementById('marca-div');
+    const antecedenteSelecionado = antecedenteAtual?.nome === "Marcada";
+
+    if (antecedenteSelecionado) {
+        marcaDiv.style.display = 'block';
+
+    } else {
+        marcaDiv.style.display = 'none'; 
+        const checkboxes = document.querySelectorAll('input[name="marca"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    // carregar antecedentes e habilidades
     fetch('antecedentes.json')
         .then(response => response.json())
         .then(data => {
-            antecedentes = data; 
-            carregarAntecedentes(); 
+            antecedentes = data;
+            carregarAntecedentes();
         })
-        .catch(error => console.error('Erro ao carregar o JSON:', error));
+        .catch(error => console.error('Erro ao carregar antecedentes.json:', error));
 
     fetch('habilidades.json')
         .then(response => response.json())
         .then(data => {
-            habilidades = data; 
-            carregarHabilidades(); 
+            habilidades = data;
+            carregarHabilidades();
         })
-        .catch(error => console.error('Erro ao carregar o JSON:', error));
+        .catch(error => console.error('Erro ao carregar habilidades.json:', error));
 
-    configurarBotoes(); 
+    fetch('marcas.json')
+        .then(response => response.json())
+        .then(data => {
+            marcas = data;
+            carregarMarcas();
+        })
+        .catch(error => console.error('Erro ao carregar marcas.json:', error));
+
+    configurarBotoes();
+
+    const botaoCriarFicha = document.getElementById('criar-ficha');
+    if (botaoCriarFicha) {
+        botaoCriarFicha.addEventListener('click', criarFicha);
+    }
+
+    const botaoAbrirFicha = document.getElementById('abrir-ficha');
+    if (botaoAbrirFicha) {
+        botaoAbrirFicha.addEventListener('click', abrirFicha);
+    }
 });
-

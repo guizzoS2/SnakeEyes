@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Personagem</title>
+    <link rel="stylesheet" href="ficha.css">
+</head>
+<body>
+    <div class="character-div">
+        <div class="social-info">
+            <h2>Informações do Personagem</h2>
+            <ul>
+                <li><strong>Nome do Personagem:</strong> <span id="nome-personagem">--</span></li>
+                <li><strong>Nome do Jogador:</strong> <span id="nome-jogador">--</span></li>
+                <li><strong>Recompensa:</strong> <span id="recompensa">--</span></li>
+                <li><strong>Bando:</strong> <span id="bando">--</span></li>
+                <li><strong>Antecedente:</strong> <span id="antecedente">--</span></li>
+                <li><strong>Marca:</strong> <span id="marca">--</span></li>
+            </ul>
+        </div>
+
+        <div class="character-status">
+            <h3>Status do Personagem</h3>
+            <div class="status-box">
+                <p><strong>Vitalidade:</strong> <span id="vitalidade-atual">--</span> / <span id="vitalidade-maxima">--</span></p>
+                <p><strong>Estresse:</strong> <span id="estresse-atual">--</span> / <span id="estresse-maximo">6</span></p>
+            </div>
+            <div class="character-photo">
+                Foto do Personagem
+            </div>
+        </div>
+    </div>
+
+    <div class="character-div">
+        <!-- Atributos do personagem -->
+        <div class="atributes-info">
+            <h2>Atributos</h2>
+            <ul>
+                <li><strong>Força:</strong> <span id="atributo-força">--</span></li>
+                <li><strong>Sagacidade:</strong> <span id="atributo-sagacidade">--</span></li>
+                <li><strong>Mente:</strong> <span id="atributo-mente">--</span></li>
+                <li><strong>Resiliência:</strong> <span id="atributo-resiliência">--</span></li>
+                <li><strong>Sabedoria:</strong> <span id="atributo-sabedoria">--</span></li>
+                <li><strong>Celeridade:</strong> <span id="atributo-celeridade">--</span></li>
+            </ul>
+        </div>
+    
+        <div class="habilidades-info">
+            <h2>Habilidades</h2>
+            <ul id="habilidades-lista">
+            </ul>
+        </div>
+    </div>
+    
+
+    <script src="ficha.js"></script>
+</body>
+</html>
