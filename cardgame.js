@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDeckCount();
     }
 
-    // Embaralha o baralho
     function shuffleDeck() {
         for (let i = deck.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -35,17 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Renderiza o baralho na tela
     function renderDeck() {
         deckElement.innerHTML = '<span id="deck-count" class="tooltip">' + deck.length + '</span>';
     }
 
-    // Atualiza o contador de cartas no baralho
     function updateDeckCount() {
         deckCountElement.textContent = deck.length;
     }
 
-    // Renderiza a mão do jogador
     function renderHand() {
         handElement.innerHTML = '';
         hand.forEach((card, index) => {
@@ -53,13 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
             cardElement.className = 'card';
             cardElement.style.backgroundImage = `url(${card.image})`;
             cardElement.draggable = true;
-            cardElement.dataset.index = index; // Armazena o índice da carta
+            cardElement.dataset.index = index; 
     
-            // Adiciona eventos de drag
             cardElement.addEventListener('dragstart', dragStart);
             cardElement.addEventListener('dragend', dragEnd);
     
-            // Adiciona eventos de hover
             cardElement.addEventListener('mouseover', () => {
                 cardElement.style.transform = "translateY(-15px)";
                 cardElement.style.transition = "transform 0.3s ease";
@@ -68,20 +62,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 cardElement.style.transform = "translateY(0)";
             });
     
-            // Adiciona evento de botão direito (contextmenu) para enviar ao lixo
             cardElement.addEventListener('contextmenu', (event) => {
-                event.preventDefault(); // Evita o menu padrão do botão direito
-                const [removedCard] = hand.splice(index, 1); // Remove a carta da mão
-                discardCard(removedCard); // Envia ao lixo
-                renderHand(); // Atualiza a mão
-                renderDiscardPile(); // Atualiza a pilha de descarte
+                event.preventDefault(); 
+                const [removedCard] = hand.splice(index, 1);
+                discardCard(removedCard); 
+                renderHand(); 
+                renderDiscardPile(); 
             });
     
             handElement.appendChild(cardElement);
         });
     }    
 
-    // Renderiza a pilha de descarte
     function renderDiscardPile() {
         discardPileElement.innerHTML = '';
         if (discardPile.length > 0) {
@@ -93,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Função para comprar uma carta
     function drawCard() {
         if (deck.length > 0) {
             const card = deck.pop();
@@ -106,13 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Função para descartar uma carta
     function discardCard(card) {
         discardPile.push(card);
         renderDiscardPile();
     }
 
-    // Função para reiniciar o jogo
     function restartGame() {
         deck = [];
         discardPile = [];
@@ -122,20 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
         renderDiscardPile();
     }
 
-    // Evento de arrastar a carta
     function dragStart(event) {
         const cardIndex = event.target.dataset.index;
         event.dataTransfer.setData('text/plain', cardIndex);
 
-        // Animação de arraste
         const card = event.target;
         card.style.transition = "transform 0.2s ease, box-shadow 0.2s ease";
         card.style.transform = "scale(1.1)";
         card.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
-        card.style.zIndex = "1000"; // Eleva a carta visualmente
+        card.style.zIndex = "1000"; 
     }
 
-    // Evento de soltar a carta
     function dragEnd(event) {
         const card = event.target;
         card.style.transform = "scale(1)";
@@ -160,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderHand();
     }
     
-
     function sortByValue() {
         const valueOrder = { 'J': 11, 'Q': 12, 'K': 13, 'A': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'B': 15, 'R': 15 }; // Jokers maiores
         const suitOrder = { 'C': 4, 'H': 3, 'S': 2, 'D': 1 }; // Paus > Copas > Espadas > Ouros
@@ -181,22 +166,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('discard-modal');
         const discardedCardsElement = document.getElementById('discarded-cards');
     
-        // Renderiza as cartas descartadas no modal
         discardedCardsElement.innerHTML = '';
         discardPile.forEach((card, index) => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
             cardElement.style.backgroundImage = `url(${card.image})`;
     
-            // Adiciona evento de botão direito (contextmenu) para mover à mão
+
             cardElement.addEventListener('contextmenu', (event) => {
-                event.preventDefault(); // Evita o menu padrão do botão direito
-                const [removedCard] = discardPile.splice(index, 1); // Remove a carta do lixo
-                hand.push(removedCard); // Adiciona à mão
-                renderHand(); // Atualiza a mão
-                renderDiscardPile(); // Atualiza a pilha de descarte
+                event.preventDefault(); 
+                const [removedCard] = discardPile.splice(index, 1); 
+                hand.push(removedCard);
+                renderHand(); 
+                renderDiscardPile(); 
     
-                // Re-renderiza o modal ou fecha se estiver vazio
                 if (discardPile.length === 0) {
                     closeDiscardModal();
                 } else {
@@ -207,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             discardedCardsElement.appendChild(cardElement);
         });
     
-        // Fecha o modal automaticamente se não houver cartas descartadas
+        // Fechar o modal automaticamente se não tiver cartas
         if (discardPile.length === 0) {
             closeDiscardModal();
             return;
@@ -225,46 +208,40 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('hidden');
     }     
 
-    // Evento de soltar a carta na mão para reorganizar
     handElement.addEventListener('dragover', (event) => {
-        event.preventDefault(); // Necessário para permitir drop
+        event.preventDefault(); 
     });
 
     handElement.addEventListener('drop', (event) => {
         event.preventDefault();
 
-        const fromIndex = event.dataTransfer.getData('text/plain'); // Índice da carta sendo arrastada
-        const toElement = event.target.closest('.card'); // Carta de destino
-        if (!toElement) return; // Se não for uma carta, não faça nada
+        const fromIndex = event.dataTransfer.getData('text/plain'); 
+        const toElement = event.target.closest('.card'); 
+        if (!toElement) return; 
 
-        const toIndex = toElement.dataset.index; // Índice da carta de destino
+        const toIndex = toElement.dataset.index; 
 
         // Trocar as posições das cartas no array
-        const [movedCard] = hand.splice(fromIndex, 1); // Remove a carta do índice original
-        hand.splice(toIndex, 0, movedCard); // Insere no novo índice
+        const [movedCard] = hand.splice(fromIndex, 1);
+        hand.splice(toIndex, 0, movedCard); 
 
-        // Re-renderizar a mão
         renderHand();
     });
 
-    // Evento de arrastar sobre a área de descarte
     discardPileElement.addEventListener('dragover', (event) => {
-        event.preventDefault(); // Necessário para permitir drop
+        event.preventDefault(); 
     });
 
     discardPileElement.addEventListener('drop', (event) => {
         event.preventDefault();
 
         const cardIndex = event.dataTransfer.getData('text/plain');
-        const card = hand.splice(cardIndex, 1)[0]; // Remove a carta da mão
-        discardCard(card); // Adiciona na pilha de descarte
-        renderHand(); // Atualiza a mão
+        const card = hand.splice(cardIndex, 1)[0];
+        discardCard(card); 
+        renderHand(); 
     });
 
-    // Evento de comprar carta ao clicar no baralho
     deckElement.addEventListener('click', drawCard);
-
-    // Evento de reiniciar o jogo
     restartButton.addEventListener('click', restartGame);
 
     const sortBySuitButton = document.getElementById('sort-by-suit');
@@ -284,15 +261,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     discardPileElement.addEventListener('contextmenu', (event) => {
-        event.preventDefault(); // Evita o menu padrão do botão direito
+        event.preventDefault(); 
         if (discardPile.length > 0) {
-            const card = discardPile.pop(); // Remove a última carta do lixo
-            hand.push(card); // Adiciona à mão
-            renderHand(); // Atualiza a mão
-            renderDiscardPile(); // Atualiza a pilha de descarte
+            const card = discardPile.pop();
+            hand.push(card); 
+            renderHand(); 
+            renderDiscardPile();
         }
     });
 
-    // Inicializa o jogo
     initializeDeck();
 });

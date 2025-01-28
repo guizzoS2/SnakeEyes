@@ -1,9 +1,12 @@
+/* Estilo inspirado no Velho Oeste */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Playfair Display', serif;
+    background-color: #f7e9d1; /* Fundo bege que remete ao deserto */
+    color: #4b2e05; /* Marrom escuro para o texto */
     margin: 0;
     padding: 0;
-    color: #333;
+    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); /* Textura de madeira */
+    background-size: 200px;
 }
 
 .character-div {
@@ -12,20 +15,36 @@ body {
     gap: 20px;
     max-width: 1200px;
     margin: 20px auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9); /* Fundo com leve transparência */
+    border-radius: 12px;
+    border: 2px solid #8b4513; /* Borda marrom escuro */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     padding: 20px;
 }
 
-/* firs div */
+/* Ajuste responsivo para telas menores */
+@media (max-width: 768px) {
+    .character-div {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Primeira seção - Informações sociais */
 .social-info {
     flex: 1;
     padding: 20px;
+    background-color: #f4e3c2; /* Fundo bege claro */
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .social-info h2 {
     margin-top: 0;
+    font-size: 24px;
+    color: #8b4513; /* Marrom escuro */
+    text-transform: uppercase;
 }
 
 .social-info ul {
@@ -36,32 +55,48 @@ body {
 .social-info ul li {
     margin: 10px 0;
     font-size: 16px;
+    color: #4b2e05;
 }
 
+/* Segunda seção - Status do personagem */
 .character-status {
     flex: 1;
     padding: 20px;
     text-align: center;
+    background-color: #f4e3c2; /* Fundo bege claro */
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .character-status h3 {
     margin: 0;
     margin-bottom: 20px;
+    font-size: 22px;
+    color: #8b4513;
+    text-transform: uppercase;
 }
 
 .character-status .status-box {
     margin-bottom: 20px;
+    background-color: #fff8dc; /* Pergaminho claro */
+    border: 1px solid #8b4513;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .status-box p {
     margin: 5px 0;
     font-size: 16px;
+    color: #4b2e05;
 }
 
 .character-photo {
     width: 200px;
     height: 200px;
-    background: #ddd;
+    background: #ddd; /* Fundo neutro */
+    border: 4px solid #8b4513; /* Borda marrom escuro */
     border-radius: 50%;
     margin: 20px auto;
     display: flex;
@@ -69,20 +104,26 @@ body {
     align-items: center;
     font-size: 14px;
     color: #555;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* second div */
+/* Atributos e habilidades */
 .atributes-info, .habilidades-info {
     flex: 1;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 2px solid #8b4513;
     border-radius: 8px;
+    background-color: #f4e3c2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .atributes-info h2, .habilidades-info h2 {
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 20px;
+    color: #8b4513;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .atributes-info ul, .habilidades-info ul {
@@ -93,4 +134,161 @@ body {
 .atributes-info ul li, .habilidades-info ul li {
     margin: 10px 0;
     font-size: 16px;
+    color: #4b2e05;
+}
+
+
+/* Começando Card Game Container */
+
+.card-game-container {
+    font-family: 'Playfair Display', serif;
+    background-color: #f7e9d1; /* Fundo bege do jogo de cartas */
+    color: #4b2e05; /* Texto marrom escuro */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #8b4513; /* Borda estilo velho oeste */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+}
+
+.card-game-container .container {
+    text-align: center;
+}
+
+.card-game-container .deck, 
+.card-game-container .discard-pile, 
+.card-game-container .hand {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid #4b2e05; /* Borda marrom escuro */
+    background-color: #d9c5a1; /* Bege claro para lembrar couro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    min-height: 150px;
+    min-width: 100px;
+    position: relative;
+    text-align: center;
+}
+
+.card-game-container .deck {
+    cursor: pointer;
+    background-image: url("cards/Back.png");
+    background-size: cover;
+}
+
+.card-game-container .tooltip {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4b2e05; /* Fundo marrom escuro */
+    color: #f7e9d1; /* Texto bege */
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: none;
+}
+
+.card-game-container .deck:hover .tooltip {
+    display: block;
+}
+
+.card-game-container .card {
+    width: 100px;
+    height: 150px;
+    background-size: cover;
+    display: inline-block;
+    margin: 5px;
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 2px solid #8b4513; /* Moldura marrom */
+    border-radius: 8px;
+}
+
+.card-game-container .card:active {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    cursor: grabbing;
+}
+
+.card-game-container .hand .card:hover {
+    transform: translateY(-15px);
+    transition: transform 0.3s ease;
+}
+
+.card-game-container .hand .card.drag-over {
+    outline: 2px dashed #8b4513; /* Borda visual para a posição de drop */
+}
+
+.card-game-container #restart-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #8b4513; /* Marrom escuro */
+    color: #f7e9d1; /* Texto bege */
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-game-container #restart-button:hover {
+    background-color: #a0522d; /* Marrom mais claro */
+}
+
+/* Modal para descartes */
+.card-game-container .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.card-game-container .modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.card-game-container .modal-content {
+    background-color: #fff8dc; /* Pergaminho claro */
+    padding: 20px;
+    border: 3px solid #8b4513; /* Borda marrom escuro */
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.card-game-container .close-button {
+    background-color: #8b0000; /* Vermelho escuro */   
+    color: white;
+    border: none; 
+    border-radius: 50%;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-game-container .close-button:hover {
+    background-color: #a52a2a; /* Tom mais claro de vermelho */
 }
