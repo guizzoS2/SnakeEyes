@@ -6,10 +6,18 @@ function carregarFicha(ficha) {
     document.getElementById('antecedente').textContent = ficha.antecedenteSelecionado?.nome || "Nenhum";
     document.getElementById('marca').textContent = ficha.marca || "Sem Marca";
 
-    document.getElementById('vitalidade-atual').textContent = ficha.vitalidade?.atual || 0;
-    document.getElementById('vitalidade-maxima').textContent = ficha.vitalidade?.maximo || 0;
-    document.getElementById('estresse-atual').textContent = ficha.estresse?.atual || 0;
-    document.getElementById('estresse-maximo').textContent = ficha.estresse?.maximo || 6;
+    const vitalidadeAtual = ficha.vitalidade?.atual || 0;
+    const vitalidadeMaxima = ficha.vitalidade?.maximo || 0;
+    const stressAtual = ficha.estresse?.atual || 0;
+    const stressMaxima = ficha.estresse?.maximo || 6;
+
+    document.getElementById('vitalidade-atual').textContent = vitalidadeAtual;
+    document.getElementById('vitalidade-maxima').textContent = vitalidadeMaxima;
+    document.getElementById('estresse-atual').textContent = stressAtual;
+    document.getElementById('estresse-maximo').textContent = stressMaxima;
+
+    atualizarBarra('vitalidade-bar', 'vitalidade-text', vitalidadeAtual, vitalidadeMaxima);
+    atualizarBarra('stress-bar', 'stress-text', stressAtual, stressMaxima);
 
     for (const atributo in ficha.atributos) {
         const elemento = document.getElementById(`atributo-${atributo}`);
@@ -27,6 +35,13 @@ function carregarFicha(ficha) {
         habilidadesLista.appendChild(li);
     });
 }
+
+function atualizarBarra(idBarra, idTexto, valorAtual, valorMaximo) {
+    const percentual = valorMaximo > 0 ? (valorAtual / valorMaximo) * 100 : 0;
+    document.getElementById(idBarra).style.width = `${percentual}%`;
+    document.getElementById(idTexto).textContent = `${valorAtual} / ${valorMaximo}`;
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputFile = document.createElement('input');
@@ -56,3 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.body.appendChild(abrirFichaBtn);
 });
+
+function atualizarBarras(vitalidadeAtual, vitalidadeMaxima, stress, stress) {
+    // Atualiza a barra de vitalidade
+    let vitalidadePercentual = (vitalidadeAtual / vitalidadeMaxima) * 100;
+    document.getElementById('vitalidade-bar').style.width = vitalidadePercentual + "%";
+    document.getElementById('vitalidade-text').textContent = `${vitalidadeAtual} / ${vitalidadeMaxima}`;
+
+    // Atualiza a barra de essência
+    let stressPercentual = (stressAtual / stressMaxima) * 100;
+    document.getElementById('stress-bar').style.width = stressPercentual + "%";
+    document.getElementById('stress-text').textContent = `${stressAtual} / ${stressMaxima}`;
+}
