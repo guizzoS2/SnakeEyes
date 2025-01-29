@@ -238,9 +238,10 @@ function carregarHabilidades() {
 function criarFicha() {
     const nomePersonagem = document.querySelector('input[name="ocName"]').value || "Sem Nome";
     const nomeJogador = document.querySelector('input[name="plName"]').value || "Jogador";
-    const recompensa = `$${parseInt(document.querySelector('input[name="reward"]').value, 10) || 0}`;
+    const recompensa = parseInt(document.querySelector('input[name="reward"]').value, 10) || 0;
     const bando = document.querySelector('input[name="group"]').value || "Sem Bando";
 
+    // Capturar a marca selecionada
     const marcaCheckbox = document.querySelector('.marca-div input[type="checkbox"]:checked');
     const marca = marcaCheckbox ? marcaCheckbox.value : "Sem Marca";
 
@@ -253,6 +254,7 @@ function criarFicha() {
         celeridade: parseInt(document.getElementById('celeridade').textContent, 10),
     };
 
+    // Calc de vitalidade com resiliência
     const rolarD6 = () => Math.floor(Math.random() * 6) + 1;
     let vitalidadeBonus = 0;
 
@@ -264,14 +266,22 @@ function criarFicha() {
 
     const vitalidadeMaxima = 6 + vitalidadeBonus;
 
+    // Habilidades com Nome e Descrição
     const habilidadesSelecionadas = Array.from(document.querySelectorAll('.habilidade input[type="checkbox"]'))
         .filter(checkbox => checkbox.checked)
         .map(checkbox => {
             const nome = checkbox.dataset.nome;
             const habilidadeEncontrada = habilidades.find(habilidade => habilidade.Nome === nome);
-            return habilidadeEncontrada
-                ? { Nome: habilidadeEncontrada.Nome, Descrição: habilidadeEncontrada.Descrição }
-                : { Nome: nome, Descrição: "Descrição não encontrada." };
+
+            if (habilidadeEncontrada) {
+                return {
+                    Nome: habilidadeEncontrada.Nome,
+                    Descrição: habilidadeEncontrada.Descrição
+                };
+            } else {
+                console.error(`Habilidade "${nome}" não encontrada no JSON de habilidades.`);
+                return { Nome: nome, Descrição: "Descrição não encontrada." };
+            }
         });
 
     const antecedenteSelecionado = antecedenteAtual
@@ -283,26 +293,28 @@ function criarFicha() {
         }
         : null;
 
+    // Construindo o JSON da ficha
     const ficha = {
         nomePersonagem,
         nomeJogador,
         recompensa,
         bando,
-        antecedenteSelecionado: antecedenteSelecionado ? { nome: antecedenteSelecionado.nome } : null,
         marca,
+        atributos,
+        habilidadesSelecionadas,
+        antecedenteSelecionado,
         vitalidade: {
-            atual: vitalidadeMaxima,
             maximo: vitalidadeMaxima,
+            atual: vitalidadeMaxima,
         },
         estresse: {
-            atual: 0,
             maximo: 6,
-        },
-        atributos,
-        habilidadesSelecionadas
+            atual: 0,
+        }
     };
 
     const fichaJSON = JSON.stringify(ficha, null, 2);
+
     const blob = new Blob([fichaJSON], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -331,14 +343,11 @@ function abrirFicha() {
         reader.onload = (e) => {
             try {
                 const ficha = JSON.parse(e.target.result);
+
                 const novaJanela = window.open('ficha/ficha.html', '_blank');
 
                 novaJanela.onload = () => {
-                    if (novaJanela.carregarFicha) {
-                        novaJanela.carregarFicha(ficha);
-                    } else {
-                        console.error("Função carregarFicha não está disponível na nova janela.");
-                    }
+                    novaJanela.carregarFicha(ficha); 
                 };
             } catch (error) {
                 alert('Erro ao ler o arquivo JSON. Certifique-se de que o formato está correto.');

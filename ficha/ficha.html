@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ficha de Personagem</title>
     <link rel="stylesheet" href="ficha.css">
+    <link rel="stylesheet" href="cards.css">
 </head>
 <body>
     <div class="character-div">
@@ -25,15 +26,20 @@
             <div class="status-box">
                 <p><strong>Vitalidade:</strong></p>
                 <div class="status-bar">
+                    <button class="minus-btn" id="vitalidade-minus">-</button>
                     <div class="fill" id="vitalidade-bar"></div>
-                    <div class="text" id="vitalidade-text">-- / --</div>
+                    <div class="text" id="vitalidade-text"><span id="vitalidade-atual">--</span> / <span id="vitalidade-maxima">--</span></div>
+                    <button class="plus-btn" id="vitalidade-plus">+</button>
                 </div>
-            
+                
                 <p><strong>Essência:</strong></p>
                 <div class="stress-bar">
+                    <button class="minus-btn" id="stress-minus">-</button>
                     <div class="fill" id="stress-bar"></div>
-                    <div class="text" id="stress-text">-- / --</div>
+                    <div class="text" id="stress-text"><span id="estresse-atual">--</span> / <span id="estresse-maximo">--</span></div>
+                    <button class="plus-btn" id="stress-plus">+</button>
                 </div>
+                
             </div>            
 
             <div class="character-photo">
@@ -46,21 +52,54 @@
         <!-- Atributos do personagem -->
         <div class="atributes-info">
             <h2>Atributos</h2>
-            <ul>
-                <li><strong>Força:</strong> <span id="atributo-força">--</span></li>
-                <li><strong>Sagacidade:</strong> <span id="atributo-sagacidade">--</span></li>
-                <li><strong>Mente:</strong> <span id="atributo-mente">--</span></li>
-                <li><strong>Resiliência:</strong> <span id="atributo-resiliência">--</span></li>
-                <li><strong>Sabedoria:</strong> <span id="atributo-sabedoria">--</span></li>
-                <li><strong>Celeridade:</strong> <span id="atributo-celeridade">--</span></li>
-            </ul>
+            <div class="atributos-area">
+                <ul>
+                    <li><strong>Força:</strong> <span id="atributo-força">--</span></li>
+                    <li><strong>Sagacidade:</strong> <span id="atributo-sagacidade">--</span></li>
+                    <li><strong>Mente:</strong> <span id="atributo-mente">--</span></li>
+                    <li><strong>Resiliência:</strong> <span id="atributo-resiliência">--</span></li>
+                    <li><strong>Sabedoria:</strong> <span id="atributo-sabedoria">--</span></li>
+                    <li><strong>Celeridade:</strong> <span id="atributo-celeridade">--</span></li>
+                </ul>
+                <div class="atributos-extra">
+                    <div class="dice">
+                        <div class="face front"></div>
+                        <div class="face back"></div>
+                        <div class="face top"></div>
+                        <div class="face bottom"></div>
+                        <div class="face right"></div>
+                        <div class="face left"></div>
+                    </div>
+                    <button class="roll">Rolar Dado</button>
+                </div>
+            </div>
         </div>
     
         <div class="habilidades-info">
-            <h2>Habilidades</h2>
+            <h2>Habilidades 
+                <button id="gerenciar-habilidades" class="habilidades-button">+</button>
+            </h2>
             <ul id="habilidades-lista">
             </ul>
         </div>
+        <div id="habilidades-modal" class="modal hidden">
+            <div class="modal-content">
+                <button id="fechar-modal" class="close-button">X</button>
+        
+                <div class="modal-tabs">
+                    <button id="tab-habilidades" class="tab active">Habilidades</button>
+                    <button id="tab-marcas" class="tab">Marcas</button>
+                </div>
+        
+                <div id="modal-habilidades" class="tab-content">
+                    <ul id="habilidades-lista-modal"></ul>
+                </div>
+                <div id="modal-marcas" class="tab-content hidden">
+                    <ul id="marcas-lista-modal"></ul>
+                </div>
+            </div>
+        </div>
+        
     </div>
 
     <div class="character-div">

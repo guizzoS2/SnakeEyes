@@ -1,11 +1,11 @@
 /* Estilo inspirado no Velho Oeste */
 body {
     font-family: 'Playfair Display', serif;
-    background-color: #f7e9d1; /* Fundo bege que remete ao deserto */
-    color: #4b2e05; /* Marrom escuro para o texto */
+    background-color: #f7e9d1;
+    color: #4b2e05; 
     margin: 0;
     padding: 0;
-    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); /* Textura de madeira */
+    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); 
     background-size: 200px;
 }
 
@@ -15,14 +15,13 @@ body {
     gap: 20px;
     max-width: 1200px;
     margin: 20px auto;
-    background: rgba(255, 255, 255, 0.9); /* Fundo com leve transparência */
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
-    border: 2px solid #8b4513; /* Borda marrom escuro */
+    border: 2px solid #8b4513; 
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     padding: 20px;
 }
 
-/* Ajuste responsivo para telas menores */
 @media (max-width: 768px) {
     .character-div {
         flex-direction: column;
@@ -34,7 +33,7 @@ body {
 .social-info {
     flex: 1;
     padding: 20px;
-    background-color: #f4e3c2; /* Fundo bege claro */
+    background-color: #f4e3c2; 
     border: 2px solid #8b4513;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -79,7 +78,7 @@ body {
 
 .character-status .status-box {
     margin-bottom: 20px;
-    background-color: #fff8dc; /* Pergaminho claro */
+    background-color: #fff8dc; 
     border: 1px solid #8b4513;
     border-radius: 8px;
     padding: 10px;
@@ -108,7 +107,7 @@ body {
 }
 
 /* Atributos e habilidades */
-.atributes-info, .habilidades-info {
+.habilidades-info {
     flex: 1;
     padding: 20px;
     border: 2px solid #8b4513;
@@ -117,7 +116,16 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.atributes-info h2, .habilidades-info h2 {
+.atributes-info {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    background-color: #f4e3c2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.atributes-info h2 {
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 20px;
@@ -126,200 +134,69 @@ body {
     text-align: center;
 }
 
-.atributes-info ul, .habilidades-info ul {
+.habilidades-info h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #8b4513;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.atributes-info ul {
     list-style: none;
     padding: 0;
 }
 
-.atributes-info ul li, .habilidades-info ul li {
+.habilidades-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.habilidades-info ul li {
     margin: 10px 0;
     font-size: 16px;
     color: #4b2e05;
 }
 
+.atributos-area {
+    display: flex; 
+    align-items: center; 
+    gap: 20px; 
+}
 
-/* Começando Card Game Container */
+.atributos-area ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1; 
+}
 
-.card-game-container {
-    font-family: 'Playfair Display', serif;
-    background-color: #f7e9d1; /* Fundo bege do jogo de cartas */
-    color: #4b2e05; /* Texto marrom escuro */
+.atributos-area ul li {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #4b2e05;
+}
+
+.atributes-info ul li {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #4b2e05;
+    width: 90%;
+}
+
+/* Área onde o dado será exibido */
+.atributos-extra {
+    flex: 1; 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
-    border: 2px solid #8b4513; /* Borda estilo velho oeste */
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    margin: 20px auto;
-}
-
-.card-game-container .container {
-    text-align: center;
-}
-
-.card-game-container .deck, 
-.card-game-container .discard-pile, 
-.card-game-container .hand {
-    display: inline-block;
-    margin: 10px;
+    justify-content: center;
     padding: 10px;
-    border: 3px solid #4b2e05; /* Borda marrom escuro */
-    background-color: #d9c5a1; /* Bege claro para lembrar couro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    min-height: 150px;
-    min-width: 100px;
-    position: relative;
-    text-align: center;
-}
-
-.card-game-container .deck {
-    cursor: pointer;
-    background-image: url("../images/cards/BACK.png");
-    background-size: cover;
-}
-
-.card-game-container .tooltip {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #4b2e05; 
-    color: #f7e9d1; 
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 14px;
-    display: none;
-}
-
-.card-game-container .deck:hover .tooltip {
-    display: block;
-}
-
-.card-game-container .card {
-    width: 100px;
-    height: 150px;
-    background-size: cover;
-    display: inline-block;
-    margin: 5px;
-    cursor: grab;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     border: 2px solid #8b4513; 
     border-radius: 8px;
-}
-
-.card-game-container .card:active {
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    cursor: grabbing;
-}
-
-.card-game-container .hand .card:hover {
-    transform: translateY(-15px);
-    transition: transform 0.3s ease;
-}
-
-.card-game-container .hand .card.drag-over {
-    outline: 2px dashed #8b4513; 
-}
-
-.card-game-container #restart-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #8b4513; 
-    color: #f7e9d1; 
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.card-game-container #restart-button:hover {
-    background-color: #a0522d; 
-}
-
-/* Modal para descartes */
-.card-game-container .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.card-game-container .modal.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.card-game-container .modal-content {
     background-color: #fff8dc; 
-    padding: 20px;
-    border: 3px solid #8b4513; 
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 90%;
-    max-height: 80%;
-    overflow-y: auto;
-}
-
-.card-game-container .close-button {
-    background-color: #8b0000;  
-    color: white;
-    border: none; 
-    border-radius: 50%;
-    padding: 10px 15px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.card-game-container .close-button:hover {
-    background-color: #a52a2a; 
-}
-
-/* Barras de status */
-.status-bar {
-    position: relative;
-    width: 100%;
-    height: 25px;
-    background-color: rgba(139, 0, 0, 0.5); 
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    border: 2px solid #8b4513;
-}
-
-.status-bar .fill {
-    height: 100%;
-    width: 0%; 
-    background-color: #a52a2a; 
-    transition: width 0.5s ease-in-out;
-}
-
-.status-bar .text {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    color: #fff;
-    top: 50%;
-    transform: translateY(-50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .stress-bar {
@@ -362,4 +239,245 @@ body {
     font-size: 14px;
     color: #555;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+/* botões e barra */
+.character-div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.9); 
+    border-radius: 12px;
+    border: 2px solid #8b4513; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+
+/* Ajuste responsivo para telas menores */
+@media (max-width: 768px) {
+    .character-div {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+/* Barras de status */
+.status-bar, .stress-bar {
+    position: relative;
+    width: 100%;
+    height: 25px;
+    background-color: rgba(139, 0, 0, 0.5); /* Para vitalidade */
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 2px solid #8b4513;
+}
+
+.status-bar .fill, .stress-bar .fill {
+    height: 100%;
+    width: 0%; 
+    background-color: #a52a2a; /* Vermelho escuro para vitalidade */
+    transition: width 0.5s ease-in-out;
+}
+
+.stress-bar {
+    background-color: rgba(70, 130, 180, 0.5); /* Azul claro para estresse */
+}
+
+.stress-bar .fill {
+    background-color: #4682b4; /* Azul escuro para estresse */
+}
+
+.status-bar .text, .stress-bar .text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* Botões de controle */
+button.minus-btn, button.plus-btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #8b4513; /* Marrom escuro */
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button.minus-btn:hover, button.plus-btn:hover {
+    background-color: #a0522d; /* Marrom mais claro */
+}
+
+button.minus-btn {
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+button.plus-btn {
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* Botão de Gerenciar Habilidades */
+.habilidades-button {
+    background-color: #8b4513; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.habilidades-button:hover {
+    background-color: #a0522d;
+}
+
+/* Estilo do modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: linear-gradient(to bottom, #f7e9d1, #fff8dc); 
+    padding: 20px;
+    border: 5px solid #8b4513; 
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    max-width: 600px;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+/* Botão de Fechar */
+.close-button {
+    background-color: #8b0000; 
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Tabs */
+.modal-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    background-color: #8b4513; 
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #8b4513;
+    margin: 0 5px;
+}
+
+.tab.active {
+    background-color: #a0522d; 
+}
+
+/* Conteúdo das Tabs */
+.tab-content {
+    display: none;
+}
+
+.tab-content.visible {
+    display: block;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff8dc; 
+    border: 1px solid #8b4513;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li strong {
+    font-size: 16px;
+    color: #4b2e05; 
+}
+
+.adicionar-btn {
+    background-color: #8b4513;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.adicionar-btn:disabled {
+    background-color: #d3d3d3;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.adicionar-btn:hover:not(:disabled) {
+    background-color: #a0522d;
+}
+
+.hidden {
+    display: none;
 }
