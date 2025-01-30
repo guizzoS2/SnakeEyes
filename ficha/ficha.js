@@ -12,7 +12,6 @@ function carregarFicha(ficha) {
     document.getElementById('antecedente').textContent = ficha.antecedenteSelecionado?.nome || "Nenhum";
     document.getElementById('marca').textContent = ficha.marca || "Sem Marca";
 
-    // Carrega status
     vitalidadeAtual = ficha.vitalidade?.atual || 0;
     vitalidadeMaxima = ficha.vitalidade?.maximo || 0;
     estresseAtual = ficha.estresse?.atual || 0;
@@ -27,21 +26,16 @@ function carregarFicha(ficha) {
         atualizarBotoesModal(habilidade.Nome, true);
     });
 
-    // Atualiza os spans de vitalidade
     document.getElementById('vitalidade-atual').textContent = vitalidadeAtual;
     document.getElementById('vitalidade-maxima').textContent = vitalidadeMaxima;
 
-    // Atualiza a barra de vitalidade
     atualizarBarra('vitalidade-bar', 'vitalidade-text', vitalidadeAtual, vitalidadeMaxima);
 
-    // Atualiza os spans de estresse
     document.getElementById('estresse-atual').textContent = estresseAtual;
     document.getElementById('estresse-maximo').textContent = estresseMaxima;
 
-    // Atualiza a barra de estresse
     atualizarBarra('stress-bar', 'stress-text', estresseAtual, estresseMaxima);
 
-    // Carrega atributos
     for (const atributo in ficha.atributos) {
         const elemento = document.getElementById(`atributo-${atributo}`);
         if (elemento) {
@@ -53,12 +47,17 @@ function carregarFicha(ficha) {
 
     // Carrega habilidades
     const habilidadesLista = document.getElementById('habilidades-lista');
-    habilidadesLista.innerHTML = ''; // Limpa a lista
+    habilidadesLista.innerHTML = ''; 
 
     ficha.habilidadesSelecionadas.forEach(habilidade => {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${habilidade.Nome}:</strong> ${habilidade.Descrição}`;
+        li.innerHTML = `
+            <strong>${habilidade.Nome}:</strong> ${habilidade.Descrição}
+            <button class="remover-habilidade" data-nome="${habilidade.Nome}">-</button>
+        `;
         habilidadesLista.appendChild(li);
+
+        li.querySelector('.remover-habilidade').addEventListener('click', () => removerHabilidade(habilidade.Nome));
     });
 }
 
@@ -116,6 +115,7 @@ function abrirModal() {
     const modal = document.getElementById('habilidades-modal');
     modal.classList.add('visible');
     modal.classList.remove('hidden');
+    document.getElementById('tab-habilidades').click();
 }
 
 function fecharModal() {
@@ -130,7 +130,6 @@ async function carregarJsonHabilidades(url, containerId) {
         const data = await response.json();
         const container = document.getElementById(containerId);
 
-        // Limpa a lista anterior no modal
         container.innerHTML = '';
 
         data.forEach(habilidade => {
@@ -148,13 +147,14 @@ async function carregarJsonHabilidades(url, containerId) {
 
             container.appendChild(li);
 
-            // Adiciona o evento ao botão para adicionar a habilidade
             li.querySelector('.adicionar-btn').addEventListener('click', (event) => {
                 const nome = event.target.dataset.nome;
                 const descricao = event.target.dataset.descricao;
 
                 adicionarHabilidade(nome, descricao);
             });
+
+            atualizarBotoesModal(habilidade.Nome, false);
         });
     } catch (error) {
         console.error('Erro ao carregar JSON:', error);
@@ -162,29 +162,61 @@ async function carregarJsonHabilidades(url, containerId) {
 }
 
 function atualizarBotoesModal(nome, adicionada) {
-    const botoes = document.querySelectorAll(`.adicionar-btn, .remover-habilidade`);
+    const botoes = document.querySelectorAll(`[data-nome="${nome}"]`);
 
     botoes.forEach(botao => {
-        if (botao.dataset.nome === nome) {
-            if (adicionada) {
-                botao.textContent = "-";
-                botao.classList.add("remover-habilidade");
-                botao.classList.remove("adicionar-btn");
+        if (adicionada) {
+            botao.textContent = "-";
+            botao.classList.add("remover-habilidade");
+            botao.classList.remove("adicionar-btn");
 
-                botao.replaceWith(botao.cloneNode(true));
-                botao = document.querySelector(`[data-nome="${nome}"]`);
-                botao.addEventListener('click', () => removerHabilidade(nome));
-            } else {
-                botao.textContent = "+";
-                botao.classList.add("adicionar-btn");
-                botao.classList.remove("remover-habilidade");
+            botao.replaceWith(botao.cloneNode(true));
+            const novoBotao = document.querySelector(`[data-nome="${nome}"]`);
+            novoBotao.addEventListener('click', () => removerHabilidade(nome));
+        } 
+        // else {
+        //     botao.textContent = "+";
+        //     botao.classList.add("adicionar-btn");
+        //     botao.classList.remove("remover-habilidade");
 
-                botao.replaceWith(botao.cloneNode(true));
-                botao = document.querySelector(`[data-nome="${nome}"]`);
-                botao.addEventListener('click', () => adicionarHabilidade(nome, botao.dataset.descricao));
-            }
-        }
+        //     botao.replaceWith(botao.cloneNode(true));
+        //     const novoBotao = document.querySelector(`[data-nome="${nome}"]`);
+        //     novoBotao.addEventListener('click', () => adicionarHabilidade(nome, botao.dataset.descricao));
+        // }
     });
+
+    const habilidadesLista = document.getElementById('habilidades-lista');
+    const habilidadesModal = document.getElementById('habilidades-lista-modal');
+
+    if (habilidadesLista && habilidadesModal) {
+        const habilidadesAdicionadas = Array.from(habilidadesLista.querySelectorAll('li'))
+            .map(li => li.querySelector('strong')?.textContent.replace(':', '').trim());
+
+        habilidadesModal.querySelectorAll('li').forEach(li => {
+            const nomeHabilidade = li.querySelector('strong')?.textContent.replace(':', '').trim();
+            const botao = li.querySelector('button');
+
+            if (botao && nomeHabilidade) {
+                if (habilidadesAdicionadas.includes(nomeHabilidade)) {
+                    botao.textContent = "-";
+                    botao.classList.add("remover-habilidade");
+                    botao.classList.remove("adicionar-btn");
+
+                    botao.replaceWith(botao.cloneNode(true));
+                    const novoBotao = li.querySelector('button');
+                    novoBotao.addEventListener('click', () => removerHabilidade(nomeHabilidade));
+                } else {
+                    botao.textContent = "+";
+                    botao.classList.add("adicionar-btn");
+                    botao.classList.remove("remover-habilidade");
+
+                    botao.replaceWith(botao.cloneNode(true));
+                    const novoBotao = li.querySelector('button');
+                    novoBotao.addEventListener('click', () => adicionarHabilidade(nomeHabilidade, botao.dataset.descricao));
+                }
+            }
+        });
+    }
 }
 
 
@@ -194,12 +226,11 @@ function adicionarHabilidade(nome, descricao) {
     const habilidadeExistente = Array.from(habilidadesLista.querySelectorAll('li'))
         .find(li => li.querySelector('strong')?.textContent.includes(nome));
 
-    if (habilidadeExistente) {
-        if (!inicial) {
+
+        if (habilidadeExistente) {
             alert('Essa habilidade já foi adicionada!');
+            return;
         }
-        return;
-    }
 
     const li = document.createElement('li');
     li.innerHTML = `
@@ -213,6 +244,7 @@ function adicionarHabilidade(nome, descricao) {
     atualizarBotoesModal(nome, true);
 }
 
+
 function removerHabilidade(nome) {
     const habilidadesLista = document.getElementById('habilidades-lista');
 
@@ -223,6 +255,33 @@ function removerHabilidade(nome) {
     });
 
     atualizarBotoesModal(nome, false);
+}
+
+let currentRotation = 0;
+let isSpinning = false;
+
+function spin() {
+    if (isSpinning) return;
+    isSpinning = true;
+
+    const randomNumber = Math.floor(Math.random() * 6) + 1;
+    const targetDegree = (randomNumber - 1) * 60;
+    const currentDegree = currentRotation % 360;
+
+    let delta = (targetDegree - currentDegree + 360) % 360;
+    const totalRotation = currentRotation + 360 * 2 + delta;
+
+    const rotatingContainer = document.querySelector('.rotating-container');
+
+    rotatingContainer.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
+    rotatingContainer.style.transform = `rotate(${totalRotation}deg)`;
+
+    currentRotation = totalRotation;
+
+    setTimeout(() => {
+        isSpinning = false;
+        rotatingContainer.style.transition = 'none';
+    }, 3000);
 }
 
 
@@ -298,5 +357,86 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tab-habilidades').addEventListener('click', () => {
         carregarJsonHabilidades('../json/habilidades.json', 'habilidades-lista-modal');
     });
+
+
+    const editButton = document.getElementById('editar-atributos');
+    const atributosSection = document.querySelector('.atributes-info');
+    let isEditing = false;
+
+    // Função para preencher os inputs com os valores atuais
+    const preencherInputs = () => {
+        document.querySelectorAll('.edit-mode').forEach(input => {
+            const atributoId = input.dataset.atributo;
+            const span = document.getElementById(`atributo-${atributoId}`);
+            
+            if(span && span.textContent !== '--') {
+                input.value = span.textContent.trim();
+            } else {
+                input.value = '0';
+            }
+        });
+    };
+
+    editButton.addEventListener('click', () => {
+        isEditing = !isEditing;
+        
+        if(isEditing) {
+            atributosSection.classList.add('editing');
+            editButton.textContent = '💾';
+            preencherInputs(); 
+            
+        } else {
+
+            atributosSection.classList.remove('editing');
+            editButton.textContent = '✏️';
+            
+            document.querySelectorAll('.edit-mode').forEach(input => {
+                const atributoId = input.dataset.atributo;
+                const span = document.getElementById(`atributo-${atributoId}`);
+                span.textContent = input.value;
+                
+            });
+        }
+    });
+
+    document.getElementById('editar-informacoes').addEventListener('click', () => {
+        const editMode = document.querySelectorAll('.social-info .edit-mode');
+        const viewMode = document.querySelectorAll('.social-info .view-mode');
+        const isEditing = document.querySelector('.social-info').classList.toggle('editing');
+    
+        if (isEditing) {
+            // Modo de edição: carregar os valores atuais dos spans para os inputs
+            document.getElementById('input-nome-personagem').value = document.getElementById('nome-personagem').textContent.trim();
+            document.getElementById('input-nome-jogador').value = document.getElementById('nome-jogador').textContent.trim();
+            document.getElementById('input-recompensa').value = document.getElementById('recompensa').textContent.trim();
+            document.getElementById('input-bando').value = document.getElementById('bando').textContent.trim();
+            document.getElementById('input-antecedente').value = document.getElementById('antecedente').textContent.trim();
+            document.getElementById('input-marca').value = document.getElementById('marca').textContent.trim();
+
+            const newbtn = document.getElementById('editar-informacoes');
+            newbtn.textContent = '💾';
+
+    
+            // Mostrar inputs e esconder spans
+            editMode.forEach(input => input.style.display = 'block');
+            viewMode.forEach(span => span.style.display = 'none');
+
+            
+        } else {
+            // Salvar os novos valores e atualizar os spans
+            document.getElementById('nome-personagem').textContent = document.getElementById('input-nome-personagem').value.trim();
+            document.getElementById('nome-jogador').textContent = document.getElementById('input-nome-jogador').value.trim();
+            document.getElementById('recompensa').textContent = document.getElementById('input-recompensa').value.trim();
+            document.getElementById('bando').textContent = document.getElementById('input-bando').value.trim();
+            document.getElementById('antecedente').textContent = document.getElementById('input-antecedente').value.trim();
+            document.getElementById('marca').textContent = document.getElementById('input-marca').value.trim();
+            const newbtn = document.getElementById('editar-informacoes');
+            newbtn.textContent = '✏️';
+    
+            // Voltar ao modo de visualização
+            editMode.forEach(input => input.style.display = 'none');
+            viewMode.forEach(span => span.style.display = 'block');
+        }
+    });    
     
 });

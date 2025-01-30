@@ -1,0 +1,114 @@
+.cylinder {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: 
+    linear-gradient(
+        30deg,
+        var(--cor-couro) 0%,
+        #1a1209 100%
+    );
+}
+
+.rotating-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 3s ease-out;
+}
+
+.ammo-slots {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    
+}
+
+.ammo-slots div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidade */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rye', cursive;
+    background: 
+    radial-gradient(
+        circle at 30% 30%,
+        var(--cor-dourado) 0%,
+        #6b5a3a 100%
+    );
+    color: var(--cor-texto);
+    border: 2px solid var(--cor-metal);
+    font-size: 18px;
+    text-shadow: 1px 1px 2px var(--cor-sombra);
+
+}
+
+.ammo-slots div:nth-child(1) { transform: rotate(0deg) translateY(-70px) rotate(0deg); }
+.ammo-slots div:nth-child(2) { transform: rotate(60deg) translateY(-70px) rotate(0deg); }
+.ammo-slots div:nth-child(3) { transform: rotate(120deg) translateY(-70px) rotate(0deg); }
+.ammo-slots div:nth-child(4) { transform: rotate(180deg) translateY(-70px) rotate(0deg); }
+.ammo-slots div:nth-child(5) { transform: rotate(240deg) translateY(-70px) rotate(0deg); }
+.ammo-slots div:nth-child(6) { transform: rotate(300deg) translateY(-70px) rotate(0deg); }
+
+.center-hole {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 6px solid var(--cor-dourado);
+}
+
+.inner-black-circle {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--cor-couro);
+    box-shadow: inset 0 0 10px var(--cor-sombra);
+}
+
+.edge-circles div {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    margin-left: -30px;
+    margin-top: -30px;
+    background: #fff8dc;
+    /* border: 2px solid var(--cor-couro);
+    box-shadow: 
+        0 2px 5px var(--cor-sombra),
+        inset 0 0 8px #5d4c33; */
+}
+
+.edge-circles div:nth-child(1) { transform: rotate(30deg) translateY(-120px); }
+.edge-circles div:nth-child(2) { transform: rotate(90deg) translateY(-120px); }
+.edge-circles div:nth-child(3) { transform: rotate(150deg) translateY(-120px); }
+.edge-circles div:nth-child(4) { transform: rotate(210deg) translateY(-120px); }
+.edge-circles div:nth-child(5) { transform: rotate(270deg) translateY(-120px); }
+.edge-circles div:nth-child(6) { transform: rotate(330deg) translateY(-120px); }
+
+

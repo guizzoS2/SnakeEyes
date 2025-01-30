@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambor Estilizado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+    <style>
+        .cylinder {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .rotating-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 3s ease-out;
+        }
+
+        .ammo-slots {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .ammo-slots div {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-origin: center;
+            width: 30px;
+            height: 30px;
+            margin-left: -15px;
+            margin-top: -15px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Mantém o número fixo em pé */
+        .ammo-slots div span {
+            font-family: 'Rye', cursive;
+            font-size: 16px;
+            color: #000;
+            transform: rotate(0deg);
+        }
+
+        .ammo-slots div:nth-child(1) { transform: rotate(0deg) translateY(-70px); }
+        .ammo-slots div:nth-child(2) { transform: rotate(60deg) translateY(-70px); }
+        .ammo-slots div:nth-child(3) { transform: rotate(120deg) translateY(-70px); }
+        .ammo-slots div:nth-child(4) { transform: rotate(180deg) translateY(-70px); }
+        .ammo-slots div:nth-child(5) { transform: rotate(240deg) translateY(-70px); }
+        .ammo-slots div:nth-child(6) { transform: rotate(300deg) translateY(-70px); }
+
+        .center-hole {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .inner-black-circle {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .edge-circles div {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+            margin-left: -30px;
+            margin-top: -30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .edge-circles div:nth-child(1) { transform: rotate(30deg) translateY(-120px); }
+        .edge-circles div:nth-child(2) { transform: rotate(90deg) translateY(-120px); }
+        .edge-circles div:nth-child(3) { transform: rotate(150deg) translateY(-120px); }
+        .edge-circles div:nth-child(4) { transform: rotate(210deg) translateY(-120px); }
+        .edge-circles div:nth-child(5) { transform: rotate(270deg) translateY(-120px); }
+        .edge-circles div:nth-child(6) { transform: rotate(330deg) translateY(-120px); }
+
+    </style>
+</head>
+<body>
+    <div class="cylinder" onclick="spin()">
+        <div class="rotating-container">
+            <div class="edge-circles">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="ammo-slots">
+                <div><span>1</span></div>
+                <div><span>2</span></div>
+                <div><span>3</span></div>
+                <div><span>4</span></div>
+                <div><span>5</span></div>
+                <div><span>6</span></div>
+            </div>
+        </div>
+        <div class="center-hole">
+            <div class="inner-black-circle"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            const randomNumber = Math.floor(Math.random() * 6) + 1;
+            const targetDegree = (randomNumber - 1) * 60;
+            const currentDegree = currentRotation % 360;
+
+            let delta = (targetDegree - currentDegree + 360) % 360;
+            const totalRotation = currentRotation + 360 * 2 + delta;
+
+            const rotatingContainer = document.querySelector('.rotating-container');
+
+            rotatingContainer.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            rotatingContainer.style.transform = `rotate(${totalRotation}deg)`;
+
+            currentRotation = totalRotation;
+
+            setTimeout(() => {
+                isSpinning = false;
+                rotatingContainer.style.transition = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
