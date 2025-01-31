@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
         deck = [];
         for (let suit of suits) {
             for (let value of values) {
-                deck.push({ value, suit, image: `cards/${value}-${suit}.png` });
+                deck.push({ value, suit, image: `../../images/cards/${value}-${suit}.png` });
             }
         }
         // Adiciona os curingas
-        deck.push({ value: 'J', suit: 'B', image: 'cards/J-B.png' }); // Curinga Preto
-        deck.push({ value: 'J', suit: 'R', image: 'cards/J-R.png' }); // Curinga Vermelho
+        deck.push({ value: 'J', suit: 'B', image: '../../images/cards/J-B.png' }); // Curinga Preto
+        deck.push({ value: 'J', suit: 'R', image: '../../images/cards/J-R.png' }); // Curinga Vermelho
         shuffleDeck();
         renderDeck();
         updateDeckCount();
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hand.forEach((card, index) => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url(../images/${card.image})`;
+            cardElement.style.backgroundImage = `url(../../images/${card.image})`;
             cardElement.draggable = true;
             cardElement.dataset.index = index; 
     
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = discardPile[discardPile.length - 1];
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url(../images/${card.image})`;
+            cardElement.style.backgroundImage = `url(../../images/${card.image})`;
             discardPileElement.appendChild(cardElement);
         }
     }
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         discardPile.forEach((card, index) => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url(../images/${card.image})`;
+            cardElement.style.backgroundImage = `url(../../images/${card.image})`;
     
 
             cardElement.addEventListener('contextmenu', (event) => {

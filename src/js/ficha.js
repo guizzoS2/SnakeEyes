@@ -351,11 +351,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para carregar habilidades e marcas
     document.getElementById('tab-marcas').addEventListener('click', () => {
-        carregarJsonHabilidades('../json/habilidadesMarcas.json', 'marcas-lista-modal');
+        carregarJsonHabilidades('src/json/habilidadesMarcas.json', 'marcas-lista-modal');
     });
 
     document.getElementById('tab-habilidades').addEventListener('click', () => {
-        carregarJsonHabilidades('../json/habilidades.json', 'habilidades-lista-modal');
+        carregarJsonHabilidades('src/json/habilidades.json', 'habilidades-lista-modal');
     });
 
 
