@@ -36,7 +36,7 @@
 
 .card-game-container .deck {
     cursor: pointer;
-    background-image: url("../images/cards/BACK.png");
+    background-image: url("../src/img/cards/BACK.png");
     background-size: cover;
 }
 

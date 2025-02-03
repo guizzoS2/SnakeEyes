@@ -416,7 +416,7 @@ function atualizarDivMarca() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('json/antecedentes.json')
+    fetch('src/json/antecedentes.json')
         .then(response => response.json())
         .then(data => {
             antecedentes = data;
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Erro ao carregar antecedentes.json:', error));
 
-    fetch('json/habilidades.json')
+    fetch('src/json/habilidades.json')
         .then(response => response.json())
         .then(data => {
             habilidades = data;
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Erro ao carregar habilidades.json:', error));
 
-    fetch('json/marcas.json')
+    fetch('src/json/marcas.json')
         .then(response => response.json())
         .then(data => {
             marcas = data;

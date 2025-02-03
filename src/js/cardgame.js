@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hand.forEach((card, index) => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url(../images/${card.image})`;
+            cardElement.style.backgroundImage = `url(../src/img/${card.image})`;
             cardElement.draggable = true;
             cardElement.dataset.index = index; 
     
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = discardPile[discardPile.length - 1];
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url(../images/${card.image})`;
+            cardElement.style.backgroundImage = `url(../src/img/${card.image})`;
             discardPileElement.appendChild(cardElement);
         }
     }
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         discardPile.forEach((card, index) => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url(../images/${card.image})`;
+            cardElement.style.backgroundImage = `url(../src/img/${card.image})`;
     
 
             cardElement.addEventListener('contextmenu', (event) => {
