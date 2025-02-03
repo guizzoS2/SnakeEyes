@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake-Eyes - Registro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Criar Conta</h1>
+            <p class="subtitle">Junte-se ao Oeste Selvagem</p>
+            
+            <form class="login-form" action="src/php/register.php" method="POST">
+                <div class="form-group">
+                    <label for="username">Nome (Username)</label>
+                    <input type="text" id="username" name="username" placeholder="Ex: Caubói Calhoune" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Telegrama (E-mail)</label>
+                    <input type="email" id="email" name="email" placeholder="Ex: cauboi@ferrovia.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha Secreta</label>
+                    <input type="password" id="password" name="password" placeholder="Mínimo de 6 caracteres" minlength="6" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Digite novamente" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="code">Código de Convite <span class="tooltip">🔍
+                        <span class="tooltiptext">Obtenha com o xerife da cidade</span>
+                    </span></label>
+                    <input type="text" id="code" name="code" placeholder="Código de 6 dígitos" pattern="[A-Z0-9]{6}" required>
+                </div>
+
+                <button type="submit">Criar Conta</button>
+                <p class="register-link">
+                    Já tem um acampamento? <a href="login.php">Entre aqui</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

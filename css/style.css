@@ -385,3 +385,111 @@ p, label {
     color: #999;
     text-decoration: line-through;
 }
+
+/* Estilo geral da tela de login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5e4c3; /* Cor de fundo terrosa */
+    background-image: url('textura-papel-envelhecido.jpg'); /* Adicione uma textura de papel envelhecido */
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+}
+
+.login-box {
+    background: rgba(245, 228, 195, 0.9); /* Fundo semi-transparente */
+    border: 3px solid #8b5e34; /* Borda marrom */
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-box h1 {
+    font-family: 'Rye', cursive; /* Fonte temática do Velho Oeste */
+    font-size: 48px;
+    color: #3b2e1e; /* Cor do texto */
+    text-shadow: 2px 2px 0 #ffffff, -2px -2px 0 #c18f5a; /* Sombra do texto */
+    margin-bottom: 10px;
+}
+
+.login-box .subtitle {
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    color: #4a3217; /* Cor do subtítulo */
+    margin-bottom: 20px;
+}
+
+/* Estilo do formulário */
+.login-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login-form label {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    color: #3b2e1e; /* Cor do texto */
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #8b5e34; /* Borda marrom */
+    border-radius: 5px;
+    background: #fffbe6; /* Fundo claro */
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2); /* Sombra interna */
+    transition: border-color 0.3s ease;
+}
+
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus {
+    border-color: #a66f3d; /* Cor da borda ao focar */
+    outline: none;
+}
+
+/* Estilo do botão de login */
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    color: #fff;
+    background-color: #8b5e34; /* Cor de fundo marrom */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* Sombra */
+    transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+    background-color: #a66f3d; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo do link de registro */
+.register-link {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: #3b2e1e; /* Cor do texto */
+    margin-top: 15px;
+}
+
+.register-link a {
+    color: #8b5e34; /* Cor do link */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
+}

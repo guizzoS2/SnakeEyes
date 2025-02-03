@@ -1,3 +1,7 @@
+2- Botão para adicionar habilidades na ficha
+
+3- Botões para editar atributos e rolagem de dados (o dado n vai ser 3d, mas vai ter uma imagem)
+
 4- Salvar no json as cartas que estavam descartadas, e quais estavam na mão, porém o resto do baralho vai ter que ser embaralhado novamente, pq se manter a sequência o cara vai poder ver (agr o baralho ta por ordem mesmo, e n por aleatória.)
 
 5- quero criar keybinds para usar habilidades do personagem, o personagem pode setar uma keybind pra cada habilidade, e via ser shift + key, e quando ele apertar, ele vai ter que selecionar as cartas, ou coisas assim, pra funcionar

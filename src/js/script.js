@@ -344,7 +344,7 @@ function abrirFicha() {
             try {
                 const ficha = JSON.parse(e.target.result);
 
-                const novaJanela = window.open('ficha/ficha.html', '_blank');
+                const novaJanela = window.open('../../ficha.html', '_blank');
 
                 novaJanela.onload = () => {
                     novaJanela.carregarFicha(ficha); 
@@ -451,4 +451,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (botaoAbrirFicha) {
         botaoAbrirFicha.addEventListener('click', abrirFicha);
     }
+
+    // Atualização dinâmica caso os valores dos atributos mudem (opcional)
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        const requisito = checkbox.dataset.requisito;
+        const atributoAtual = parseInt(document.getElementById(requisito).textContent, 10);
+        
+        if (atributoAtual < parseInt(checkbox.value, 10)) {
+            checkbox.disabled = true;
+            checkbox.parentElement.classList.add('label-disabled');
+        }
+    });
+
 });

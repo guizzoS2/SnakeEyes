@@ -1,12 +1,4 @@
 /* Estilo inspirado no Velho Oeste */
-:root {
-    --cor-couro: #2b1d0e;
-    --cor-metal: #3a2f21;
-    --cor-dourado: #8b784a;
-    --cor-texto: #e0c9a6;
-    --cor-sombra: rgba(0, 0, 0, 0.6);
-}
-
 body {
     font-family: 'Playfair Display', serif;
     background-color: #f7e9d1;
@@ -64,17 +56,6 @@ body {
     font-size: 16px;
     color: #4b2e05;
 }
-
-.social-info .edit-mode {
-    display: none;
-}
-.social-info.editing .view-mode {
-    display: none;
-}
-.social-info.editing .edit-mode {
-    display: block;
-}
-
 
 /* Segunda seção - Status do personagem */
 .character-status {
@@ -142,42 +123,6 @@ body {
     border-radius: 8px;
     background-color: #f4e3c2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.edit-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 10px;
-    color: #8b4513;
-    transition: transform 0.2s;
-}
-
-.edit-btn:hover {
-    transform: scale(1.2);
-}
-
-.atributes-info input {
-    width: 50px;
-    padding: 2px;
-    border: 1px solid #8b4513;
-    border-radius: 4px;
-    text-align: center;
-    background-color: #fff8dc;
-    color: #4b2e05;
-}
-
-.atributes-info .edit-mode {
-    display: none;
-}
-
-.atributes-info.editing .edit-mode {
-    display: inline-block;
-}
-
-.atributes-info.editing .view-mode {
-    display: none;
 }
 
 .atributes-info h2 {
@@ -480,7 +425,7 @@ button.plus-btn {
 }
 
 .tab.active {
-    background-color: #bb704d; 
+    background-color: #a0522d; 
 }
 
 /* Conteúdo das Tabs */
@@ -535,17 +480,4 @@ li strong {
 
 .hidden {
     display: none;
-}
-
-.remover-habilidade {
-    background-color: #8b0000; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.remover-habilidade:hover {
-    background-color: #a52a2a; 
 }
