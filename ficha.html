@@ -13,40 +13,14 @@
 <body>
     <div class="character-div">
         <div class="social-info">
-            <h2>Informações do Personagem
-                <button id="editar-informacoes" class="edit-btn">✏️</button>
-            </h2>
+            <h2>Informações do Personagem</h2>
             <ul>
-                <li>
-                    <strong>Nome do Personagem:</strong> 
-                    <span class="view-mode" id="nome-personagem">--</span>
-                    <input type="text" class="edit-mode" id="input-nome-personagem" value="--">
-                </li>
-                <li>
-                    <strong>Nome do Jogador:</strong> 
-                    <span class="view-mode" id="nome-jogador">--</span>
-                    <input type="text" class="edit-mode" id="input-nome-jogador" value="--">
-                </li>
-                <li>
-                    <strong>Recompensa:</strong> 
-                    <span class="view-mode" id="recompensa">--</span>
-                    <input type="text" class="edit-mode" id="input-recompensa" value="--">
-                </li>
-                <li>
-                    <strong>Bando:</strong> 
-                    <span class="view-mode" id="bando">--</span>
-                    <input type="text" class="edit-mode" id="input-bando" value="--">
-                </li>
-                <li>
-                    <strong>Antecedente:</strong> 
-                    <span class="view-mode" id="antecedente">--</span>
-                    <input type="text" class="edit-mode" id="input-antecedente" value="--">
-                </li>
-                <li>
-                    <strong>Marca:</strong> 
-                    <span class="view-mode" id="marca">--</span>
-                    <input type="text" class="edit-mode" id="input-marca" value="--">
-                </li>
+                <li><strong>Nome do Personagem:</strong> <span id="nome-personagem">--</span></li>
+                <li><strong>Nome do Jogador:</strong> <span id="nome-jogador">--</span></li>
+                <li><strong>Recompensa:</strong> <span id="recompensa">--</span></li>
+                <li><strong>Bando:</strong> <span id="bando">--</span></li>
+                <li><strong>Antecedente:</strong> <span id="antecedente">--</span></li>
+                <li><strong>Marca:</strong> <span id="marca">--</span></li>
             </ul>
         </div>
 
@@ -80,71 +54,26 @@
     <div class="character-div">
         <!-- Atributos do personagem -->
         <div class="atributes-info">
-            <h2>Atributos
-                <button id="editar-atributos" class="edit-btn">✏️</button>
-            </h2>
-
+            <h2>Atributos</h2>
             <div class="atributos-area">
                 <ul>
-                    <ul>
-                        <li>
-                            <strong>Força:</strong> 
-                            <span class="view-mode" id="atributo-força">--</span>
-                            <input type="number" class="edit-mode" data-atributo="força">
-                        </li>
-                        <li>
-                            <strong>Sagacidade:</strong> 
-                            <span class="view-mode" id="atributo-sagacidade">--</span>
-                            <input type="number" class="edit-mode" data-atributo="sagacidade">
-                        </li>
-                        <li>
-                            <strong>Mente:</strong> 
-                            <span class="view-mode" id="atributo-mente">--</span>
-                            <input type="number" class="edit-mode" data-atributo="mente">
-                        </li>
-                        <li>
-                            <strong>Resiliência:</strong> 
-                            <span class="view-mode" id="atributo-resiliência">--</span>
-                            <input type="number" class="edit-mode" data-atributo="resiliência">
-                        </li>
-                        <li>
-                            <strong>Sabedoria:</strong> 
-                            <span class="view-mode" id="atributo-sabedoria">--</span>
-                            <input type="number" class="edit-mode" data-atributo="sabedoria">
-                        </li>
-                        <li>
-                            <strong>Celeridade:</strong> 
-                            <span class="view-mode" id="atributo-celeridade">--</span>
-                            <input type="number" class="edit-mode" data-atributo="celeridade">
-                        </li>
-                    </ul>
+                    <li><strong>Força:</strong> <span id="atributo-força">--</span></li>
+                    <li><strong>Sagacidade:</strong> <span id="atributo-sagacidade">--</span></li>
+                    <li><strong>Mente:</strong> <span id="atributo-mente">--</span></li>
+                    <li><strong>Resiliência:</strong> <span id="atributo-resiliência">--</span></li>
+                    <li><strong>Sabedoria:</strong> <span id="atributo-sabedoria">--</span></li>
+                    <li><strong>Celeridade:</strong> <span id="atributo-celeridade">--</span></li>
                 </ul>
                 <div class="atributos-extra">
-                    <div class="tambor-container">
-                        <div class="cylinder" onclick="spin()">
-                            <div class="rotating-container">
-                                <div class="edge-circles">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                                <div class="ammo-slots">
-                                    <div><span>1</span></div>
-                                    <div><span>2</span></div>
-                                    <div><span>3</span></div>
-                                    <div><span>4</span></div>
-                                    <div><span>5</span></div>
-                                    <div><span>6</span></div>
-                                </div>
-                            </div>
-                            <div class="center-hole">
-                                <div class="inner-black-circle"></div>
-                            </div>
-                        </div>
+                    <div class="dice">
+                        <div class="face front"></div>
+                        <div class="face back"></div>
+                        <div class="face top"></div>
+                        <div class="face bottom"></div>
+                        <div class="face right"></div>
+                        <div class="face left"></div>
                     </div>
+                    <button class="roll">Rolar Dado</button>
                 </div>
             </div>
         </div>
