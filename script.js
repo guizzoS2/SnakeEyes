@@ -1,12 +1,29 @@
+import {collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { db } from './firebaseConfig.js';
+
 let antecedentes = [];
 let antecedenteAtual = null;
 let habilidades = [];
 let marcas = [];
 
-function carregarAntecedentes() {
+async function carregarAntecedentes() {
+    const antecedentesSnapshot = await getDocs(collection(db, "antecedentes"));
     const originDiv = document.getElementById('origin-div');
 
-    antecedentes.forEach(antecedente => {
+    for (const antecedenteDoc of antecedentesSnapshot.docs) {
+        const antecedente = antecedenteDoc.data();
+
+        // Buscar habilidade correspondente
+        const habilidadesSnapshot = await getDocs(
+            query(collection(db, "habilidades"), where("Nome", "==", antecedente.habilidade))
+        );
+
+        let habilidade = null;
+        habilidadesSnapshot.forEach(doc => {
+            habilidade = doc.data();
+        });
+
+        // Renderização do antecedente e seus detalhes
         const divAntecedente = document.createElement('div');
         divAntecedente.classList.add('antecedente');
 
@@ -23,8 +40,14 @@ function carregarAntecedentes() {
         divAntecedente.appendChild(bonusHabilidade);
 
         const desHabilidade = document.createElement('p');
-        desHabilidade.textContent = `${antecedente.descricao}`;
+        desHabilidade.textContent = antecedente.descricao;
         divAntecedente.appendChild(desHabilidade);
+
+        if (habilidade) {
+            const descricaoHabilidade = document.createElement('p');
+            descricaoHabilidade.textContent = `Descrição da Habilidade: ${habilidade.Descrição}`;
+            divAntecedente.appendChild(descricaoHabilidade);
+        }
 
         const labelCheckbox = document.createElement('label');
         const checkbox = document.createElement('input');
@@ -38,20 +61,78 @@ function carregarAntecedentes() {
         divAntecedente.appendChild(labelCheckbox);
 
         originDiv.appendChild(divAntecedente);
-    });
+    }
 
+    // Evento de mudança para os checkboxes
     originDiv.addEventListener('change', (event) => {
         if (event.target.type === 'checkbox') {
             const checkboxes = document.querySelectorAll('input[name="antecedente"]');
             checkboxes.forEach(checkbox => {
                 if (checkbox !== event.target) {
-                    checkbox.checked = false; 
+                    checkbox.checked = false;
                 }
             });
-            aplicarBonus(event.target); 
+            aplicarBonus(event.target);  // Chama a função original de aplicar bônus
         }
     });
 }
+
+carregarAntecedentes();
+
+
+
+
+
+// Funções Antigas
+// function carregarAntecedentes() {
+//     const originDiv = document.getElementById('origin-div');
+
+//     antecedentes.forEach(antecedente => {
+//         const divAntecedente = document.createElement('div');
+//         divAntecedente.classList.add('antecedente');
+
+//         const titulo = document.createElement('h3');
+//         titulo.textContent = antecedente.nome;
+//         divAntecedente.appendChild(titulo);
+
+//         const bonusAtributo = document.createElement('p');
+//         bonusAtributo.textContent = `Bônus de Atributo: ${antecedente.bonus}`;
+//         divAntecedente.appendChild(bonusAtributo);
+
+//         const bonusHabilidade = document.createElement('p');
+//         bonusHabilidade.textContent = `Habilidade: ${antecedente.habilidade}`;
+//         divAntecedente.appendChild(bonusHabilidade);
+
+//         const desHabilidade = document.createElement('p');
+//         desHabilidade.textContent = `${antecedente.descricao}`;
+//         divAntecedente.appendChild(desHabilidade);
+
+//         const labelCheckbox = document.createElement('label');
+//         const checkbox = document.createElement('input');
+//         checkbox.type = 'checkbox';
+//         checkbox.name = 'antecedente';
+//         checkbox.dataset.bonus = antecedente.bonus.split(" ")[0].toLowerCase(); 
+//         checkbox.dataset.valor = parseInt(antecedente.bonus.split(" ")[1]); 
+//         checkbox.dataset.habilidade = antecedente.habilidade;
+//         labelCheckbox.appendChild(checkbox);
+//         labelCheckbox.appendChild(document.createTextNode(' Selecionar'));
+//         divAntecedente.appendChild(labelCheckbox);
+
+//         originDiv.appendChild(divAntecedente);
+//     });
+
+//     originDiv.addEventListener('change', (event) => {
+//         if (event.target.type === 'checkbox') {
+//             const checkboxes = document.querySelectorAll('input[name="antecedente"]');
+//             checkboxes.forEach(checkbox => {
+//                 if (checkbox !== event.target) {
+//                     checkbox.checked = false; 
+//                 }
+//             });
+//             aplicarBonus(event.target); 
+//         }
+//     });
+// }
 
 function aplicarBonus(selecionado) {
     const atributos = document.querySelectorAll('.atribute-value');
@@ -416,29 +497,29 @@ function atualizarDivMarca() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('json/antecedentes.json')
-        .then(response => response.json())
-        .then(data => {
-            antecedentes = data;
-            carregarAntecedentes();
-        })
-        .catch(error => console.error('Erro ao carregar antecedentes.json:', error));
+    // fetch('json/antecedentes.json')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         antecedentes = data;
+    //         carregarAntecedentes();
+    //     })
+    //     .catch(error => console.error('Erro ao carregar antecedentes.json:', error));
 
-    fetch('json/habilidades.json')
-        .then(response => response.json())
-        .then(data => {
-            habilidades = data;
-            carregarHabilidades();
-        })
-        .catch(error => console.error('Erro ao carregar habilidades.json:', error));
+    // fetch('json/habilidades.json')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         habilidades = data;
+    //         carregarHabilidades();
+    //     })
+    //     .catch(error => console.error('Erro ao carregar habilidades.json:', error));
 
-    fetch('json/marcas.json')
-        .then(response => response.json())
-        .then(data => {
-            marcas = data;
-            carregarMarcas();
-        })
-        .catch(error => console.error('Erro ao carregar marcas.json:', error));
+    // fetch('json/marcas.json')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         marcas = data;
+    //         carregarMarcas();
+    //     })
+    //     .catch(error => console.error('Erro ao carregar marcas.json:', error));
 
     configurarBotoes();
 
