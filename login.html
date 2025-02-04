@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login do Pistoleiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+New&family=Georgia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="creation-div">
+        <h1>Entrada no Saloon</h1>
+        
+        <form id="login-form">
+            <div class="organize-atributes">
+                <div class="atributes-gun-drum">
+                    <!-- Email -->
+                    <div class="atribute-control">
+                        <label>Telegrama Eletrônico:</label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            required
+                            placeholder="Ex: billy@ferrovia.com"
+                        >
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="atribute-control">
+                        <label>Senha Secreta:</label>
+                        <input 
+                            type="password" 
+                            id="login-password" 
+                            required
+                            placeholder="Digite sua senha"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <div class="ficha-btn">
+                <button type="submit" class="atribute-btn">
+                    Acessar o Saloon
+                </button>
+            </div>
+        </form>
+
+        <div class="login-links">
+            <p class="auth-link">
+                <a href="/forgot-password.html">Esqueceu a senha?</a>
+            </p>
+            <p class="auth-link">
+                Não tem registro? <a href="/signup.html">Assine o livro aqui</a>
+            </p>
+        </div>
+    </div>
+
+    <script type="module" src="login.js"></script>
+</body>
+</html>

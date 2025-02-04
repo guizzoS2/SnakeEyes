@@ -385,3 +385,48 @@ p, label {
     color: #999;
     text-decoration: line-through;
 }
+
+/* profile.css */
+#characters-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#characters-table th, #characters-table td {
+    padding: 12px;
+    border: 1px solid #8b5e34;
+    text-align: left;
+}
+
+#characters-table th {
+    background-color: #f5e4c3;
+    font-family: 'Courier New', monospace;
+}
+
+.btn-ver, .btn-excluir {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+}
+
+.btn-ver {
+    background-color: #8b5e34;
+    color: white;
+}
+
+.btn-excluir {
+    background-color: #8b0000;
+    color: white;
+}
+
+.btn-ver:hover {
+    background-color: #a66f3d;
+}
+
+.btn-excluir:hover {
+    background-color: #a52a2a;
+}

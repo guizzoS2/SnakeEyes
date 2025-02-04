@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pistoleiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+New&family=Georgia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="creation-div">
+        <h1>Registro do Forasteiro</h1>
+        
+        <form id="signup-form">
+            <div class="organize-atributes">
+                <div class="atributes-gun-drum">
+                    <!-- Nome de Usuário -->
+                    <div class="atribute-control">
+                        <label>Nome de Pistoleiro:</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            required
+                            minlength="3"
+                            maxlength="20"
+                            placeholder="Ex: Billy_o_rapido"
+                        >
+                    </div>
+                    <div id="username-feedback" class="feedback"></div>
+
+                    <!-- Email -->
+                    <div class="atribute-control">
+                        <label>Telegrama Eletrônico:</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            required
+                            placeholder="Ex: billy@ferrovia.com"
+                        >
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="atribute-control">
+                        <label>Senha Secreta:</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            required
+                            minlength="6"
+                            placeholder="Mínimo 6 caracteres"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <div class="ficha-btn">
+                <button type="submit" class="atribute-btn">
+                    Gravar no Livro de Registros
+                </button>
+            </div>
+        </form>
+
+        <p class="auth-link">
+            Já tem marcação? <a href="/login.html">Faça seu login aqui</a>
+        </p>
+    </div>
+
+    <script type="module" src="signup.js"></script>
+</body>
+</html>
