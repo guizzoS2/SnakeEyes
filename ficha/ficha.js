@@ -9,64 +9,6 @@ let estresseMaxima = 0;
 const urlParams = new URLSearchParams(window.location.search);
 const personagemId = urlParams.get('id');
 
-// function carregarFicha(ficha) {
-//     // Carrega informações básicas
-//     document.getElementById('nome-personagem').textContent = ficha.nomePersonagem || "Não informado";
-//     document.getElementById('nome-jogador').textContent = ficha.nomeJogador || "Não informado";
-//     document.getElementById('recompensa').textContent = ficha.recompensa || "0";
-//     document.getElementById('bando').textContent = ficha.bando || "Não informado";
-//     document.getElementById('antecedente').textContent = ficha.antecedenteSelecionado?.nome || "Nenhum";
-//     document.getElementById('marca').textContent = ficha.marca || "Sem Marca";
-
-//     vitalidadeAtual = ficha.vitalidade?.atual || 0;
-//     vitalidadeMaxima = ficha.vitalidade?.maximo || 0;
-//     estresseAtual = ficha.estresse?.atual || 0;
-//     estresseMaxima = ficha.estresse?.maximo || 6;
-
-//     const habilidadesSelecionadas = ficha.habilidadesSelecionadas || [];
-//     habilidadesSelecionadas.forEach(habilidade => {
-//         adicionarHabilidade(habilidade.Nome, habilidade.Descrição, true);
-//     });
-
-//     habilidadesSelecionadas.forEach(habilidade => {
-//         atualizarBotoesModal(habilidade.Nome, true);
-//     });
-
-//     document.getElementById('vitalidade-atual').textContent = vitalidadeAtual;
-//     document.getElementById('vitalidade-maxima').textContent = vitalidadeMaxima;
-
-//     atualizarBarra('vitalidade-bar', 'vitalidade-text', vitalidadeAtual, vitalidadeMaxima);
-
-//     document.getElementById('estresse-atual').textContent = estresseAtual;
-//     document.getElementById('estresse-maximo').textContent = estresseMaxima;
-
-//     atualizarBarra('stress-bar', 'stress-text', estresseAtual, estresseMaxima);
-
-//     for (const atributo in ficha.atributos) {
-//         const elemento = document.getElementById(`atributo-${atributo}`);
-//         if (elemento) {
-//             elemento.textContent = ficha.atributos[atributo];
-//         } else {
-//             console.warn(`Atributo "${atributo}" não encontrado no HTML.`);
-//         }
-//     }
-
-//     // Carrega habilidades
-//     const habilidadesLista = document.getElementById('habilidades-lista');
-//     habilidadesLista.innerHTML = ''; 
-
-//     ficha.habilidadesSelecionadas.forEach(habilidade => {
-//         const li = document.createElement('li');
-//         li.innerHTML = `
-//             <strong>${habilidade.Nome}:</strong> ${habilidade.Descrição}
-//             <button class="remover-habilidade" data-nome="${habilidade.Nome}">-</button>
-//         `;
-//         habilidadesLista.appendChild(li);
-
-//         li.querySelector('.remover-habilidade').addEventListener('click', () => removerHabilidade(habilidade.Nome));
-//     });
-// }
-
 async function carregarFichaDoFirestore() {
     if (!personagemId) {
         alert('ID do personagem não encontrado na URL!');
@@ -91,28 +33,6 @@ async function carregarFichaDoFirestore() {
         alert('Erro ao carregar a ficha!');
     }
 }
-
-function configurarEdicao(data) {
-    // Configura os eventos de edição para os campos da ficha
-    const editButton = document.getElementById('editar-informacoes');
-    const atributosSection = document.querySelector('.atributes-info');
-
-    editButton.addEventListener('click', () => {
-        const isEditing = atributosSection.classList.toggle('editing');
-
-        if (isEditing) {
-            // Entra no modo de edição
-            editButton.textContent = '💾'; // Altera o ícone para "salvar"
-        } else {
-            // Sai do modo de edição e salva as alterações
-            editButton.textContent = '✏️'; // Altera o ícone para "editar"
-            salvarAlteracoes(); // Chama a função para salvar as alterações
-        }
-    });
-}
-
-
-
 
 function carregarFichaUI(data) {
     const personagem = data.dadosPersonagem;
@@ -160,29 +80,47 @@ function carregarFichaUI(data) {
     }
 }
 
-async function salvarAlteracoes() {
-    const personagemRef = doc(db, "personagens", personagemId);
+// async function salvarAlteracoes() {
+//     const personagemRef = doc(db, "personagens", personagemId);
     
-    const updatedData = {
-        'dadosPersonagem.nome': document.getElementById('input-nome-personagem').value,
-        'dadosPersonagem.recompensa': parseInt(document.getElementById('input-recompensa').value),
-        'dadosPersonagem.bando': document.getElementById('input-bando').value,
-        'dadosPersonagem.antecedente': document.getElementById('input-antecedente').value,
-        'dadosPersonagem.marca': document.getElementById('input-marca').value,
-        'dadosPersonagem.vitalidade.atual': parseInt(document.getElementById('vitalidade-atual').textContent),
-        'dadosPersonagem.vigor.atual': parseInt(document.getElementById('estresse-atual').textContent),
-    };
+//     const updatedData = {
+//         'dadosPersonagem.nome': document.getElementById('input-nome-personagem').value,
+//         'dadosPersonagem.recompensa': parseInt(document.getElementById('input-recompensa').value),
+//         'dadosPersonagem.bando': document.getElementById('input-bando').value,
+//         'dadosPersonagem.antecedente': document.getElementById('input-antecedente').value,
+//         'dadosPersonagem.marca': document.getElementById('input-marca').value,
+//         'dadosPersonagem.vitalidade.atual': parseInt(document.getElementById('vitalidade-atual').textContent),
+//         'dadosPersonagem.vigor.atual': parseInt(document.getElementById('estresse-atual').textContent),
+//     };
 
-    try {
-        await updateDoc(personagemRef, updatedData);
-        alert('Alterações salvas com sucesso!');
-        carregarFichaDoFirestore(); // Recarrega os dados
-    } catch (error) {
-        console.error("Erro ao salvar alterações:", error);
-        alert('Erro ao salvar alterações!');
-    }
+//     try {
+//         await updateDoc(personagemRef, updatedData);
+//         alert('Alterações salvas com sucesso!');
+//         carregarFichaDoFirestore(); // Recarrega os dados
+//     } catch (error) {
+//         console.error("Erro ao salvar alterações:", error);
+//         alert('Erro ao salvar alterações!');
+//     }
+// }
+
+function configurarEdicao(data) {
+    // Configura os eventos de edição para os campos da ficha
+    const editButton = document.getElementById('editar-atributos');
+    const atributosSection = document.querySelector('.atributes-info');
+
+    editButton.addEventListener('click', () => {
+        const isEditing = atributosSection.classList.toggle('editing');
+
+        if (isEditing) {
+            // Entra no modo de edição
+            editButton.textContent = '💾'; // Altera o ícone para "salvar"
+        } else {
+            // Sai do modo de edição e salva as alterações
+            editButton.textContent = '✏️'; // Altera o ícone para "editar"
+            salvarAlteracoes(); // Chama a função para salvar as alterações
+        }
+    });
 }
-
 
 function alterarVitalidade(valor) {
     // Atualiza vitalidade dentro dos limites
@@ -199,7 +137,6 @@ function alterarEstresse(valor) {
     // Atualiza o design da barra
     atualizarBarra('stress-bar', 'stress-text', estresseAtual, estresseMaxima);
 }
-
 
 function atualizarBarra(idBarra, idTexto, valorAtual, valorMaximo) {
     const percentual = valorMaximo > 0 ? (valorAtual / valorMaximo) * 100 : 0;
@@ -467,103 +404,110 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    const editButton = document.getElementById('editar-atributos');
+
+
+    // Função para editar infos e atributos
+    
+    const editButtonAtribtutes = document.getElementById('editar-atributos');
     const atributosSection = document.querySelector('.atributes-info');
     let isEditing = false;
 
     // Função para preencher os inputs com os valores atuais
-    const preencherInputs = () => {
-        document.querySelectorAll('.edit-mode').forEach(input => {
-            const atributoId = input.dataset.atributo;
-    
-            if (atributoId && atributoId.trim() !== "") {
-                const span = document.getElementById(`atributo-${atributoId}`);
-    
-                if (span) {
-                    const valorSpan = span.textContent.trim();
-                    
-                    // Se o valor do span for '--', inicializa como '0'
-                    input.value = (valorSpan !== '--') ? valorSpan : '0';
-                } else {
-                    console.error(`Span com ID "atributo-${atributoId}" não encontrado.`);
-                }
-            } else {
-                console.error('O input não possui o atributo "data-atributo" ou está vazio. Verifique o HTML.');
-            }
-        });
-    };
+    // const preencherInputs = () => {
+    //     document.querySelectorAll('.edit-mode').forEach(input => {
+    //         const atributoId = input.dataset.atributo;
+
+    //         if (atributoId && atributoId.trim() !== "") {
+    //             const span = document.getElementById(`atributo-${atributoId}`);
+    //             // console.log(span.textContent.trim())
+
+    //             if (span) {
+    //                 const valorSpan = span.textContent.trim();
+    //                 // Se o valor do span for '--', inicializa como '0'
+    //                 input.value = (valorSpan !== '--') ? valorSpan : '0';
+
+    //             } else {
+    //                 console.error(`486 Span com ID "atributo-${atributoId}" não encontrado.`);
+    //             }
+
+    //         } else {
+    //             console.error('O input não possui o atributo "data-atributo" ou está vazio. Verifique o HTML.');
+    //         }
+    //     });
+    // };
     
 
-    editButton.addEventListener('click', () => {
-        isEditing = !isEditing;
+    // editButtonAtribtutes.addEventListener('click', () => {
+    //     isEditing = !isEditing;
     
-        if (isEditing) {
-            atributosSection.classList.add('editing');
-            editButton.textContent = '💾';
-            preencherInputs(); // Preenche os inputs com os valores atuais
-        } else {
-            atributosSection.classList.remove('editing');
-            editButton.textContent = '✏️';
+    //     if (isEditing) {
+    //         atributosSection.classList.add('editing');
+    //         editButtonAtribtutes.textContent = '💾';
+    //         preencherInputs(); // Preenche os inputs com os valores atuais
+    //     } else {
+    //         atributosSection.classList.remove('editing');
+    //         editButtonAtribtutes.textContent = '✏️';
     
-            // Atualiza os spans com os valores dos inputs
-            document.querySelectorAll('.edit-mode').forEach(input => {
-                const atributoId = input.dataset.atributo;
-    
-                if (atributoId && atributoId.trim() !== "") {
-                    const span = document.getElementById(`atributo-${atributoId}`);
-                    if (span) {
-                        span.textContent = input.value; // Atualiza o valor do span
-                    } else {
-                        console.error(`Elemento com ID "atributo-${atributoId}" não encontrado.`);
-                    }
-                } else {
-                    console.error('O input não possui o atributo "data-atributo" ou está vazio. Verifique o HTML.');
-                }
-            });
-        }
-    });
+    //         // Atualiza os spans com os valores dos inputs
+    //         document.querySelectorAll('.edit-mode').forEach(input => {
+    //             const atributoId = input.dataset.atributo;
+    //             if (atributoId) {
+    //                 const span = document.getElementById(`atributo-${atributoId}`);
+    //                 if (span) {
+    //                     span.textContent = input.value; // Atualiza o valor do span
+    //                 } else {
+    //                     console.error(`Elemento com ID "atributo-${atributoId}" não encontrado.`);
+    //                 }
+    //             } else {
+    //                 console.error('O input não possui o atributo "data-atributo" ou está vazio. Verifique o HTML.');
+    //             }
+    //         });
+    //     }
+    // });
     
     
 
-    document.getElementById('editar-informacoes').addEventListener('click', () => {
-        const editMode = document.querySelectorAll('.social-info .edit-mode');
-        const viewMode = document.querySelectorAll('.social-info .view-mode');
-        const isEditing = document.querySelector('.social-info').classList.toggle('editing');
+    // document.getElementById('editar-informacoes').addEventListener('click', () => {
+    //     const editMode = document.querySelectorAll('.social-info .edit-mode');
+    //     const viewMode = document.querySelectorAll('.social-info .view-mode');
+    //     const isEditing = document.querySelector('.social-info').classList.toggle('editing');
     
-        if (isEditing) {
-            // Modo de edição: carregar os valores atuais dos spans para os inputs
-            document.getElementById('input-nome-personagem').value = document.getElementById('nome-personagem').textContent.trim();
-            document.getElementById('input-nome-jogador').value = document.getElementById('nome-jogador').textContent.trim();
-            document.getElementById('input-recompensa').value = document.getElementById('recompensa').textContent.trim();
-            document.getElementById('input-bando').value = document.getElementById('bando').textContent.trim();
-            document.getElementById('input-antecedente').value = document.getElementById('antecedente').textContent.trim();
-            document.getElementById('input-marca').value = document.getElementById('marca').textContent.trim();
+    //     if (isEditing) {
+    //         // Modo de edição: carregar os valores atuais dos spans para os inputs
+    //         document.getElementById('input-nome-personagem').value = document.getElementById('nome-personagem').textContent.trim();
+    //         document.getElementById('input-nome-jogador').value = document.getElementById('nome-jogador').textContent.trim();
+    //         document.getElementById('input-recompensa').value = document.getElementById('recompensa').textContent.trim();
+    //         document.getElementById('input-bando').value = document.getElementById('bando').textContent.trim();
+    //         document.getElementById('input-antecedente').value = document.getElementById('antecedente').textContent.trim();
+    //         document.getElementById('input-marca').value = document.getElementById('marca').textContent.trim();
 
-            const newbtn = document.getElementById('editar-informacoes');
-            newbtn.textContent = '💾';
+    //         const newbtn = document.getElementById('editar-informacoes');
+    //         newbtn.textContent = '💾';
 
     
-            // Mostrar inputs e esconder spans
-            editMode.forEach(input => input.style.display = 'block');
-            viewMode.forEach(span => span.style.display = 'none');
+    //         // Mostrar inputs e esconder spans
+    //         editMode.forEach(input => input.style.display = 'block');
+    //         viewMode.forEach(span => span.style.display = 'none');
 
             
-        } else {
-            // Salvar os novos valores e atualizar os spans
-            document.getElementById('nome-personagem').textContent = document.getElementById('input-nome-personagem').value.trim();
-            document.getElementById('nome-jogador').textContent = document.getElementById('input-nome-jogador').value.trim();
-            document.getElementById('recompensa').textContent = document.getElementById('input-recompensa').value.trim();
-            document.getElementById('bando').textContent = document.getElementById('input-bando').value.trim();
-            document.getElementById('antecedente').textContent = document.getElementById('input-antecedente').value.trim();
-            document.getElementById('marca').textContent = document.getElementById('input-marca').value.trim();
-            const newbtn = document.getElementById('editar-informacoes');
-            newbtn.textContent = '✏️';
+    //     } else {
+    //         // Salvar os novos valores e atualizar os spans
+    //         document.getElementById('nome-personagem').textContent = document.getElementById('input-nome-personagem').value.trim();
+    //         document.getElementById('nome-jogador').textContent = document.getElementById('input-nome-jogador').value.trim();
+    //         document.getElementById('recompensa').textContent = document.getElementById('input-recompensa').value.trim();
+    //         document.getElementById('bando').textContent = document.getElementById('input-bando').value.trim();
+    //         document.getElementById('antecedente').textContent = document.getElementById('input-antecedente').value.trim();
+    //         document.getElementById('marca').textContent = document.getElementById('input-marca').value.trim();
+    //         const newbtn = document.getElementById('editar-informacoes');
+    //         newbtn.textContent = '✏️';
     
-            // Voltar ao modo de visualização
-            editMode.forEach(input => input.style.display = 'none');
-            viewMode.forEach(span => span.style.display = 'block');
-        }
-    });    
+    //         // Voltar ao modo de visualização
+    //         editMode.forEach(input => input.style.display = 'none');
+    //         viewMode.forEach(span => span.style.display = 'block');
+    //     }
+    // });    
+
+    //Fim da função para editar infos e atributos
 
     carregarFichaDoFirestore();
 
@@ -574,16 +518,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('stress-plus').addEventListener('click', () => alterarEstresse(1));
 
     // Atualize o listener de edição para salvar no Firestore
-    document.getElementById('editar-informacoes').addEventListener('click', async () => {
+    document.getElementById('editar-atributos').addEventListener('click', async () => {
         const isEditing = document.querySelector('.social-info').classList.toggle('editing');
         
         if (isEditing) {
             // Entra no modo edição
-            document.getElementById('editar-informacoes').textContent = '💾';
+            document.getElementById('editar-atributos').textContent = '💾';
         } else {
             // Sai do modo edição e salva
             await salvarAlteracoes();
-            document.getElementById('editar-informacoes').textContent = '✏️';
+            document.getElementById('editar-atributos').textContent = '✏️';
         }
     });
 
