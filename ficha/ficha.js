@@ -475,8 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const editButtonAtributos = document.getElementById('editar-atributos');
     let isEditingAtributos = false;
-
-    // Evento de clique para alternar entre edição e visualização dos atributos
     editButtonAtributos.addEventListener('click', async () => {
         isEditingAtributos = !isEditingAtributos;
 
@@ -516,7 +514,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-   
+    const editButtonInformacoes = document.getElementById('editar-informacoes2');
+    let isEditingInformacoes = false;
+    editButtonInformacoes.addEventListener('click', async () => {
+        isEditingInformacoes = !isEditingInformacoes;
+
+        const informacoesSection = document.querySelector('.social-info');
+
+        if (isEditingInformacoes) {
+            // Preenche os inputs com os valores atuais dos spans
+            informacoesSection.querySelectorAll('.edit-mode2').forEach(input => {
+                const spanId = input.id.replace('input-', '');
+                const span = document.getElementById(spanId);
+
+                if (span) {
+                    input.value = span.textContent.trim() || '';  // Preenche o input com o valor do span
+                }
+            });
+
+            // Alterna o modo de edição
+            informacoesSection.querySelectorAll('.view-mode').forEach(span => span.style.display = 'none');
+            informacoesSection.querySelectorAll('.edit-mode2').forEach(input => input.style.display = 'inline-block');
+            editButtonInformacoes.textContent = '💾';  // Muda o botão para salvar
+        } else {
+            // Salva os dados no banco
+            informacoesSection.querySelectorAll('.edit-mode2').forEach(input => {
+                const spanId = input.id.replace('input-', '');
+                const novoValor = input.value.trim() || '--';
+                const span = document.getElementById(spanId);
+                if (span) {
+                    span.textContent = novoValor;
+                }
+            });
+
+            // Sai do modo de edição
+            informacoesSection.querySelectorAll('.view-mode').forEach(span => span.style.display = 'inline');
+            informacoesSection.querySelectorAll('.edit-mode2').forEach(input => input.style.display = 'none');
+            editButtonInformacoes.textContent = '✏️';  // Volta para o botão de edição
+        }
+    });
+
 
     carregarFichaDoFirestore();
 
