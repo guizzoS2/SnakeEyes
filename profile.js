@@ -1,19 +1,36 @@
 import { db, auth } from './firebaseConfig.js';
-import { collection, query, where, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import {  doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
-// Função principal que carrega os dados do perfil
 async function carregarPerfil() {
     const usuario = auth.currentUser;
-    
+
     if (!usuario) {
         window.location.href = '/login.html';
         return;
     }
 
-    // Carrega informações do usuário
-    document.getElementById('player-name').textContent = usuario.displayName || "Não informado";
-    document.getElementById('player-email').textContent = usuario.email;
-    document.getElementById('registration-date').textContent = new Date(usuario.metadata.creationTime).toLocaleDateString();
+    try {
+        // Busca o documento do usuário no Firestore
+        const userRef = doc(db, "users", usuario.uid);
+        const userSnap = await getDoc(userRef);
+
+        let username = "Não informado";
+
+        if (userSnap.exists()) {
+            const userData = userSnap.data();
+            username = userData.username || "Não informado";
+        } else {
+            console.error("Documento do usuário não encontrado no Firestore.");
+        }
+
+        // Preenche os dados na interface
+        document.getElementById('player-name').textContent = username;
+        document.getElementById('player-email').textContent = usuario.email;
+        document.getElementById('registration-date').textContent = new Date(usuario.metadata.creationTime).toLocaleDateString();
+
+    } catch (error) {
+        console.error("Erro ao carregar dados do perfil do Firestore:", error);
+    }
 
     // Carrega personagens do usuário
     const tbody = document.querySelector('#characters-table tbody');
@@ -26,24 +43,24 @@ async function carregarPerfil() {
         );
 
         const querySnapshot = await getDocs(q);
-        
+
         if (querySnapshot.empty) {
             tbody.innerHTML = '<tr><td colspan="3">Nenhum personagem encontrado.</td></tr>';
             return;
         }
 
         tbody.innerHTML = '';
-        
+
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             const personagem = data.dadosPersonagem;
-            
+
             const tr = document.createElement('tr');
-            
+
             // Coluna Nome
             const tdNome = document.createElement('td');
-            tdNome.textContent = personagem.nome;
-            
+            tdNome.textContent = personagem['nome-personagem'];
+
             // Coluna Atributos
             const tdAtributos = document.createElement('td');
             tdAtributos.innerHTML = `
@@ -51,7 +68,7 @@ async function carregarPerfil() {
                 <strong>Estresse:</strong> ${personagem.vigor.atual}/${personagem.vigor.maximo}<br>
                 <strong>Recompensa:</strong> $${personagem.recompensa}
             `;
-            
+
             // Coluna Ações
             const tdAcoes = document.createElement('td');
             const btnVer = document.createElement('button');
@@ -70,7 +87,7 @@ async function carregarPerfil() {
             tr.appendChild(tdNome);
             tr.appendChild(tdAtributos);
             tr.appendChild(tdAcoes);
-            
+
             tbody.appendChild(tr);
         });
 

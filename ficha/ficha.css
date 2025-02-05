@@ -550,3 +550,13 @@ li strong {
     background-color: #a52a2a; 
 }
 
+.edit-mode2 {
+    display: none;
+    width: 200px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #8b5e34;
+    border-radius: 5px;
+}
+
+

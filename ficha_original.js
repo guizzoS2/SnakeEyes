@@ -1,9 +1,10 @@
 import { db, auth } from '../firebaseConfig.js';
-import { query, collection, where, getDocs, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
-let vitalidadeAtual = 0, vitalidadeMaxima = 0;
-let estresseAtual = 0, estresseMaxima = 0;
-
+let vitalidadeAtual = 0; 
+let vitalidadeMaxima = 0; 
+let estresseAtual = 0; 
+let estresseMaxima = 0; 
 
 const urlParams = new URLSearchParams(window.location.search);
 const personagemId = urlParams.get('id');
@@ -33,9 +34,9 @@ async function carregarFichaDoFirestore() {
     }
 }
 
-async function carregarFichaUI(data) {
+function carregarFichaUI(data) {
     const personagem = data.dadosPersonagem;
-
+    
     // Informações básicas
     document.getElementById('nome-personagem').textContent = personagem['nome-personagem'] || "Não informado";
     document.getElementById('nome-jogador').textContent = data.idUsuario || "Não informado"; 
@@ -44,21 +45,24 @@ async function carregarFichaUI(data) {
     document.getElementById('antecedente').textContent = personagem.antecedente || "Nenhum";
     document.getElementById('marca').textContent = personagem.marca || "Sem Marca";
 
-    // Inicializa os valores de vitalidade e estresse nas variáveis globais
-    vitalidadeAtual = parseInt(personagem.vitalidade?.atual) || 0;
-    vitalidadeMaxima = parseInt(personagem.vitalidade?.maximo) || 0;
-    estresseAtual = parseInt(personagem.vigor?.atual) || 0;
-    estresseMaxima = parseInt(personagem.vigor?.maximo) || 0;
+    // Status
+    const vitalidade = personagem.vitalidade || { atual: 0, maximo: 0 };
+    const vigor = personagem.vigor || { atual: 0, maximo: 0 };
 
-    // Atualiza o DOM com os valores iniciais
+    // Inicializa corretamente os valores numéricos
+    const vitalidadeAtual = parseInt(vitalidade.atual) || 0;
+    const vitalidadeMaxima = parseInt(vitalidade.maximo) || 0;
+    const estresseAtual = parseInt(vigor.atual) || 0;
+    const estresseMaximo = parseInt(vigor.maximo) || 0;
+
     document.getElementById('vitalidade-atual').textContent = vitalidadeAtual;
     document.getElementById('vitalidade-maxima').textContent = vitalidadeMaxima;
     document.getElementById('estresse-atual').textContent = estresseAtual;
-    document.getElementById('estresse-maximo').textContent = estresseMaxima;
+    document.getElementById('estresse-maximo').textContent = estresseMaximo;
 
     // Atualiza as barras
     atualizarBarra(vitalidadeAtual, vitalidadeMaxima, 'vitalidade-bar');
-    atualizarBarra(estresseAtual, estresseMaxima, 'stress-bar');
+    atualizarBarra(estresseAtual, estresseMaximo, 'stress-bar');
 
     // Atributos
     const atributos = personagem.atributos || {};
@@ -70,43 +74,23 @@ async function carregarFichaUI(data) {
     // Habilidades
     const habilidadesLista = document.getElementById('habilidades-lista');
     habilidadesLista.innerHTML = '';
-
+    
     if (personagem.habilidades) {
-        for (const habilidadeNome of personagem.habilidades) {
-            try {
-                // Faz a consulta no Firestore pelo campo "nome"
-                const q = query(collection(db, "habilidades"), where("nome", "==", habilidadeNome));
-                const querySnapshot = await getDocs(q);
-    
-                if (!querySnapshot.empty) {
-                    querySnapshot.forEach((doc) => {
-                        const habilidadeData = doc.data();
-                        const li = document.createElement('li');
-                        let nomeHabilidade = habilidadeData.nome 
-                        li.innerHTML = `
-                            <strong>${habilidadeData.nome}:</strong> ${habilidadeData.descricao}
-                            <button class="remover-habilidade" data-nome="${habilidadeData.nome}">-</button>
-                        `;
-                        habilidadesLista.appendChild(li);
-                        li.querySelector('.remover-habilidade').addEventListener('click', () => {
-                            removerHabilidade(nomeHabilidade);
-                        });
-                    });
-                } else {
-                    console.warn(`Habilidade "${habilidadeNome}" não encontrada no banco.`);
-                }
-            } catch (error) {
-                console.error(`Erro ao buscar habilidade "${habilidadeNome}":`, error);
-            }
-        }
+        personagem.habilidades.forEach(habilidade => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <strong>${habilidade}:</strong> 
+                <button class="remover-habilidade" data-nome="${habilidade}">-</button>
+            `;
+            habilidadesLista.appendChild(li);
+        });
     }
-    
 }
-
 
 // Função para atualizar a barra de vitalidade ou estresse
 function atualizarBarra(atual, max, barId) {
     const barEl = document.getElementById(barId);
+
     if (max === 0) {
         barEl.style.width = '0%';
     } else {
@@ -115,53 +99,24 @@ function atualizarBarra(atual, max, barId) {
     }
 }
 
-async function alterarVitalidade(valor) {
-    if (!personagemId) {
-        console.error("personagemId não encontrado. Verifique a URL.");
-        return;
-    }
 
-    // Atualiza vitalidade dentro dos limites
-    vitalidadeAtual = Math.max(0, Math.min(vitalidadeMaxima, vitalidadeAtual + valor));
+async function salvarAtributos(personagemId) {
+    const updatedAtributos = {};
 
-    // Atualiza o DOM e a barra de status
-    document.getElementById('vitalidade-atual').textContent = vitalidadeAtual;
-    atualizarBarra(vitalidadeAtual, vitalidadeMaxima, 'vitalidade-bar');
+    document.querySelectorAll('.edit-mode').forEach(input => {
+        const atributoId = input.dataset.atributo;
+        const novoValor = parseInt(input.value) || 0;  // Garante que seja um número válido
+        updatedAtributos[`dadosPersonagem.atributos.${atributoId}`] = novoValor;
+    });
 
-    // Atualiza o valor no Firestore
+    console.log('Atributos a serem salvos:', updatedAtributos);  // Depuração
+
     try {
-        const personagemRef = doc(db, "personagens", personagemId);
-        await updateDoc(personagemRef, {
-            "dadosPersonagem.vitalidade.atual": vitalidadeAtual
-        });
-        console.log("Vitalidade atualizada no banco com sucesso!");
+        await updateDoc(doc(db, "personagens", personagemId), updatedAtributos);
+        // alert('Atributos salvos com sucesso!');
     } catch (error) {
-        console.error("Erro ao atualizar vitalidade no Firestore:", error);
-    }
-}
-
-async function alterarEstresse(valor) {
-    if (!personagemId) {
-        console.error("personagemId não encontrado. Verifique a URL.");
-        return;
-    }
-
-    // Atualiza estresse dentro dos limites
-    estresseAtual = Math.max(0, Math.min(estresseMaxima, estresseAtual + valor));
-
-    // Atualiza o DOM e a barra de status
-    document.getElementById('estresse-atual').textContent = estresseAtual;
-    atualizarBarra(estresseAtual, estresseMaxima, 'stress-bar');
-
-    // Atualiza o valor no Firestore
-    try {
-        const personagemRef = doc(db, "personagens", personagemId);
-        await updateDoc(personagemRef, {
-            "dadosPersonagem.vigor.atual": estresseAtual
-        });
-        console.log("Estresse atualizado no banco com sucesso!");
-    } catch (error) {
-        console.error("Erro ao atualizar estresse no Firestore:", error);
+        console.error('Erro ao salvar atributos no Firestore:', error);
+        alert('Erro ao salvar atributos.');
     }
 }
 
@@ -185,25 +140,7 @@ async function salvarInfos(personagemId) {
     }
 }
 
-async function salvarAtributos(personagemId) {
-    const updatedAtributos = {};
 
-    document.querySelectorAll('.edit-mode').forEach(input => {
-        const atributoId = input.dataset.atributo;
-        const novoValor = parseInt(input.value) || 0;  // Garante que seja um número válido
-        updatedAtributos[`dadosPersonagem.atributos.${atributoId}`] = novoValor;
-    });
-
-    console.log('Atributos a serem salvos:', updatedAtributos);  // Depuração
-
-    try {
-        await updateDoc(doc(db, "personagens", personagemId), updatedAtributos);
-        // alert('Atributos salvos com sucesso!');
-    } catch (error) {
-        console.error('Erro ao salvar atributos no Firestore:', error);
-        alert('Erro ao salvar atributos.');
-    }
-}
 
 function configurarEdicao(data) {
     // Configura os eventos de edição para os campos da ficha
@@ -221,6 +158,22 @@ function configurarEdicao(data) {
             editButton.textContent = '✏️'; // Altera o ícone para "editar"
         }
     });
+}
+
+function alterarVitalidade(valor) {
+    // Atualiza vitalidade dentro dos limites
+    vitalidadeAtual = Math.max(-2, Math.min(vitalidadeMaxima, vitalidadeAtual + valor));
+
+    // Atualiza o design da barra
+    atualizarBarra('vitalidade-bar', 'vitalidade-text', vitalidadeAtual, vitalidadeMaxima);
+}
+
+function alterarEstresse(valor) {
+    // Atualiza estresse dentro dos limites
+    estresseAtual = Math.max(0, Math.min(estresseMaxima, estresseAtual + valor));
+
+    // Atualiza o design da barra
+    atualizarBarra('stress-bar', 'stress-text', estresseAtual, estresseMaxima);
 }
 
 function abrirModal() {
@@ -241,10 +194,12 @@ async function carregarJsonHabilidades(url, containerId) {
         const response = await fetch(url);
         const data = await response.json();
         const container = document.getElementById(containerId);
+
         container.innerHTML = '';
 
         data.forEach(habilidade => {
             const li = document.createElement('li');
+
             li.innerHTML = `
                 <strong>${habilidade.Nome}:</strong> ${habilidade.Descrição}
                 <button 
@@ -257,72 +212,75 @@ async function carregarJsonHabilidades(url, containerId) {
 
             container.appendChild(li);
 
-            // Evento único que verifica o estado atual
-            const botao = li.querySelector('button');
-            botao.addEventListener('click', () => {
-                const habilidadesAdicionadas = Array.from(document.getElementById('habilidades-lista').children)
-                    .map(li => li.querySelector('strong').textContent.trim());
-                
-                if (habilidadesAdicionadas.includes(habilidade.Nome)) {
-                    removerHabilidade(habilidade.Nome);
-                } else {
-                    adicionarHabilidade(habilidade.Nome, habilidade.Descrição);
-                }
+            li.querySelector('.adicionar-btn').addEventListener('click', (event) => {
+                const nome = event.target.dataset.nome;
+                const descricao = event.target.dataset.descricao;
+
+                adicionarHabilidade(nome, descricao);
             });
+
+            atualizarBotoesModal(habilidade.Nome, false);
         });
-        
-        atualizarBotoesModal();
     } catch (error) {
         console.error('Erro ao carregar JSON:', error);
     }
 }
 
+function atualizarBotoesModal(nome, adicionada) {
+    const botoes = document.querySelectorAll(`[data-nome="${nome}"]`);
 
-function atualizarBotoesModal() {
-    const habilidadesAdicionadas = Array.from(document.getElementById('habilidades-lista').querySelectorAll('li'))
-        .map(li => li.querySelector('strong')?.textContent.trim());
+    botoes.forEach(botao => {
+        if (adicionada) {
+            botao.textContent = "-";
+            botao.classList.add("remover-habilidade");
+            botao.classList.remove("adicionar-btn");
 
-    const habilidadesModal = document.getElementById('habilidades-lista-modal');
+            botao.replaceWith(botao.cloneNode(true));
+            const novoBotao = document.querySelector(`[data-nome="${nome}"]`);
+            novoBotao.addEventListener('click', () => removerHabilidade(nome));
+        } 
+        else {
+            botao.textContent = "+";
+            botao.classList.add("adicionar-btn");
+            botao.classList.remove("remover-habilidade");
 
-    habilidadesModal.querySelectorAll('li').forEach(li => {
-        const nomeHabilidade = li.querySelector('strong')?.textContent.trim();
-        const botao = li.querySelector('button');
-
-        if (botao && nomeHabilidade) {
-            // Atualiza o estado do botão
-            if (habilidadesAdicionadas.includes(nomeHabilidade)) {
-                botao.textContent = "-";
-                botao.classList.add("remover-habilidade");
-                botao.classList.remove("adicionar-btn");
-            } else {
-                botao.textContent = "+";
-                botao.classList.add("adicionar-btn");
-                botao.classList.remove("remover-habilidade");
-            }
+            botao.replaceWith(botao.cloneNode(true));
+            const novoBotao = document.querySelector(`[data-nome="${nome}"]`);
+            novoBotao.addEventListener('click', () => adicionarHabilidade(nome, botao.dataset.descricao));
         }
     });
 
-    // Configura os eventos dos botões no modal corretamente
-    configurarEventosModal();
-}
+    const habilidadesLista = document.getElementById('habilidades-lista');
+    const habilidadesModal = document.getElementById('habilidades-lista-modal');
 
-async function atualizarHabilidadesFirestore(novaHabilidade, operacao) {
-    const personagemRef = doc(db, "personagens", personagemId);
+    if (habilidadesLista && habilidadesModal) {
+        const habilidadesAdicionadas = Array.from(habilidadesLista.querySelectorAll('li'))
+            .map(li => li.querySelector('strong')?.textContent.replace(':', '').trim());
 
-    try {
-        if (operacao === 'adicionar') {
-            await updateDoc(personagemRef, {
-                'dadosPersonagem.habilidades': arrayUnion(novaHabilidade)
-            });
-            console.log(`Habilidade "${novaHabilidade}" adicionada ao Firestore.`);
-        } else if (operacao === 'remover') {
-            await updateDoc(personagemRef, {
-                'dadosPersonagem.habilidades': arrayRemove(novaHabilidade)
-            });
-            console.log(`Habilidade "${novaHabilidade}" removida do Firestore.`);
-        }
-    } catch (error) {
-        console.error('Erro ao atualizar habilidades no Firestore:', error);
+        habilidadesModal.querySelectorAll('li').forEach(li => {
+            const nomeHabilidade = li.querySelector('strong')?.textContent.replace(':', '').trim();
+            const botao = li.querySelector('button');
+
+            if (botao && nomeHabilidade) {
+                if (habilidadesAdicionadas.includes(nomeHabilidade)) {
+                    botao.textContent = "-";
+                    botao.classList.add("remover-habilidade");
+                    botao.classList.remove("adicionar-btn");
+
+                    botao.replaceWith(botao.cloneNode(true));
+                    const novoBotao = li.querySelector('button');
+                    novoBotao.addEventListener('click', () => removerHabilidade(nomeHabilidade));
+                } else {
+                    botao.textContent = "+";
+                    botao.classList.add("adicionar-btn");
+                    botao.classList.remove("remover-habilidade");
+
+                    botao.replaceWith(botao.cloneNode(true));
+                    const novoBotao = li.querySelector('button');
+                    novoBotao.addEventListener('click', () => adicionarHabilidade(nomeHabilidade, botao.dataset.descricao));
+                }
+            }
+        });
     }
 }
 
@@ -333,10 +291,11 @@ function adicionarHabilidade(nome, descricao) {
     const habilidadeExistente = Array.from(habilidadesLista.querySelectorAll('li'))
         .find(li => li.querySelector('strong')?.textContent.includes(nome));
 
-    if (habilidadeExistente) {
-        alert('Essa habilidade já foi adicionada!');
-        return;
-    }
+
+        if (habilidadeExistente) {
+            alert('Essa habilidade já foi adicionada!');
+            return;
+        }
 
     const li = document.createElement('li');
     li.innerHTML = `
@@ -345,18 +304,10 @@ function adicionarHabilidade(nome, descricao) {
     `;
     habilidadesLista.appendChild(li);
 
-    // Adiciona evento de clique para remoção direta
-    li.querySelector('.remover-habilidade').addEventListener('click', () => {
-        removerHabilidade(nome);
-    });
+    li.querySelector('.remover-habilidade').addEventListener('click', () => removerHabilidade(nome));
 
-    // Atualiza o Firestore para adicionar a habilidade no array
-    atualizarHabilidadesFirestore(nome, 'adicionar'); // Atualiza no Firestore no campo correto
-
-    // Atualiza os botões no modal após adicionar uma nova habilidade
-    atualizarBotoesModal();
+    atualizarBotoesModal(nome, true);
 }
-
 
 
 function removerHabilidade(nome) {
@@ -368,36 +319,36 @@ function removerHabilidade(nome) {
         }
     });
 
-    // Atualiza o Firestore para remover a habilidade do array
-    atualizarHabilidadesFirestore(nome, 'remover'); // Atualiza no Firestore no campo correto
-
-    // Atualiza os botões no modal após a remoção
-    atualizarBotoesModal();
+    atualizarBotoesModal(nome, false);
 }
 
+let currentRotation = 0;
+let isSpinning = false;
 
+function spin() {
+    if (isSpinning) return;
+    isSpinning = true;
 
-function configurarEventosModal() {
-    const habilidadesModal = document.getElementById('habilidades-lista-modal');
+    const randomNumber = Math.floor(Math.random() * 6) + 1;
+    const targetDegree = (randomNumber - 1) * 60;
+    const currentDegree = currentRotation % 360;
 
-    habilidadesModal.querySelectorAll('li button').forEach(botao => {
-        const nomeHabilidade = botao.dataset.nome;
-        const descricaoHabilidade = botao.dataset.descricao;
+    let delta = (targetDegree - currentDegree + 360) % 360;
+    const totalRotation = currentRotation + 360 * 2 + delta;
 
-        // Remove eventos antigos de forma segura
-        const novoBotao = botao.cloneNode(true);
-        botao.replaceWith(novoBotao);
+    const rotatingContainer = document.querySelector('.rotating-container');
 
-        // Adiciona o evento correto ao botão
-        novoBotao.addEventListener('click', () => {
-            if (novoBotao.classList.contains('remover-habilidade')) {
-                removerHabilidade(nomeHabilidade);
-            } else {
-                adicionarHabilidade(nomeHabilidade, descricaoHabilidade);
-            }
-        });
-    });
+    rotatingContainer.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
+    rotatingContainer.style.transform = `rotate(${totalRotation}deg)`;
+
+    currentRotation = totalRotation;
+
+    setTimeout(() => {
+        isSpinning = false;
+        rotatingContainer.style.transition = 'none';
+    }, 3000);
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputFile = document.createElement('input');
@@ -418,11 +369,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        document.getElementById('vitalidade-plus').addEventListener('click', () => alterarVitalidade(+1));
         document.getElementById('vitalidade-minus').addEventListener('click', () => alterarVitalidade(-1));
-        document.getElementById('stress-plus').addEventListener('click', () => alterarEstresse(+1));
+        document.getElementById('vitalidade-plus').addEventListener('click', () => alterarVitalidade(1));
         document.getElementById('stress-minus').addEventListener('click', () => alterarEstresse(-1));
-         
+        document.getElementById('stress-plus').addEventListener('click', () => alterarEstresse(1));
         
     });
 
@@ -582,10 +532,10 @@ document.addEventListener('DOMContentLoaded', () => {
             editButton.textContent = '✏️';  // Volta para o botão de edição
         }
     });
+    
 
 
-    document.getElementById('gerenciar-habilidades').addEventListener('click', abrirModal);
-    document.getElementById('fechar-modal').addEventListener('click', fecharModal);
+
     
 });
 

@@ -19,36 +19,36 @@
             <ul>
                 <li>
                     <strong>Nome do Personagem:</strong> 
-                    <span class="view-mode" id="nome-personagem">--</span>
-                    <input type="text" class="edit-mode2" id="input-nome-personagem" value="--">
+                    <span class="view-mode" id="nome-personagem">Billy o Pistoleiro</span>
+                    <input type="text" class="edit-mode2" id="input-nome-personagem">
                 </li>
                 <li>
                     <strong>Nome do Jogador:</strong> 
-                    <span class="view-mode" id="nome-jogador">--</span>
-                    <input type="text" class="edit-mode2" id="input-nome-jogador" value="--">
+                    <span class="view-mode" id="nome-jogador">João</span>
+                    <input type="text" class="edit-mode2" id="input-nome-jogador">
                 </li>
                 <li>
                     <strong>Recompensa:</strong> 
-                    <span class="view-mode" id="recompensa">--</span>
-                    <input type="text" class="edit-mode2" id="input-recompensa" value="--">
+                    <span class="view-mode" id="recompensa">5000</span>
+                    <input type="text" class="edit-mode2" id="input-recompensa">
                 </li>
                 <li>
                     <strong>Bando:</strong> 
-                    <span class="view-mode" id="bando">--</span>
-                    <input type="text" class="edit-mode2" id="input-bando" value="--">
+                    <span class="view-mode" id="bando">Bando do Oeste</span>
+                    <input type="text" class="edit-mode2" id="input-bando">
                 </li>
                 <li>
                     <strong>Antecedente:</strong> 
-                    <span class="view-mode" id="antecedente">--</span>
-                    <input type="text" class="edit-mode2" id="input-antecedente" value="--">
+                    <span class="view-mode" id="antecedente">Viajante</span>
+                    <input type="text" class="edit-mode2" id="input-antecedente">
                 </li>
                 <li>
                     <strong>Marca:</strong> 
-                    <span class="view-mode" id="marca">--</span>
-                    <input type="text" class="edit-mode2" id="input-marca" value="--">
+                    <span class="view-mode" id="marca">Marca do Oeste</span>
+                    <input type="text" class="edit-mode2" id="input-marca">
                 </li>
             </ul>
-        </div>
+        </div>        
 
         <div class="character-status">
             <h3>Status do Personagem</h3>
@@ -206,7 +206,35 @@
     </div>
     
     
-    <script src="cardgame.js"></script>
+    <script type="module" src="cardgame.js"></script>
     <script type="module" src="ficha.js"></script>
+    <script>
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            const randomNumber = Math.floor(Math.random() * 6) + 1;
+            const targetDegree = (randomNumber - 1) * 60;
+            const currentDegree = currentRotation % 360;
+
+            let delta = (targetDegree - currentDegree + 360) % 360;
+            const totalRotation = currentRotation + 360 * 2 + delta;
+
+            const rotatingContainer = document.querySelector('.rotating-container');
+
+            rotatingContainer.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            rotatingContainer.style.transform = `rotate(${totalRotation}deg)`;
+
+            currentRotation = totalRotation;
+
+            setTimeout(() => {
+                isSpinning = false;
+                rotatingContainer.style.transition = 'none';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
