@@ -236,44 +236,49 @@ function fecharModal() {
     modal.classList.remove('visible');
 }
 
-async function carregarJsonHabilidades(url, containerId) {
+async function carregarHabilidadesDoBanco(tipo, containerId) {
     try {
-        const response = await fetch(url);
-        const data = await response.json();
+        // Cria uma query para buscar habilidades com o tipo especificado
+        const habilidadesRef = collection(db, 'habilidades');
+        const habilidadesQuery = query(habilidadesRef, where('tipo', '==', tipo));
+
+        const querySnapshot = await getDocs(habilidadesQuery);
         const container = document.getElementById(containerId);
         container.innerHTML = '';
 
-        data.forEach(habilidade => {
+        // Itera sobre os documentos retornados e preenche a lista
+        querySnapshot.forEach(doc => {
+            const habilidade = doc.data();
             const li = document.createElement('li');
             li.innerHTML = `
-                <strong>${habilidade.Nome}:</strong> ${habilidade.Descrição}
+                <strong>${habilidade.nome}:</strong> ${habilidade.descricao}
                 <button 
                     class="adicionar-btn" 
-                    data-nome="${habilidade.Nome}" 
-                    data-descricao="${habilidade.Descrição}">
+                    data-nome="${habilidade.nome}" 
+                    data-descricao="${habilidade.descricao}">
                     +
                 </button>
             `;
 
             container.appendChild(li);
 
-            // Evento único que verifica o estado atual
+            // Adiciona o evento de clique no botão
             const botao = li.querySelector('button');
             botao.addEventListener('click', () => {
                 const habilidadesAdicionadas = Array.from(document.getElementById('habilidades-lista').children)
                     .map(li => li.querySelector('strong').textContent.trim());
                 
-                if (habilidadesAdicionadas.includes(habilidade.Nome)) {
-                    removerHabilidade(habilidade.Nome);
+                if (habilidadesAdicionadas.includes(habilidade.nome)) {
+                    removerHabilidade(habilidade.nome);
                 } else {
-                    adicionarHabilidade(habilidade.Nome, habilidade.Descrição);
+                    adicionarHabilidade(habilidade.nome, habilidade.descricao);
                 }
             });
         });
-        
+
         atualizarBotoesModal();
     } catch (error) {
-        console.error('Erro ao carregar JSON:', error);
+        console.error('Erro ao carregar habilidades do Firestore:', error);
     }
 }
 
@@ -466,11 +471,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para carregar habilidades e marcas
     document.getElementById('tab-marcas').addEventListener('click', () => {
-        carregarJsonHabilidades('../json/habilidadesMarcas.json', 'marcas-lista-modal');
+        carregarHabilidadesDoBanco(1, 'marcas-lista-modal');
     });
 
     document.getElementById('tab-habilidades').addEventListener('click', () => {
-        carregarJsonHabilidades('../json/habilidades.json', 'habilidades-lista-modal');
+        carregarHabilidadesDoBanco(0, 'habilidades-lista-modal');
     });
 
     const editButtonAtributos = document.getElementById('editar-atributos');
