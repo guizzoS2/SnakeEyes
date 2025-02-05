@@ -1,10 +1,7 @@
-import {collection, getDocs, addDoc, serverTimestamp, query, where } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import {collection, getDocs, addDoc, serverTimestamp, query, where, getDoc, doc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 import { db, auth } from './firebaseConfig.js';
 
-let antecedentes = [];
 let antecedenteAtual = null;
-let habilidades = [];
-let marcas = [];
 
 async function carregarAntecedentes() {
     const antecedentesSnapshot = await getDocs(collection(db, "antecedentes"));
@@ -354,13 +351,21 @@ async function criarFicha() {
         return;
     }
 
+
     const userId = auth.currentUser.uid;
-    
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+    const userData = userSnap.data();
+
+ 
+
     // Coleta dos dados do formulário
     const nomePersonagem = document.querySelector('input[name="ocName"]').value || "Sem Nome";
     const recompensa = parseInt(document.querySelector('input[name="reward"]').value, 10) || 0;
     const bando = document.querySelector('input[name="group"]').value || "Sem Bando";
+    const username = userData.username || "Não informado";
 
+    console.log(username);
     // Captura a marca selecionada
     const marcaCheckbox = document.querySelector('.marca-div input[type="checkbox"]:checked');
     const marca = marcaCheckbox ? marcaCheckbox.value : "Sem Marca";
@@ -405,11 +410,11 @@ async function criarFicha() {
     try {
         // Cria o documento no Firestore
         const docRef = await addDoc(collection(db, "personagens"), {
-            idUsuario: userId,
             dataCriacao: serverTimestamp(),
             dataAtualizacao: serverTimestamp(),
             dadosPersonagem: {
                 nome: nomePersonagem,
+                nomeUsuario: username,
                 recompensa: recompensa,
                 bando: bando,
                 antecedente: antecedenteSelecionado?.nome || "Sem Antecedente",
@@ -431,6 +436,7 @@ async function criarFicha() {
         });
 
         alert(`Ficha criada com sucesso! ID: ${docRef.id}`);
+        window.location.href = "profile.html";  // Redireciona ou atualiza a interface conforme necessário
         // Redireciona ou atualiza a interface conforme necessário
     } catch (error) {
         console.error("Erro ao criar ficha:", error);
@@ -528,38 +534,38 @@ async function criarFicha() {
 //     alert(`Vitalidade máxima calculada: ${vitalidadeMaxima}`);
 // }
 
-function abrirFicha() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'application/json';
+// function abrirFicha() {
+//     const input = document.createElement('input');
+//     input.type = 'file';
+//     input.accept = 'application/json';
 
-    input.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (!file) {
-            alert('Nenhum arquivo selecionado!');
-            return;
-        }
+//     input.addEventListener('change', (event) => {
+//         const file = event.target.files[0];
+//         if (!file) {
+//             alert('Nenhum arquivo selecionado!');
+//             return;
+//         }
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const ficha = JSON.parse(e.target.result);
+//         const reader = new FileReader();
+//         reader.onload = (e) => {
+//             try {
+//                 const ficha = JSON.parse(e.target.result);
 
-                const novaJanela = window.open('ficha/ficha.html', '_blank');
+//                 const novaJanela = window.open('ficha/ficha.html', '_blank');
 
-                novaJanela.onload = () => {
-                    novaJanela.carregarFicha(ficha); 
-                };
-            } catch (error) {
-                alert('Erro ao ler o arquivo JSON. Certifique-se de que o formato está correto.');
-            }
-        };
+//                 novaJanela.onload = () => {
+//                     novaJanela.carregarFicha(ficha); 
+//                 };
+//             } catch (error) {
+//                 alert('Erro ao ler o arquivo JSON. Certifique-se de que o formato está correto.');
+//             }
+//         };
 
-        reader.readAsText(file);
-    });
+//         reader.readAsText(file);
+//     });
 
-    input.click();
-}
+//     input.click();
+// }
 
 
 
@@ -578,4 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (botaoAbrirFicha) {
         botaoAbrirFicha.addEventListener('click', abrirFicha);
     }
+
+    
 });
+

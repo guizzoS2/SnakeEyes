@@ -3,7 +3,7 @@ import { query, collection, where, getDocs, doc, getDoc, updateDoc, arrayUnion, 
 
 let vitalidadeAtual = 0, vitalidadeMaxima = 0;
 let estresseAtual = 0, estresseMaxima = 0;
-
+let username = 'Carregando...';
 
 const urlParams = new URLSearchParams(window.location.search);
 const personagemId = urlParams.get('id');
@@ -37,8 +37,8 @@ async function carregarFichaUI(data) {
     const personagem = data.dadosPersonagem;
 
     // Informações básicas
-    document.getElementById('nome-personagem').textContent = personagem['nome-personagem'] || "Não informado";
-    document.getElementById('nome-jogador').textContent = data.idUsuario || "Não informado"; 
+    document.getElementById('nome-personagem').textContent = personagem['nome'] || "Não informado";
+    document.getElementById('nomeUsuario').textContent = personagem['nomeUsuario'] || "Não informado"; 
     document.getElementById('recompensa').textContent = personagem.recompensa || "0";
     document.getElementById('bando').textContent = personagem.bando || "Não informado";
     document.getElementById('antecedente').textContent = personagem.antecedente || "Nenhum";

@@ -9,12 +9,12 @@ async function carregarPerfil() {
         return;
     }
 
+    let username = "Não informado";
+
     try {
         // Busca o documento do usuário no Firestore
         const userRef = doc(db, "users", usuario.uid);
         const userSnap = await getDoc(userRef);
-
-        let username = "Não informado";
 
         if (userSnap.exists()) {
             const userData = userSnap.data();
@@ -39,7 +39,7 @@ async function carregarPerfil() {
     try {
         const q = query(
             collection(db, "personagens"),
-            where("idUsuario", "==", usuario.uid)
+            where("nomeUsuario", "==", username)
         );
 
         const querySnapshot = await getDocs(q);
@@ -59,7 +59,7 @@ async function carregarPerfil() {
 
             // Coluna Nome
             const tdNome = document.createElement('td');
-            tdNome.textContent = personagem['nome-personagem'];
+            tdNome.textContent = personagem['nome'];
 
             // Coluna Atributos
             const tdAtributos = document.createElement('td');
