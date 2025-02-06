@@ -1,4 +1,4 @@
-import { auth, db } from './firebaseConfig.js';
+import { auth, db } from '../../firebaseConfig.js';
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 import { doc, setDoc, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
@@ -59,7 +59,7 @@ signupForm.addEventListener('submit', async (e) => {
             updatedAt: new Date()
         });
 
-        window.location.href = '/profile.html';
+        window.location.href = 'profile/profile.html';
         
     } catch (error) {
         handleSignupError(error);

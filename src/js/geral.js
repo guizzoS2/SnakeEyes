@@ -1,5 +1,5 @@
 import {collection, getDocs, addDoc, serverTimestamp, query, where, getDoc, doc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-import { db, auth } from './firebaseConfig.js';
+import { db, auth } from '../../firebaseConfig.js';
 
 let antecedenteAtual = null;
 
@@ -412,6 +412,7 @@ async function criarFicha() {
         const docRef = await addDoc(collection(db, "personagens"), {
             dataCriacao: serverTimestamp(),
             dataAtualizacao: serverTimestamp(),
+            userId: userId,
             dadosPersonagem: {
                 nome: nomePersonagem,
                 nomeUsuario: username,

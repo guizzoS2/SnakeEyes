@@ -1,4 +1,4 @@
-import { auth } from './firebaseConfig.js';
+import { auth } from '../../firebaseConfig.js';
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 const loginForm = document.getElementById('login-form');
@@ -19,7 +19,7 @@ loginForm.addEventListener('submit', async (e) => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         
-        window.location.href = '/profile.html';
+        window.location.href = '/profile/profile.html';
     } catch (error) {
         handleLoginError(error);
     } finally {

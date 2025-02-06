@@ -1,4 +1,4 @@
-import { db } from '../firebaseConfig.js';
+import { db } from '../../firebaseConfig.js';
 import { doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
 let deck = [];

@@ -1,11 +1,11 @@
-import { db, auth } from './firebaseConfig.js';
+import { db, auth } from '../../firebaseConfig.js';
 import {  doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
 async function carregarPerfil() {
     const usuario = auth.currentUser;
 
     if (!usuario) {
-        window.location.href = '/login.html';
+        window.location.href = '../index.html';
         return;
     }
 
@@ -39,7 +39,7 @@ async function carregarPerfil() {
     try {
         const q = query(
             collection(db, "personagens"),
-            where("nomeUsuario", "==", username)
+            where("userId", "==", usuario.uid)
         );
 
         const querySnapshot = await getDocs(q);
@@ -99,7 +99,7 @@ async function carregarPerfil() {
 
 // Função para abrir a ficha em uma nova janela
 function verFicha(personagemId) {
-    window.open(`ficha/ficha.html?id=${personagemId}`, '_blank');
+    window.open(`../ficha/ficha.html?id=${personagemId}`, '_blank');
 }
 
 // Função para excluir personagem
@@ -121,13 +121,13 @@ auth.onAuthStateChanged((usuario) => {
     if (usuario) {
         carregarPerfil();
     } else {
-        window.location.href = '/login.html';
+        window.location.href = '../index.html';
     }
 });
 
 // Adiciona logout se necessário
 document.getElementById('btn-logout').addEventListener('click', () => {
     auth.signOut().then(() => {
-        window.location.href = '/login.html';
+        window.location.href = '../index.html';
     });
 });

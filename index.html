@@ -3,105 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criação de Personagem</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="style.css">
+    <title>Login do Pistoleiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+New&family=Georgia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/signup.css">
 </head>
 <body>
-    <div class="creation-div" id="oc-info">
-        <h1>Infos Gerais</h1>
-        <label for="ocName">Nome do Personagem</label>
-        <input type="text" name="ocName">
+    <div class="creation-div">
+        <h1>Entrada no Saloon</h1>
+        
+        <form id="login-form">
+            <div class="organize-atributes">
+                <div class="atributes-gun-drum">
+                    <!-- Email -->
+                    <div class="atribute-control">
+                        <label>Telegrama Eletrônico:</label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            required
+                            placeholder="Ex: billy@ferrovia.com"
+                        >
+                    </div>
 
-        <label for="reward">Recompensa</label>
-        <input type="number" name="reward">
-
-        <label for="group">Bando</label>
-        <input type="text" name="group">
-    </div>
-
-    <div class="creation-div" id="origin-div">
-        <h1>Antecedentes</h1>
-        <!-- Dados colocados dinamicamente -->
-    </div>
-
-    <div class="creation-div" id="atributtes-div">
-        <h1>Atributos de Personagem <p class="pontos-restantes">4</p></h1>
-        <div class="organize-atributes">
-            <div class="atributes-gun-drum">
-                <label for="força" class="tooltip">Força:
-                    <span class="tooltiptext">+1 de dano em todos os golpes corpo-a-corpo. Representa a sua força física e o quanto você consegue carregar.</span>
-                </label>
-                <div class="atribute-control">
-                    <button class="atribute-btn decrement" data-atribute="força">-</button>
-                    <span id="força" class="atribute-value">0</span>
-                    <button class="atribute-btn increment" data-atribute="força">+</button>
-                </div>
-    
-                <label for="sagacidade" class="tooltip">Sagacidade:
-                    <span class="tooltiptext">Recupera uma quantidade de Estresse por noite equivalente à sua Sagacidade. Contato com o mundo externo, lábia e negociação.</span>
-                </label>
-                <div class="atribute-control">
-                    <button class="atribute-btn decrement" data-atribute="sagacidade">-</button>
-                    <span id="sagacidade" class="atribute-value">0</span>
-                    <button class="atribute-btn increment" data-atribute="sagacidade">+</button>
-                </div>
-    
-                <label for="mente" class="tooltip">Mente:
-                    <span class="tooltiptext">Iniciativa é 1d6 + Mente. Existe uma chance de evitar surtos de Estresse, que aumenta com base na sua Mente. Representa a sua força de vontade e a resistência a influências externas, como sombras e sussurros.</span>
-                </label>
-                <div class="atribute-control">
-                    <button class="atribute-btn decrement" data-atribute="mente">-</button>
-                    <span id="mente" class="atribute-value">0</span>
-                    <button class="atribute-btn increment" data-atribute="mente">+</button>
+                    <!-- Senha -->
+                    <div class="atribute-control">
+                        <label>Senha Secreta:</label>
+                        <input 
+                            type="password" 
+                            id="login-password" 
+                            required
+                            placeholder="Digite sua senha"
+                        >
+                    </div>
                 </div>
             </div>
-    
-            <div class="atributes-gun-drum">
-                <label for="resiliência" class="tooltip">Resiliência:
-                    <span class="tooltiptext">Para cada ponto em Resiliência, rode 1d6+1 e adicione metade (arredondado para cima) à sua Saúde. Representa a vitalidade e a resistência a sangramentos, venenos e dores.</span>
-                </label>
-                <div class="atribute-control">
-                    <button class="atribute-btn decrement" data-atribute="resiliência">-</button>
-                    <span id="resiliência" class="atribute-value">0</span>
-                    <button class="atribute-btn increment" data-atribute="resiliência">+</button>
-                </div>
-    
-                <label for="sabedoria" class="tooltip">Sabedoria:
-                    <span class="tooltiptext">Para cada ponto em Sabedoria, aumente o tamanho da sua mão em 1. Representa conhecimento, estudos e habilidade para reparos.</span>
-                </label>
-                <div class="atribute-control">
-                    <button class="atribute-btn decrement" data-atribute="sabedoria">-</button>
-                    <span id="sabedoria" class="atribute-value">0</span>
-                    <button class="atribute-btn increment" data-atribute="sabedoria">+</button>
-                </div>
-    
-                <label for="celeridade" class="tooltip">Celeridade:
-                    <span class="tooltiptext">Você pode tomar uma quantidade de ações em combate equivalente a 1 + Celeridade. Representa velocidade, equilíbrio e precisão.</span>
-                </label>
-                <div class="atribute-control">
-                    <button class="atribute-btn decrement" data-atribute="celeridade">-</button>
-                    <span id="celeridade" class="atribute-value">0</span>
-                    <button class="atribute-btn increment" data-atribute="celeridade">+</button>
-                </div>
+
+            <div class="ficha-btn">
+                <button type="submit" class="atribute-btn">
+                    Acessar o Saloon
+                </button>
             </div>
+        </form>
+
+        <div class="login-links">
+            <p class="auth-link">
+                <a href="login/forgot-password.html">Esqueceu a senha?</a>
+            </p>
+            <p class="auth-link">
+                Não tem registro? <a href="login/signup.html">Assine o livro aqui</a>
+            </p>
         </div>
     </div>
-    
-    <div class="creation-div" id="habilidades-div">
-        <h1>Habilidades</h1>
-        <!-- Dados colocados dinamicamente -->
-    </div>
 
-    <div class="creation-div marca-div" id="marca-div" style="display: none;">
-        <h1>Escolha sua Marca</h1>
-    </div>
-
-    <div class="creation-div">
-        <button id="criar-ficha" class="ficha-btn">Criar Ficha</button>
-        <!-- <button id="abrir-ficha">Abrir Ficha</button> -->
-    </div>
-
-    <script type="module" src="script.js"></script>
+    <script type="module" src="src/js/login.js"></script>
 </body>
 </html>

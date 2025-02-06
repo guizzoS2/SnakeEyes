@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADM - Antecedentes</title>
+    <link rel="stylesheet" href="../src/css/admin.css">
+    <link rel="stylesheet" href="../src/css/geral.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar lateral -->
+    <div class="sidebar" id="sidebar">
+        <button class="toggle-btn" id="toggle-btn">
+            <span class="material-icons">menu</span>
+        </button>
+        <ul>
+            <li>
+                <a href="index.html" class="sidebar-item">
+                    <span class="material-icons">manage_accounts</span>
+                    <span class="item-text">Usuários</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminOCs.html" class="sidebar-item">
+                    <span class="material-icons">group</span>
+                    <span class="item-text">Personagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminHab.html" class="sidebar-item">
+                    <span class="material-icons">extension</span>
+                    <span class="item-text">Habilidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-item">
+                    <span class="material-icons">history_edu</span>
+                    <span class="item-text">Antecedentes</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Conteúdo da página -->
+    <div class="main-content">
+        <h1>Gestão de Antecedentes</h1>
+        <button id="abrir-modal" class="action-button">Adicionar Antecedente</button>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Habilidade</th>
+                    <th>Bônus</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="antecedentes-table">
+                <!-- Antecedentes carregados dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para adicionar antecedentes -->
+    <div id="modal-antecedente" class="modal hidden">
+        <div class="modal-content">
+            <span id="fechar-modal" class="close-button">X</span>
+            <h2>Adicionar Novo Antecedente</h2>
+            <form id="adicionar-antecedente-form">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" required>
+
+                <label for="habilidade">Habilidade:</label>
+                <input type="text" id="habilidade" required>
+
+                <label for="bonus">Bônus:</label>
+                <input type="text" id="bonus" required>
+
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" required></textarea>
+
+                <button type="submit" class="action-button">Adicionar</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../src/js/admin.js"></script>
+    <script type="module">
+        import { db } from '../firebaseConfig.js';
+        import { collection, doc, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+
+        const modal = document.getElementById('modal-antecedente');
+        const abrirModalBtn = document.getElementById('abrir-modal');
+        const fecharModalBtn = document.getElementById('fechar-modal');
+        const form = document.getElementById('adicionar-antecedente-form');
+
+        // Abrir o modal
+        abrirModalBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // Fechar o modal
+        fecharModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Adicionar o antecedente ao banco
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value.trim();
+            const habilidade = document.getElementById('habilidade').value.trim();
+            const bonus = document.getElementById('bonus').value.trim();
+            const descricao = document.getElementById('descricao').value.trim();
+
+            const antecedenteId = nome.toLowerCase();
+
+            try {
+                await setDoc(doc(db, "antecedentes", antecedenteId), {
+                    nome: nome,
+                    habilidade: habilidade,
+                    bonus: bonus,
+                    descricao: descricao
+                });
+
+                alert('Antecedente adicionado com sucesso!');
+                modal.classList.add('hidden');  // Fecha o modal
+                carregarAntecedentes();  // Recarrega a lista
+            } catch (error) {
+                console.error('Erro ao adicionar antecedente:', error);
+            }
+        });
+
+        // Função para carregar antecedentes
+        async function carregarAntecedentes() {
+            const antecedentesTable = document.getElementById('antecedentes-table');
+            antecedentesTable.innerHTML = '';
+
+            const querySnapshot = await getDocs(collection(db, "antecedentes"));
+            querySnapshot.forEach((doc) => {
+                const antecedente = doc.data();
+                antecedentesTable.innerHTML += `
+                    <tr>
+                        <td>${antecedente.nome}</td>
+                        <td>${antecedente.habilidade}</td>
+                        <td>${antecedente.bonus}</td>
+                        <td>
+                            <button class="action-button" onclick="editarAntecedente('${doc.id}')">Editar</button>
+                            <button class="action-button excluir" onclick="excluirAntecedente('${doc.id}')">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        carregarAntecedentes();
+    </script>
+</body>
+</html>

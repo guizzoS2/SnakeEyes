@@ -1,4 +1,4 @@
-import { auth } from './firebaseConfig.js';
+import { auth } from '../../firebaseConfig.js';
 import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 const recoveryForm = document.getElementById('forgot-password-form');

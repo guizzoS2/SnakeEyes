@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADM - Users</title>
+    <link rel="stylesheet" href="../src/css/admin.css">
+    <link rel="stylesheet" href="../src/css/geral.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar lateral -->
+    <div class="sidebar" id="sidebar">
+        <button class="toggle-btn" id="toggle-btn">
+            <span class="material-icons">menu</span>
+        </button>
+        <ul>
+            <li>
+                <a href="#" class="sidebar-item">
+                    <span class="material-icons">manage_accounts</span>
+                    <span class="item-text">Usuários</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminOCs.html" class="sidebar-item">
+                    <span class="material-icons">group</span>
+                    <span class="item-text">Personagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminHab.html" class="sidebar-item">
+                    <span class="material-icons">extension</span>
+                    <span class="item-text">Habilidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminAnte.html" class="sidebar-item">
+                    <span class="material-icons">history_edu</span>
+                    <span class="item-text">Antecedentes</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Conteúdo da página -->
+    <div class="main-content">
+        <h1>Gestão de Usuários</h1>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                <!-- Linhas dos usuários serão inseridas dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script type="module" src="../src/js/admin.js"></script>
+    <script type="module">
+        import { db } from '../firebaseConfig.js';
+        import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+        
+        async function carregarUsuarios() {
+            const usersTable = document.getElementById('users-table-body');
+            usersTable.innerHTML = '';
+
+            const querySnapshot = await getDocs(collection(db, "users"));
+            querySnapshot.forEach((doc) => {
+                const user = doc.data();
+                usersTable.innerHTML += `
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <button class="action-button excluir" onclick="excluirUsuario('${doc.id}')">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        carregarUsuarios();
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADM - Habilidades</title>
+    <link rel="stylesheet" href="../src/css/admin.css">
+    <link rel="stylesheet" href="../src/css/geral.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar lateral -->
+    <div class="sidebar" id="sidebar">
+        <button class="toggle-btn" id="toggle-btn">
+            <span class="material-icons">menu</span>
+        </button>
+        <ul>
+            <li>
+                <a href="index.html" class="sidebar-item">
+                    <span class="material-icons">manage_accounts</span>
+                    <span class="item-text">Usuários</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminOCs.html" class="sidebar-item">
+                    <span class="material-icons">group</span>
+                    <span class="item-text">Personagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-item">
+                    <span class="material-icons">extension</span>
+                    <span class="item-text">Habilidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminAnte.html" class="sidebar-item">
+                    <span class="material-icons">history_edu</span>
+                    <span class="item-text">Antecedentes</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Conteúdo da página -->
+    <div class="main-content">
+        <h1>Gestão de Habilidades</h1>
+        <button id="abrir-modal" class="action-button">Adicionar Habilidade</button>
+
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="habilidades-table">
+                <!-- Habilidades carregadas dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para adicionar habilidade -->
+    <div id="modal-habilidade" class="modal hidden">
+        <div class="modal-content">
+            <span id="fechar-modal" class="close-button">X</span>
+            <h2>Adicionar Nova Habilidade</h2>
+            <form id="adicionar-habilidade-form">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" required>
+
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" required></textarea>
+
+                <label>Requisito:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="requiAt" placeholder="Atributo" required>
+                    <input type="number" id="requiVal" placeholder="Valor" required>
+                </div>
+
+                <label for="tipo">Tipo de Habilidade:</label>
+                <select id="tipo">
+                    <option value="0">Geral</option>
+                    <option value="1">Marca</option>
+                </select>
+
+                <button type="submit" class="action-button">Adicionar</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../src/js/admin.js"></script>
+    <script type="module">
+        import { db } from '../firebaseConfig.js';
+        import { collection, doc, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+
+        const modal = document.getElementById('modal-habilidade');
+        const abrirModalBtn = document.getElementById('abrir-modal');
+        const fecharModalBtn = document.getElementById('fechar-modal');
+        const form = document.getElementById('adicionar-habilidade-form');
+
+        // Função para abrir o modal
+        abrirModalBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // Função para fechar o modal
+        fecharModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Função para adicionar a habilidade ao banco
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value.trim();
+            const descricao = document.getElementById('descricao').value.trim();
+            const atributo = document.getElementById('requiAt').value.trim();
+            const valor = parseInt(document.getElementById('requiVal').value);
+            const tipo = parseInt(document.getElementById('tipo').value);
+
+            const habilidadeId = nome.toLowerCase();  // Converte o nome para ID válido
+
+            try {
+                await setDoc(doc(db, "habilidades", habilidadeId), {
+                    nome: nome,
+                    descricao: descricao,
+                    requiAt: atributo ,
+                    requiVal: valor,
+                    tipo: tipo
+                });
+
+                alert('Habilidade adicionada com sucesso!');
+                modal.classList.add('hidden');  // Fecha o modal após adicionar
+                carregarHabilidades();  // Recarrega a tabela
+            } catch (error) {
+                console.error('Erro ao adicionar habilidade:', error);
+            }
+        });
+
+        // Função para carregar habilidades
+        async function carregarHabilidades() {
+            const habilidadesTable = document.getElementById('habilidades-table');
+            habilidadesTable.innerHTML = '';
+
+            const querySnapshot = await getDocs(collection(db, "habilidades"));
+            querySnapshot.forEach((doc) => {
+                const habilidade = doc.data();
+                habilidadesTable.innerHTML += `
+                    <tr>
+                        <td>${habilidade.nome}</td>
+                        <td>${habilidade.descricao}</td>
+                        <td>
+                            <button class="action-button" onclick="editarHabilidade('${doc.id}')">Editar</button>
+                            <button class="action-button excluir" onclick="excluirHabilidade('${doc.id}')">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        carregarHabilidades();
+    </script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+/* Estilo da sidebar */
+.sidebar {
+    width: 80px; /* Sidebar colapsada inicialmente */
+    height: 100vh;
+    background-color: #8b5e34;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transition: width 0.3s ease;
+}
+
+.sidebar.expanded {
+    width: 250px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-item img {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+}
+
+.sidebar-item:hover {
+    background-color: #a66f3d;
+    cursor: pointer;
+}
+
+/* Estilo principal */
+.main-content {
+    margin-left: 80px;
+    padding: 20px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-item .material-icons {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.sidebar-item .item-text {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.expanded .item-text {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.sidebar.collapsed + .main-content {
+    margin-left: 100px;
+}
+
+.toggle-btn {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Tela INDEX - Users */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    color: #3b2e1e;
+    margin-top: 20px;
+}
+
+.styled-table th, .styled-table td {
+    padding: 15px;
+    border-bottom: 1px solid #8b5e34;
+    text-align: left;
+}
+
+.styled-table thead {
+    background-color: #8b5e34;
+    color: white;
+}
+
+.styled-table tbody tr {
+    background-color: #f5e4c3;
+    transition: background-color 0.3s ease;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #d3b98a;
+}
+
+/* .styled-table tbody tr:nth-child(even) {
+    background-color: #f9e7c7;
+} */
+
+.action-button {
+    background-color: #8b5e34;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #a66f3d;
+}
+
+
+/* Tela de Habilidade */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Courier New', monospace;
+    box-sizing: border-box; /* Garante que padding não ultrapasse a largura */
+}
+
+.close-button {
+    float: right;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    color: #8b5e34;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover {
+    color: #a66f3d;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #8b5e34;
+    text-align: center;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #3b2e1e;
+}
+
+.modal-content input[type="number"],
+.modal-content select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #8b5e34;
+    border-radius: 5px;
+    background-color: #fffbe6;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+}
+
+.modal-content input[type="text"],
+.modal-content textarea {
+    width: calc(100% - 20px); /* Ajusta largura levando o padding em conta */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #8b5e34;
+    border-radius: 5px;
+    background-color: #fffbe6;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    box-sizing: border-box; /* Inclui padding dentro da largura */
+}
+
+.modal-content textarea {
+    resize: vertical;
+    height: 80px;
+}
+
+.modal-content select {
+    height: 40px;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 10px;
+    background-color: #8b5e34;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #a66f3d;
+}

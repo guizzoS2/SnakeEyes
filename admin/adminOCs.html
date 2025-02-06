@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADM - Personagens</title>
+    <link rel="stylesheet" href="../src/css/admin.css">
+    <link rel="stylesheet" href="../src/css/geral.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar lateral -->
+    <div class="sidebar" id="sidebar">
+        <button class="toggle-btn" id="toggle-btn">
+            <span class="material-icons">menu</span>
+        </button>
+        <ul>
+            <li>
+                <a href="index.html" class="sidebar-item">
+                    <span class="material-icons">manage_accounts</span>
+                    <span class="item-text">Usuários</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-item">
+                    <span class="material-icons">group</span>
+                    <span class="item-text">Personagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminHab.html" class="sidebar-item">
+                    <span class="material-icons">extension</span>
+                    <span class="item-text">Habilidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="adminAnte.html" class="sidebar-item">
+                    <span class="material-icons">history_edu</span>
+                    <span class="item-text">Antecedentes</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Conteúdo da página -->
+    <div class="main-content">
+        <h1>Gestão de Personagens</h1>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Nome do Personagem</th>
+                    <th>Usuário</th>
+                    <th>Bando</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="characters-table">
+                <!-- Personagens carregados dinamicamente -->
+            </tbody>
+        </table>        
+    </div>
+
+    <script type="module" src="../src/js/admin.js"></script>
+    <script type="module">
+            import { db } from '../firebaseConfig.js';
+            import { collection, getDocs, doc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+
+            async function carregarPersonagens() {
+                const charactersTable = document.getElementById('characters-table');
+                charactersTable.innerHTML = '';
+
+                const querySnapshot = await getDocs(collection(db, "personagens"));
+                querySnapshot.forEach((doc) => {
+                    const personagem = doc.data();
+                    charactersTable.innerHTML += `
+                    <tr>
+                        <td>${personagem.dadosPersonagem.nome}</td>
+                        <td>${personagem.userId}</td>
+                        <td>${personagem.dadosPersonagem.bando}</td>
+                        <td>
+                            <button class="action-button" onclick="editarPersonagem('${doc.id}')">Editar</button>
+                            <button class="action-button excluir" onclick="excluirPersonagem('${doc.id}')">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+                });
+            }
+
+        carregarPersonagens();
+    </script>
+</body>
+</html>
+
+
