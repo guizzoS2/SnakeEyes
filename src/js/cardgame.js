@@ -195,7 +195,7 @@ function renderHand() {
     hand.forEach((card, index) => {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
-        cardElement.style.backgroundImage = `url(../images/${card.image})`;
+        cardElement.style.backgroundImage = `url(../src/images/${card.image})`;
         cardElement.dataset.index = index;
 
         // Evento de clique com o botão direito do mouse para descartar a carta
@@ -219,7 +219,7 @@ function renderDiscardPile() {
         const card = discardPile[discardPile.length - 1];
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
-        cardElement.style.backgroundImage = `url(../images/${card.image})`;
+        cardElement.style.backgroundImage = `url(../src/images/${card.image})`;
         
         cardElement.addEventListener('contextmenu', (event) => {
             event.preventDefault();
@@ -324,7 +324,7 @@ function openDiscardModal() {
     discardPile.forEach((card, index) => {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
-        cardElement.style.backgroundImage = `url(../images/${card.image})`;
+        cardElement.style.backgroundImage = `url(../src/images/${card.image})`;
 
 
         cardElement.addEventListener('contextmenu', (event) => {
