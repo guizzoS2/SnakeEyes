@@ -1,5 +1,5 @@
 import { db, auth } from '../../firebaseConfig.js';
-import {  doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import {  doc, getDoc, collection, query, where, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
 async function carregarPerfil() {
     const usuario = auth.currentUser;

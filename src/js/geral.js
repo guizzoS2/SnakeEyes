@@ -437,7 +437,7 @@ async function criarFicha() {
         });
 
         alert(`Ficha criada com sucesso! ID: ${docRef.id}`);
-        window.location.href = "profile.html";  // Redireciona ou atualiza a interface conforme necessário
+        window.location.href = "../profile/profile.html";  // Redireciona ou atualiza a interface conforme necessário
         // Redireciona ou atualiza a interface conforme necessário
     } catch (error) {
         console.error("Erro ao criar ficha:", error);

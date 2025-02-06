@@ -59,7 +59,7 @@ signupForm.addEventListener('submit', async (e) => {
             updatedAt: new Date()
         });
 
-        window.location.href = 'profile/profile.html';
+        window.location.href = '../index.html';
         
     } catch (error) {
         handleSignupError(error);
