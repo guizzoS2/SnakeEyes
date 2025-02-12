@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Bandos</title>
+    <link rel="stylesheet" href="../src/css/geral.css">
+    <link rel="stylesheet" href="../src/css/meusjogos.css">
+</head>
+<body>
+    <h1>Meus Bandos</h1>
+
+    <!-- Botão para adicionar personagem -->
+    <button id="btn-add-character">Adicionar Personagem</button>
+
+    <!-- Modal para escolher personagem -->
+    <div id="character-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Escolha um Personagem</h2>
+            <ul id="character-list"></ul>
+        </div>
+    </div>
+
+    <!-- Lista de personagens na campanha -->
+    <div class="character-list">
+        <h2>Personagens na Campanha</h2>
+        <ul id="lista-personagens"></ul>
+    </div>
+    <script type="module" src=".././firebaseConfig.js"></script>
+    <script type="module" src="../src/js/meusbandos.js"></script>
+</body>
+</html>

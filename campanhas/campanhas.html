@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campanhas</title>
+    <link rel="stylesheet" href="../src/css/geral.css">
+    <link rel="stylesheet" href="../src/css/campanhas.css">
+</head>
+<body>
+    <h1>Campanhas de RPG - Meus Bandos</h1>
+
+    <!-- Criar Campanha -->
+    <div class="creation-div">
+        <h2>Criar Nova Campanha</h2>
+        <label for="nome-campanha">Nome da Campanha:</label>
+        <input type="text" id="nome-campanha" placeholder="Ex: O Bando Perdido">
+        <button id="createBtn">Criar Campanha</button>
+    </div>
+
+    <!-- Minhas Campanhas -->
+    <div class="creation-div" id="minhas-campanhas">
+        <h2>Minhas Campanhas</h2>
+        <ul id="lista-minhas-campanhas"></ul>
+    </div>
+
+    <!-- Meus Bandos -->
+    <div class="creation-div" id="meus-bandos">
+        <h2>Meus Bandos</h2>
+        <ul id="lista-meus-bandos"></ul>
+    </div>
+
+    <script type="module" src="../src/js/campanhas.js"></script>
+</body>
+</html>

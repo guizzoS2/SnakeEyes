@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Campanha</title>
+    <link rel="stylesheet" href="../src/css/geral.css">
+    <link rel="stylesheet" href="../src/css/meusjogos.css">
+</head>
+<body>
+    <h1>Visão Geral da Campanha</h1>
+
+    <!-- Link de Convite -->
+    <div class="invite-section">
+        <p>Compartilhe este link com os jogadores:</p>
+        <input type="text" id="invite-link" readonly>
+        <button onclick="copyInviteLink()">Copiar Link</button>
+    </div>
+    
+    <!-- Lista de personagens -->
+    <div class="character-list">
+        <h2>Personagens na Campanha</h2>
+        <ul id="lista-personagens"></ul>
+    </div>
+
+    <script type="module" src=".././admin/"></script>
+    <script type="module" src="../src/js/meusjogos.js"></script>
+</body>
+</html>
