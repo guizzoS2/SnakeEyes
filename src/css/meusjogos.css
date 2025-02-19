@@ -31,7 +31,7 @@
     justify-content: center;
 }
 
-.character-card {
+/* .character-card {
     padding: 15px;
     border: 3px solid #8b5e34;
     border-radius: 10px;
@@ -39,7 +39,24 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     width: 220px;
     text-align: center;
+} */
+.character-card {
+    flex: 1 1 250px; /* Define tamanho mínimo de 250px e permite ajuste */
+    max-width: 300px;
+    background: #f4e3c2;
+    padding: 15px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
 }
+
+/* Efeito ao passar o mouse */
+/* .character-card:hover {
+    transform: scale(1.05);
+} */
+
 
 .character-card strong {
     font-size: 18px;
@@ -53,10 +70,30 @@
 
 /* Exibição de cartas (mão) */
 .hand-container {
-    margin-top: 10px;
+    overflow-x: auto; 
+    padding: 10px;
+    min-height: 132px;
+    border-radius: 8px;
+    border: 2px solid #8b4513;
+    background: #fff8dc;
+    display: flex;
+    gap: 10px;
+    scrollbar-width: thin; 
+    scrollbar-color: #8b4513 #fff8dc;
 }
 
 .hand-container .card {
+    width: 80px;
+    height: 120px;
+    background-size: cover;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+
+/* .hand-container .card {
     width: 80px;
     height: 120px;
     background-size: cover;
@@ -64,11 +101,167 @@
     margin: 5px;
     border: 2px solid #8b4513;
     border-radius: 8px;
+} */
+
+
+.hand-container .card:hover {
+    transform: scale(1.1);
+}
+/* Personalizando a barra de rolagem (Chrome e Edge) */
+.hand-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.hand-container::-webkit-scrollbar-track {
+    background: #fff8dc;
+    border-radius: 8px;
+}
+
+.hand-container::-webkit-scrollbar-thumb {
+    background: #8b4513;
+    border-radius: 8px;
+}
+
+.hand-container::-webkit-scrollbar-thumb:hover {
+    background: #a66f3d;
 }
 
 
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+    .character-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
 
 /* bandos */
+.bando-container {
+    text-align: center;
+    background-color: #f4e3c2;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.bando-container h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #5e3b1e;
+}
+
+/* Recursos */
+.resource-container {
+    background-color: #f5e4c3;
+    padding: 15px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.resources-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    text-align: center;
+}
+
+.resource-item {
+    flex: 1;
+    background: #fff8dc;
+    padding: 10px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Relações */
+.relations-container {
+    background-color: #f4e3c2;
+    padding: 15px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.relations-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.relation-item {
+    flex: 1;
+    background: #fff8dc;
+    padding: 10px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Membros */
+.members-container {
+    background-color: #f5e4c3;
+    padding: 15px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.members-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.members-container ul li {
+    background-color: #fff8dc;
+    padding: 10px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+/* Anotações Gerais */
+.notes-container {
+    background-color: #f4e3c2;
+    padding: 15px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.notes-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fffbe6;
+}
+
+.notes-container button {
+    background-color: #8b5e34;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.notes-container button:hover {
+    background-color: #a66f3d;
+}
 
 /* Estilo do modal */
 .modal {
@@ -124,4 +317,162 @@
     border: 3px solid #8b5e34;
     border-radius: 15px;
     margin-top: 20px;
+}
+
+/* Estilizando as abas */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: #8b5e34;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 5px;
+    border-radius: 8px;
+}
+
+.tab-button.active {
+    background: #5e3b1e;
+}
+
+/* Conteúdo das abas */
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: #f5e4c3;
+    border-radius: 8px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estilizando os recursos do bando */
+#resources-tab p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+/* Container do Link de Convite */
+.invite-container {
+    background-color: #f5e4c3;
+    padding: 15px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.invite-container h3 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #5e3b1e;
+    text-transform: uppercase;
+}
+
+.invite-container p {
+    font-size: 16px;
+    color: #4b2e05;
+}
+
+/* Caixa do Link de Convite */
+.invite-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fffbe6;
+    border: 2px solid #8b5e34;
+    border-radius: 8px;
+    padding: 5px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.invite-box input {
+    width: 80%;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #4b2e05;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.invite-box input:focus {
+    outline: none;
+}
+
+/* Botão de Copiar Link */
+#copy-invite-btn {
+    background-color: #8b5e34;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+#copy-invite-btn:hover {
+    background-color: #a66f3d;
+}
+
+
+
+/* lista depersonagens */
+#lista-personagens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 10px;
+}
+
+
+/* Inputs Editáveis */
+.editable-input {
+    width: 100%;
+    border: 2px solid #8b5e34;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fffbe6;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: border 0.2s ease-in-out;
+}
+
+.editable-input:focus {
+    outline: none;
+    border-color: #a66f3d;
+    background: #fef2d1;
+}
+
+/* Botão de Salvar */
+#salvar-recurso {
+    background-color: #8b5e34;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s;
+}
+
+#salvar-recurso:hover {
+    background-color: #a66f3d;
 }

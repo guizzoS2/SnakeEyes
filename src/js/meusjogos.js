@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { doc, getDoc, onSnapshot, updateDoc  } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 import { db, auth } from '../../firebaseConfig.js';
 
 // Pegar o ID da campanha da URL
@@ -40,12 +40,12 @@ async function verificarAcesso() {
 document.getElementById('invite-link').value = window.location.href;
 
 // Função para copiar o link
-function copyInviteLink() {
-    const inviteInput = document.getElementById('invite-link');
-    inviteInput.select();
-    document.execCommand("copy");
-    alert("Link copiado!");
-}
+// function copyInviteLink() {
+//     const inviteInput = document.getElementById('invite-link');
+//     inviteInput.select();
+//     document.execCommand("copy");
+//     alert("Link copiado!");
+// }
 
 function gerarLinkConvite() {
     const inviteLink = `${window.location.origin}/campanhas/meusbandos.html?id=${campanhaId}`;
@@ -115,4 +115,90 @@ auth.onAuthStateChanged(user => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', gerarLinkConvite);
+
+// Alternar entre abas
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+    });
+});
+
+async function carregarRecursosBando() {
+    const campanhaRef = doc(db, "Campanha", campanhaId);
+
+    onSnapshot(campanhaRef, (campanhaSnap) => {
+        if (!campanhaSnap.exists()) {
+            alert("Campanha não encontrada.");
+            return;
+        }
+
+        const campanha = campanhaSnap.data();
+
+        document.getElementById("bando-nome").textContent = campanha.nome || "Sem nome";
+        document.getElementById("bando-bebida").textContent = campanha.bando.recursos.bebida ?? 0;
+        document.getElementById("bando-comida").textContent = campanha.bando.recursos.comida ?? 0;
+        document.getElementById("bando-material").textContent = campanha.bando.recursos.material ?? 0;
+
+        document.getElementById("bando-caes").textContent = campanha.relacoes.caes ?? 0;
+        document.getElementById("bando-comerciantes").textContent = campanha.relacoes.comerciantes ?? 0;
+        document.getElementById("bando-independentes").textContent = campanha.relacoes.independentes ?? 0;
+        document.getElementById("bando-nomades").textContent = campanha.relacoes.nomades ?? 0;
+
+        // Atualizar lista de membros
+        const membrosLista = document.getElementById("bando-membros");
+        membrosLista.innerHTML = "";
+        campanha.jogadores.forEach(id => {
+            const membroItem = document.createElement("li");
+            membroItem.textContent = id;  // Aqui você pode buscar mais detalhes do jogador
+            membrosLista.appendChild(membroItem);
+        });
+
+        // Anotações Gerais
+        document.getElementById("bando-anotacoes").value = campanha.bando.anotacaoGeral || "";
+    });
+}
+
+// Função para salvar anotações gerais
+async function salvarAnotacoes() {
+    const anotacaoTexto = document.getElementById("bando-anotacoes").value;
+    const campanhaRef = doc(db, "Campanha", campanhaId);
+
+    try {
+        await updateDoc(campanhaRef, {
+            "bando.anotacaoGeral": anotacaoTexto
+        });
+        alert("Anotações salvas!");
+    } catch (error) {
+        console.error("Erro ao salvar anotações:", error);
+        alert("Erro ao salvar.");
+    }
+}
+
+// Escutar o botão de salvar anotações
+document.getElementById("salvar-anotacoes").addEventListener("click", salvarAnotacoes);
+
+// Monitorar mudanças nos recursos do bando
+auth.onAuthStateChanged(user => {
+    if (user) {
+        carregarRecursosBando();
+    } else {
+        alert("Você precisa estar logado.");
+        window.location.href = "campanhas.html";
+    }
+});
+
+// Copiar o link para a área de transferência
+document.getElementById('copy-invite-btn').addEventListener('click', () => {
+    const inviteInput = document.getElementById('invite-link');
+    inviteInput.select();
+    document.execCommand("copy");
+    alert("Link copiado para a área de transferência!");
+});
+
+// Chamar a função para exibir o link ao carregar a página
 document.addEventListener('DOMContentLoaded', gerarLinkConvite);

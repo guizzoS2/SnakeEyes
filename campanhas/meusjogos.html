@@ -9,20 +9,82 @@
 </head>
 <body>
     <h1>Visão Geral da Campanha</h1>
-
-    <!-- Link de Convite -->
-    <div class="invite-section">
-        <p>Compartilhe este link com os jogadores:</p>
-        <input type="text" id="invite-link" readonly>
-        <button onclick="copyInviteLink()">Copiar Link</button>
-    </div>
     
-    <!-- Lista de personagens -->
-    <div class="character-list">
-        <h2>Personagens na Campanha</h2>
+    <!-- Link de Convite -->
+    <div class="invite-container">
+        <h3>Convide Jogadores</h3>
+        <p>Compartilhe este link para que outros jogadores possam entrar na campanha:</p>
+        <div class="invite-box">
+            <input type="text" id="invite-link" readonly>
+            <button id="copy-invite-btn">📋 Copiar Link</button>
+        </div>
+    </div>
+
+
+    <div class="tabs">
+        <button class="tab-button active" data-tab="characters-tab">Personagens</button>
+        <button class="tab-button" data-tab="resources-tab">Recursos do Bando</button>
+    </div>
+
+    <div id="characters-tab" class="tab-content active">
+        <!-- <h2>Personagens na Campanha</h2> -->
         <ul id="lista-personagens"></ul>
     </div>
 
+    <div id="resources-tab" class="tab-content">
+        <h2>Recursos do Bando</h2>
+    
+        <!-- Nome do Bando -->
+        <div class="bando-container">
+            <h3>Nome do Bando</h3>
+            <p id="bando-nome">Carregando...</p>
+        </div>
+    
+        <!-- Recursos -->
+        <div class="resource-container">
+            <h3>Recursos</h3>
+            <div class="resources-grid">
+                <div class="resource-item">
+                    <strong>Bebida:</strong>
+                    <span id="bando-bebida">0</span>
+                </div>
+                <div class="resource-item">
+                    <strong>Comida:</strong>
+                    <span id="bando-comida">0</span>
+                </div>
+                <div class="resource-item">
+                    <strong>Material:</strong>
+                    <span id="bando-material">0</span>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Relações do Bando -->
+        <div class="relations-container">
+            <h3>Relações</h3>
+            <div class="relations-grid">
+                <div class="relation-item"><strong>Cães:</strong> <span id="bando-caes">0</span></div>
+                <div class="relation-item"><strong>Comerciantes:</strong> <span id="bando-comerciantes">0</span></div>
+                <div class="relation-item"><strong>Independentes:</strong> <span id="bando-independentes">0</span></div>
+                <div class="relation-item"><strong>Nômades:</strong> <span id="bando-nomades">0</span></div>
+            </div>
+        </div>
+    
+        <!-- Membros do Bando -->
+        <div class="members-container">
+            <h3>Membros do Bando</h3>
+            <ul id="bando-membros"></ul>
+        </div>
+    
+        <!-- Anotações Gerais -->
+        <div class="notes-container">
+            <h3>Anotações Gerais</h3>
+            <textarea id="bando-anotacoes" rows="5" placeholder="Escreva aqui..."></textarea>
+            <button id="salvar-anotacoes">Salvar</button>
+        </div>
+    </div>
+
+    
     <script type="module" src=".././admin/"></script>
     <script type="module" src="../src/js/meusjogos.js"></script>
 </body>
