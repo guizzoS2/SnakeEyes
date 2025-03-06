@@ -476,3 +476,157 @@
 #salvar-recurso:hover {
     background-color: #a66f3d;
 }
+
+/* Fonte Velho Oeste */
+body {
+    font-family: 'Special Elite', cursive;
+    /* background-color: #f7e9d1; */
+    text-align: center;
+    color: #4b2e05;
+}
+
+/* Container Principal */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Nome do Bando */
+.bando-nome {
+    background: #8b4513;
+    color: #fff8dc;
+    padding: 10px;
+    border: 4px solid #5e3b1e;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* Organização dos blocos */
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 15px;
+}
+
+/* Estilização geral das caixas */
+.box {
+    border: 3px solid #8b4513;
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff8dc;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Relações */
+.relacoes ul {
+    list-style: none;
+    padding: 0;
+}
+
+.relacoes ul li {
+    background: #f4e3c2;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border-left: 5px solid #8b4513;
+    text-align: left;
+}
+
+/* Recursos */
+.recursos ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recursos ul li {
+    background: #f5e4c3;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border-left: 5px solid #8b4513;
+    text-align: left;
+}
+
+/* Membros */
+.membros ul {
+    list-style: none;
+    padding: 0;
+}
+
+.membros ul li {
+    background: #f4e3c2;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border-left: 5px solid #8b4513;
+}
+
+/* Anotações */
+.anotacoes textarea {
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: 'Special Elite', cursive;
+    background: #fffbe6;
+    border: 2px solid #8b4513;
+}
+
+.anotacoes button {
+    background-color: #8b4513;
+    color: white;
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    border: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.anotacoes button:hover {
+    background-color: #a66f3d;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Estilo dos botões de ajuste (+ e -) */
+.adjust-button {
+    font-size: 12px;
+    padding: 3px 6px;
+    margin-left: 5px;
+    border: 1px solid #8b4513;
+    background-color: #f5e4c3;
+    color: #4b2e05;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.adjust-button:hover {
+    background-color: #d9b08c;
+}
+
+/* Para alinhar os botões à direita */
+.resource-item, .relation-item {
+    display: flex;
+    justify-content: space-between;  /* Mantém o nome à esquerda e os botões à direita */
+    align-items: center;
+    padding: 5px;
+    background: #fff8dc;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.button-group {
+    display: flex;
+    gap: 5px;
+}

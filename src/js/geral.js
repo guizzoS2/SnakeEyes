@@ -2,6 +2,21 @@ import {collection, getDocs, addDoc, serverTimestamp, query, where, getDoc, doc 
 import { db, auth } from '../../firebaseConfig.js';
 
 let antecedenteAtual = null;
+let pontosDisponiveis = 0;
+const pericias = {
+    visao: 0,
+    precisao: 0,
+    combate: 0,
+    rapidez: 0,
+    canalhice: 0,
+    musculos: 0,
+    invencao: 0,
+    aparencias: 0,
+    sobrevivencia: 0,
+    montaria: 0,
+    estudos: 0,
+    posFronteira: 0
+};
 
 async function carregarAntecedentes() {
     const antecedentesSnapshot = await getDocs(collection(db, "antecedentes"));
@@ -77,51 +92,73 @@ async function carregarAntecedentes() {
 async function carregarHabilidades() {
     const habilidadesDiv = document.getElementById('habilidades-div');
 
-    // Busca todas as habilidades no Firestore
-    const querySnapshot = await getDocs(collection(db, "habilidades"));
+    if (!habilidadesDiv) {
+        console.error("Erro: Elemento 'habilidades-div' não encontrado no HTML.");
+        return;
+    }
 
-    querySnapshot.forEach(doc => {
-        const habilidade = doc.data();
+    try {
+        // Busca apenas habilidades onde "tipo" seja igual a 0 no Firestore
+        const habilidadesQuery = query(collection(db, "habilidades"), where("tipo", "==", 0));
+        const querySnapshot = await getDocs(habilidadesQuery);
 
-        // Criação do container da habilidade
-        const divHabilidade = document.createElement('div');
-        divHabilidade.classList.add('habilidade');
-
-        const titulo = document.createElement('h3');
-        titulo.textContent = habilidade.nome;
-        divHabilidade.appendChild(titulo);
-
-        const requisito = document.createElement('p');
-        requisito.textContent = `Requisito: ${habilidade.requiAt} ${habilidade.requiVal}`;
-        divHabilidade.appendChild(requisito);
-
-        const descricao = document.createElement('p');
-        descricao.textContent = habilidade.descricao;
-        divHabilidade.appendChild(descricao);
-
-        const labelCheckbox = document.createElement('label');
-        labelCheckbox.classList.add('label-disabled');
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.name = 'habilidade';
-        checkbox.dataset.nome = habilidade.nome;
-        checkbox.dataset.requisito = JSON.stringify({ atributo: habilidade.requiAt, valor: habilidade.requiVal });
-
-        // Verifica se o jogador atende ao pré-requisito
-        const atributoAtual = document.getElementById(habilidade.requiAt)?.textContent || "0";
-        if (parseInt(atributoAtual, 10) < habilidade.requiVal) {
-            checkbox.disabled = true;  // Desabilita o checkbox se o requisito não for atendido
-            labelCheckbox.appendChild(checkbox);
-            labelCheckbox.appendChild(document.createTextNode(' Pré-requisito não atendido'));
-        } else {
-            labelCheckbox.appendChild(checkbox);
-            labelCheckbox.appendChild(document.createTextNode(' Selecionar'));
+        if (querySnapshot.empty) {
+            console.warn("Nenhuma habilidade encontrada com tipo = 0.");
+            return;
         }
 
-        divHabilidade.appendChild(labelCheckbox);
-        habilidadesDiv.appendChild(divHabilidade);
-    });
+        habilidadesDiv.innerHTML = ""; // Limpa a div antes de adicionar novas habilidades
+
+        querySnapshot.forEach(doc => {
+            const habilidade = doc.data();
+
+            // Criando container para a habilidade
+            const divHabilidade = document.createElement('div');
+            divHabilidade.classList.add('habilidade');
+
+            const titulo = document.createElement('h3');
+            titulo.textContent = habilidade.nome;
+            divHabilidade.appendChild(titulo);
+
+            const requisito = document.createElement('p');
+            requisito.textContent = `Requisito: ${habilidade.requiAt} ${habilidade.requiVal}`;
+            divHabilidade.appendChild(requisito);
+
+            const descricao = document.createElement('p');
+            descricao.textContent = habilidade.descricao;
+            divHabilidade.appendChild(descricao);
+
+            // Criando checkbox com label
+            const labelCheckbox = document.createElement('label');
+            labelCheckbox.classList.add('label-disabled');
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'habilidade';
+            checkbox.dataset.nome = habilidade.nome;
+            checkbox.dataset.requisito = JSON.stringify({ atributo: habilidade.requiAt, valor: habilidade.requiVal });
+
+            // Verifica se o jogador atende ao pré-requisito
+            const atributoAtualEl = document.getElementById(habilidade.requiAt);
+            const atributoAtual = atributoAtualEl ? parseInt(atributoAtualEl.textContent, 10) : 0;
+
+            if (atributoAtual < habilidade.requiVal) {
+                checkbox.disabled = true;  // Desabilita o checkbox se o requisito não for atendido
+                labelCheckbox.appendChild(checkbox);
+                labelCheckbox.appendChild(document.createTextNode(' Pré-requisito não atendido'));
+            } else {
+                labelCheckbox.appendChild(checkbox);
+                labelCheckbox.appendChild(document.createTextNode(' Selecionar'));
+            }
+
+            divHabilidade.appendChild(labelCheckbox);
+            habilidadesDiv.appendChild(divHabilidade);
+        });
+
+        // console.log(`✅ ${querySnapshot.size} habilidades carregadas com tipo = 0.`);
+    } catch (error) {
+        console.error("Erro ao carregar habilidades:", error);
+    }
 
     // Evento para gerenciar a seleção de checkboxes
     habilidadesDiv.addEventListener('change', (event) => {
@@ -252,6 +289,7 @@ function aplicarBonus(selecionado) {
 
     atualizarDivMarca();
     atualizarPontosRestantes();
+    calcularPontosPericia()
 }
 
 function atualizarPontosRestantes() {
@@ -340,9 +378,101 @@ function configurarBotoes() {
             const atributo = botao.dataset.atribute;
             const operacao = botao.classList.contains('increment') ? 'increment' : 'decrement';
             alterarValor(atributo, operacao);
+            calcularPontosPericia();
         });
     });
 }
+
+function calcularPontosPericia() {
+    // Captura os elementos dos atributos corretamente
+    const menteEl = document.getElementById("mente");
+    const sabedoriaEl = document.getElementById("sabedoria");
+    const sagacidadeEl = document.getElementById("sagacidade");
+
+    // Verifica se os elementos existem no HTML
+    if (!menteEl || !sabedoriaEl || !sagacidadeEl) {
+        console.warn("Erro: Um dos atributos (mente, sabedoria ou sagacidade) não foi encontrado no HTML.");
+        return;
+    }
+
+    // Converte os valores do HTML para números inteiros
+    const mente = parseInt(menteEl.textContent, 10) || 0;
+    const sabedoria = parseInt(sabedoriaEl.textContent, 10) || 0;
+    const sagacidade = parseInt(sagacidadeEl.textContent, 10) || 0;
+
+    // Calcula os pontos disponíveis corretamente
+    pontosDisponiveis = 12 + mente + sabedoria + sagacidade;
+
+    // Atualiza o número de pontos disponíveis na interface
+    const pontosPericiaEl = document.getElementById("pontos-pericia");
+    if (pontosPericiaEl) {
+        pontosPericiaEl.innerText = pontosDisponiveis;
+    } else {
+        console.error("Erro: Elemento 'pontos-pericia' não encontrado no HTML.");
+    }
+
+    Object.keys(pericias).forEach(pericia => {
+        pericias[pericia] = 0; // Reseta o valor no objeto
+        const periciaSpan = document.getElementById(`pericia-${pericia}`);
+        if (periciaSpan) {
+            periciaSpan.textContent = "0"; // Reseta o valor no HTML
+        } else {
+            console.warn(`Elemento 'pericia-${pericia}' não encontrado no HTML.`);
+        }
+    });
+
+    // console.log(`Pontos de perícia calculados: ${pontosDisponiveis} (12 + ${mente} mente + ${sabedoria} sabedoria + ${sagacidade} sagacidade)`);
+}
+
+
+function atualizarPericia(pericia) {
+    document.getElementById(`pericia-${pericia}`).innerText = pericias[pericia];
+}
+
+function atualizarTodasPericias() {
+    Object.keys(pericias).forEach(atualizarPericia);
+}
+
+function modificarPericia(pericia, operacao) {
+    if (operacao === "aumentar" && pontosDisponiveis > 0) {
+        pericias[pericia]++;
+        pontosDisponiveis--;
+    } else if (operacao === "diminuir" && pericias[pericia] > 0) {
+        pericias[pericia]--;
+        pontosDisponiveis++;
+    }
+
+    atualizarPericia(pericia);
+    document.getElementById("pontos-pericia").innerText = pontosDisponiveis;
+}
+
+function resetarPericias() {
+    Object.keys(pericias).forEach(pericia => pericias[pericia] = 0);
+    calcularPontosPericia();
+    atualizarTodasPericias();
+}
+
+function inicializarEventosPericias() {
+    document.querySelectorAll(".plus-pericia").forEach(button => {
+        button.addEventListener("click", function () {
+            modificarPericia(this.getAttribute("data-pericia"), "aumentar");
+        });
+    });
+
+    document.querySelectorAll(".minus-pericia").forEach(button => {
+        button.addEventListener("click", function () {
+            modificarPericia(this.getAttribute("data-pericia"), "diminuir");
+        });
+    });
+
+    document.querySelectorAll(".edit-mode").forEach(input => {
+        input.addEventListener("change", resetarPericias);
+    });
+
+    calcularPontosPericia();
+    atualizarTodasPericias();
+}
+
 
 async function criarFicha() {
     // Verifica se o usuário está logado
@@ -432,7 +562,21 @@ async function criarFicha() {
                 },
                 deck: [],
                 mao: [],
-                descarte: []
+                descarte: [],
+                pericias: {
+                    sentidos: 0,
+                    precisao: 0,
+                    combate: 0,
+                    rapidez: 0,
+                    canalhice: 0,
+                    musculos: 0,
+                    invencao: 0,
+                    aparencias: 0,
+                    sobrevivencia: 0,
+                    montaria: 0,
+                    estudos: 0,
+                    posFronteira: 0
+                }
             }
         });
 
@@ -575,6 +719,9 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarHabilidades();
     carregarAntecedentes();
     carregarMarcas();
+    inicializarEventosPericias();
+    console.log("Perícias registradas:", Object.keys(pericias));
+
 
     const botaoCriarFicha = document.getElementById('criar-ficha');
     if (botaoCriarFicha) {
@@ -586,6 +733,6 @@ document.addEventListener('DOMContentLoaded', () => {
         botaoAbrirFicha.addEventListener('click', abrirFicha);
     }
 
-    
+
 });
 

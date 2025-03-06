@@ -6,20 +6,11 @@
     <title>Minha Campanha</title>
     <link rel="stylesheet" href="../src/css/geral.css">
     <link rel="stylesheet" href="../src/css/meusjogos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Visão Geral da Campanha</h1>
+    <h1>Tela do Mestre</h1>
     
-    <!-- Link de Convite -->
-    <div class="invite-container">
-        <h3>Convide Jogadores</h3>
-        <p>Compartilhe este link para que outros jogadores possam entrar na campanha:</p>
-        <div class="invite-box">
-            <input type="text" id="invite-link" readonly>
-            <button id="copy-invite-btn">📋 Copiar Link</button>
-        </div>
-    </div>
-
 
     <div class="tabs">
         <button class="tab-button active" data-tab="characters-tab">Personagens</button>
@@ -29,60 +20,48 @@
     <div id="characters-tab" class="tab-content active">
         <!-- <h2>Personagens na Campanha</h2> -->
         <ul id="lista-personagens"></ul>
+            
+        <!-- Link de Convite -->
+        <div class="invite-container">
+            <h3>Convide Jogadores</h3>
+            <p>Compartilhe este link para que outros jogadores possam entrar na campanha:</p>
+            <div class="invite-box">
+                <input type="text" id="invite-link" readonly>
+                <button id="copy-invite-btn">📋 Copiar Link</button>
+        </div>
+        
+    </div>
     </div>
 
     <div id="resources-tab" class="tab-content">
-        <h2>Recursos do Bando</h2>
+        <div class="container">
+            <div class="bando-nome">
+                <h1 id="bando-nome">Nome do Bando</h1>
+            </div>
     
-        <!-- Nome do Bando -->
-        <div class="bando-container">
-            <h3>Nome do Bando</h3>
-            <p id="bando-nome">Carregando...</p>
-        </div>
+            <div class="content">
+                <div class="box relacoes">
+                    <h2>Relações</h2>
+                    <ul id="relations-list"></ul>
+                </div>
     
-        <!-- Recursos -->
-        <div class="resource-container">
-            <h3>Recursos</h3>
-            <div class="resources-grid">
-                <div class="resource-item">
-                    <strong>Bebida:</strong>
-                    <span id="bando-bebida">0</span>
+                <div class="box recursos">
+                    <h2>Recursos</h2>
+                    <ul id="resources-list"></ul>
                 </div>
-                <div class="resource-item">
-                    <strong>Comida:</strong>
-                    <span id="bando-comida">0</span>
+    
+                <div class="box membros">
+                    <h2>Membros</h2>
+                    <ul id="bando-membros"></ul>
                 </div>
-                <div class="resource-item">
-                    <strong>Material:</strong>
-                    <span id="bando-material">0</span>
+    
+                <div class="box anotacoes">
+                    <h2>Anotações</h2>
+                    <textarea id="bando-anotacoes" rows="5" placeholder="Escreva aqui..."></textarea>
+                    <button id="salvar-anotacoes">Salvar</button>
                 </div>
             </div>
         </div>
-    
-        <!-- Relações do Bando -->
-        <div class="relations-container">
-            <h3>Relações</h3>
-            <div class="relations-grid">
-                <div class="relation-item"><strong>Cães:</strong> <span id="bando-caes">0</span></div>
-                <div class="relation-item"><strong>Comerciantes:</strong> <span id="bando-comerciantes">0</span></div>
-                <div class="relation-item"><strong>Independentes:</strong> <span id="bando-independentes">0</span></div>
-                <div class="relation-item"><strong>Nômades:</strong> <span id="bando-nomades">0</span></div>
-            </div>
-        </div>
-    
-        <!-- Membros do Bando -->
-        <div class="members-container">
-            <h3>Membros do Bando</h3>
-            <ul id="bando-membros"></ul>
-        </div>
-    
-        <!-- Anotações Gerais -->
-        <div class="notes-container">
-            <h3>Anotações Gerais</h3>
-            <textarea id="bando-anotacoes" rows="5" placeholder="Escreva aqui..."></textarea>
-            <button id="salvar-anotacoes">Salvar</button>
-        </div>
-    </div>
 
     
     <script type="module" src=".././admin/"></script>

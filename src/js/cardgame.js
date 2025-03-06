@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     discardPileElement.addEventListener('contextmenu', (event) => {
         event.preventDefault(); 
         if (discardPile.length > 0) {
-            const card = discardPile.pop();
-            hand.push(card); 
+            // const card = discardPile.pop();
+            // hand.push(card); 
             renderHand(); 
             renderDiscardPile();
             atualizarCartasNoBanco(personagemId);  // Atualiza o banco ao mover carta de volta para a mão

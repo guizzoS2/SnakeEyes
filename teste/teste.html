@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bando do Velho Oeste</title>
+    <link rel="stylesheet" href="teste.css">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="bando-nome">
+            <h1 id="bando-nome">Nome do Bando</h1>
+        </div>
+
+        <div class="content">
+            <div class="box relacoes">
+                <h2>Relações</h2>
+                <ul>
+                    <li><strong>Independentes:</strong> <span id="bando-independentes">0</span></li>
+                    <li><strong>Solari:</strong> <span id="bando-solari">0</span></li>
+                    <li><strong>Cães:</strong> <span id="bando-caes">0</span></li>
+                    <li><strong>Sem Luz:</strong> <span id="bando-semluz">0</span></li>
+                    <li><strong>Nômades:</strong> <span id="bando-nomades">0</span></li>
+                    <li><strong>Comerciantes:</strong> <span id="bando-comerciantes">0</span></li>
+                    <li><strong>Caçadores:</strong> <span id="bando-cacadores">0</span></li>
+                </ul>
+            </div>
+
+            <div class="box recursos">
+                <h2>Recursos</h2>
+                <ul>
+                    <li><strong>Bebida:</strong> <span id="bando-bebida">0</span></li>
+                    <li><strong>Comida:</strong> <span id="bando-comida">0</span></li>
+                    <li><strong>Material:</strong> <span id="bando-material">0</span></li>
+                </ul>
+            </div>
+
+            <div class="box membros">
+                <h2>Membros</h2>
+                <ul id="bando-membros"></ul>
+            </div>
+
+            <div class="box anotacoes">
+                <h2>Anotações</h2>
+                <textarea id="bando-anotacoes" rows="5" placeholder="Escreva aqui..."></textarea>
+                <button id="salvar-anotacoes">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../src/js/meusjogos.js"></script>
+</body>
+</html>

@@ -560,3 +560,81 @@ li strong {
 }
 
 
+/*  */
+/* Estilizando a área de Perícias */
+.pericias-info {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    background-color: #f4e3c2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pericias-info h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #8b4513;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Layout de 3 colunas espaçadas */
+.pericias-area {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.pericias-area .coluna {
+    flex: 1;
+}
+
+.pericias-area ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pericias-area li {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #4b2e05;
+    background-color: #fff8dc;
+    border: 1px solid #8b4513;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Inputs inicialmente escondidos */
+.pericias-area .edit-mode {
+    display: none;
+    width: 50px;
+    padding: 2px;
+    border: 1px solid #8b4513;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #fff8dc;
+    color: #4b2e05;
+}
+
+/* Alternando exibição e edição */
+.pericias-info.editing .edit-mode {
+    display: inline-block;
+}
+
+.pericias-info.editing .view-mode {
+    display: none;
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+    .pericias-area {
+        flex-direction: column;
+    }
+}

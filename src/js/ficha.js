@@ -1,5 +1,5 @@
 import { db, auth } from '../../firebaseConfig.js';
-import { query, collection, where, getDocs, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { query, collection, where, getDocs, doc, getDoc, updateDoc, arrayUnion, arrayRemove, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
 let vitalidadeAtual = 0, vitalidadeMaxima = 0;
 let estresseAtual = 0, estresseMaxima = 0;
@@ -631,3 +631,103 @@ document.addEventListener('DOMContentLoaded', () => {
     
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const personagemId = urlParams.get('id'); // Obtém o ID do personagem da URL
+
+    if (!personagemId) {
+        console.error("❌ Erro: ID do personagem não encontrado na URL.");
+        return;
+    }
+
+    const pericias = [
+        "visao", "precisao", "combate", "rapidez", "canalhice",
+        "musculos", "invencao", "aparencias", "sobrevivencia",
+        "montaria", "estudos", "posFronteira"
+    ];
+
+    const editarPericiasBtn = document.getElementById("editar-pericias");
+
+    // Alternar entre exibição e edição das perícias
+    editarPericiasBtn.addEventListener("click", function () {
+        const viewModes = document.querySelectorAll(".pericias-area .view-mode");
+        const editModes = document.querySelectorAll(".pericias-area .edit-mode");
+
+        if (this.classList.contains("editing")) {
+            // Salvar valores no banco e alternar para visualização
+            const periciasData = {};
+
+            editModes.forEach(input => {
+                const pericia = input.dataset.pericia;
+                const newValue = parseInt(input.value, 10) || 0;
+                document.getElementById(`pericia-${pericia}`).textContent = newValue;
+                periciasData[pericia] = newValue;
+                input.style.display = "none";
+            });
+
+            viewModes.forEach(span => {
+                span.style.display = "inline";
+            });
+
+            salvarPericiasNoBanco(personagemId, periciasData);
+            this.classList.remove("editing");
+            this.textContent = "✏️";
+        } else {
+            // Alternar para edição
+            editModes.forEach(input => {
+                input.style.display = "inline";
+                input.value = parseInt(document.getElementById(`pericia-${input.dataset.pericia}`).textContent, 10) || 0;
+            });
+
+            viewModes.forEach(span => {
+                span.style.display = "none";
+            });
+
+            this.classList.add("editing");
+            this.textContent = "✔️";
+        }
+    });
+
+    // Inicializar valores das perícias do banco ou definir como 0
+    pericias.forEach(pericia => {
+        const span = document.getElementById(`pericia-${pericia}`);
+        const input = document.querySelector(`input[data-pericia="${pericia}"]`);
+
+        if (span && input) {
+            getValorPericia(personagemId, pericia).then(valor => {
+                span.textContent = valor || 0;
+                input.value = valor || 0;
+            });
+        }
+    });
+
+    // Salvar todas as perícias dentro de `dadosPersonagem.pericias` no documento do personagem na coleção `personagens`
+    async function salvarPericiasNoBanco(personagemId, periciasData) {
+        const personagemRef = doc(db, "personagens", personagemId); // Agora salva na coleção `personagens`
+
+        try {
+            await setDoc(personagemRef, {
+                dadosPersonagem: {
+                    pericias: periciasData
+                }
+            }, { merge: true }); // Usa merge para não sobrescrever outros campos
+
+            console.log(`✅ Perícias salvas com sucesso para o personagem ${personagemId}!`);
+        } catch (error) {
+            console.error(`❌ Erro ao salvar perícias para ${personagemId}:`, error);
+        }
+    }
+
+    // Função para buscar o valor das perícias no banco
+    async function getValorPericia(personagemId, pericia) {
+        const docRef = doc(db, "personagens", personagemId); // Agora busca na coleção `personagens`
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            return data.dadosPersonagem?.pericias?.[pericia] || 0;
+        } else {
+            return 0; // Se não existir, retorna 0
+        }
+    }
+});
