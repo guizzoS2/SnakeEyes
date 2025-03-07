@@ -730,4 +730,65 @@ document.addEventListener("DOMContentLoaded", function () {
             return 0; // Se não existir, retorna 0
         }
     }
+
+    const editButtonStatus = document.getElementById('editar-status');
+    let isEditingStatus = false;
+
+    editButtonStatus.addEventListener('click', async () => {
+        isEditingStatus = !isEditingStatus;
+
+        const statusBox = document.querySelector('.status-box');
+
+        if (isEditingStatus) {
+            // Entra no modo de edição
+            statusBox.querySelectorAll('.edit-mode').forEach(input => input.style.display = 'block');
+            editButtonStatus.textContent = '💾';  // Muda o botão para salvar
+
+            // Preenche os inputs com os valores atuais
+            document.getElementById('vitalidade-min-input').value = vitalidadeAtual;
+            document.getElementById('vitalidade-max-input').value = vitalidadeMaxima;
+            document.getElementById('stress-min-input').value = estresseAtual;
+            document.getElementById('stress-max-input').value = estresseMaxima;
+        } else {
+            // Salva os dados no banco
+            const novoVitalidadeMin = parseInt(document.getElementById('vitalidade-min-input').value) || 0;
+            const novoVitalidadeMax = parseInt(document.getElementById('vitalidade-max-input').value) || 0;
+            const novoStressMin = parseInt(document.getElementById('stress-min-input').value) || 0;
+            const novoStressMax = parseInt(document.getElementById('stress-max-input').value) || 0;
+
+            // Atualiza os valores globais
+            vitalidadeAtual = novoVitalidadeMin;
+            vitalidadeMaxima = novoVitalidadeMax;
+            estresseAtual = novoStressMin;
+            estresseMaxima = novoStressMax;
+
+            // Atualiza o DOM
+            document.getElementById('vitalidade-atual').textContent = vitalidadeAtual;
+            document.getElementById('vitalidade-maxima').textContent = vitalidadeMaxima;
+            document.getElementById('estresse-atual').textContent = estresseAtual;
+            document.getElementById('estresse-maximo').textContent = estresseMaxima;
+
+            // Atualiza as barras
+            atualizarBarra(vitalidadeAtual, vitalidadeMaxima, 'vitalidade-bar');
+            atualizarBarra(estresseAtual, estresseMaxima, 'stress-bar');
+
+            // Atualiza o Firestore
+            try {
+                const personagemRef = doc(db, "personagens", personagemId);
+                await updateDoc(personagemRef, {
+                    "dadosPersonagem.vitalidade.atual": vitalidadeAtual,
+                    "dadosPersonagem.vitalidade.maximo": vitalidadeMaxima,
+                    "dadosPersonagem.vigor.atual": estresseAtual,
+                    "dadosPersonagem.vigor.maximo": estresseMaxima
+                });
+                console.log("Status atualizado no banco com sucesso!");
+            } catch (error) {
+                console.error("Erro ao atualizar status no Firestore:", error);
+            }
+
+            // Sai do modo de edição
+            statusBox.querySelectorAll('.edit-mode').forEach(input => input.style.display = 'none');
+            editButtonStatus.textContent = '✏️';  // Volta para o botão de edição
+        }
+    });
 });

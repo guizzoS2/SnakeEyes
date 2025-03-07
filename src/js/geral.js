@@ -516,7 +516,7 @@ async function criarFicha() {
 
     for (let i = 0; i < atributos.resiliencia; i++) {
         const dadoRolado = rolarD6();
-        const bonusPorResiliencia = Math.floor((dadoRolado + 1) / 2);
+        const bonusPorResiliencia = Math.floor(dadoRolado / 2);
         vitalidadeBonus += bonusPorResiliencia;
     }
 

@@ -51,26 +51,43 @@
         </div>        
 
         <div class="character-status">
-            <h3>Status do Personagem</h3>
+            <h3>Status do Personagem
+                <button id="editar-status" class="edit-btn">✏️</button>
+            </h3>
             <div class="status-box">
-                <p><strong>Vitalidade:</strong></p>
+                <p><strong>Saúde:</strong></p>
                 <div class="status-bar">
                     <button class="minus-btn" id="vitalidade-minus">-</button>
                     <div class="fill" id="vitalidade-bar"></div>
-                    <div class="text" id="vitalidade-text"><span id="vitalidade-atual">--</span> / <span id="vitalidade-maxima">--</span></div>
+                    <div class="text" id="vitalidade-text">
+                        <span id="vitalidade-atual">--</span> / <span id="vitalidade-maxima">--</span>
+                    </div>
                     <button class="plus-btn" id="vitalidade-plus">+</button>
                 </div>
+                <div class="edit-mode" style="display: none;">
+                    <label for="vitalidade-min-input">Min:</label>
+                    <input type="number" id="vitalidade-min-input">
+                    <label for="vitalidade-max-input">Max:</label>
+                    <input type="number" id="vitalidade-max-input">
+                </div>
                 
-                <p><strong>Essência:</strong></p>
+                <p><strong>Estresse:</strong></p>
                 <div class="stress-bar">
                     <button class="minus-btn" id="stress-minus">-</button>
                     <div class="fill" id="stress-bar"></div>
-                    <div class="text" id="stress-text"><span id="estresse-atual">--</span> / <span id="estresse-maximo">--</span></div>
+                    <div class="text" id="stress-text">
+                        <span id="estresse-atual">--</span> / <span id="estresse-maximo">--</span>
+                    </div>
                     <button class="plus-btn" id="stress-plus">+</button>
                 </div>
-                
-            </div>            
-
+                <div class="edit-mode" style="display: none;">
+                    <label for="stress-min-input">Min:</label>
+                    <input type="number" id="stress-min-input">
+                    <label for="stress-max-input">Max:</label>
+                    <input type="number" id="stress-max-input">
+                </div>
+            </div>
+            
             <div class="character-photo">
                 Foto do Personagem
             </div>
