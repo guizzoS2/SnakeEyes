@@ -27,11 +27,6 @@ async function criarCampanha() {
             criador: user.uid,
             jogadores: [],
             bando: {
-                recursos: {
-                    bebida: 0,
-                    comida: 0,
-                    material: 0,
-                },
                 anotacaoGeral: '',
             },
             anotacoesDM: [],
@@ -43,6 +38,12 @@ async function criarCampanha() {
                 semLuz: 0,
                 nomades: 0,
                 comerciantes: 0,
+            },
+
+            recursos: {
+                bebida: 0,
+                comida: 0,
+                material: 0,
             }
         });
 

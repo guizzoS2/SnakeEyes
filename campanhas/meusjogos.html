@@ -11,15 +11,40 @@
 <body>
     <h1>Tela do Mestre</h1>
     
-
     <div class="tabs">
         <button class="tab-button active" data-tab="characters-tab">Personagens</button>
         <button class="tab-button" data-tab="resources-tab">Recursos do Bando</button>
+        <button class="tab-button" data-tab="shield-tab">Escudo</button> <!-- Nova aba -->
     </div>
 
     <div id="characters-tab" class="tab-content active">
         <!-- <h2>Personagens na Campanha</h2> -->
         <ul id="lista-personagens"></ul>
+        <!-- Gerenciamento de Cartas -->
+        <div class="card-game-container">
+            <div class="container">
+                <div id="deck" class="deck" title="Clique para comprar uma carta">
+                    <span id="deck-count" class="tooltip">52</span>
+                </div>
+                <div id="discard-pile" class="discard-pile"></div>
+            </div>
+
+            <div id="discard-modal" class="modal hidden">
+                <div class="modal-content">
+                    <button id="close-modal" class="close-button">X</button>
+                    <div id="discarded-cards" class="discarded-cards"></div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div id="hand" class="hand"></div>
+                <div id="hand-controls">
+                    <button id="sort-by-suit">Ordenar por Naipe</button>
+                    <button id="sort-by-value">Ordenar por Valor</button>
+                </div>
+                <button id="restart-button">Restart</button>
+            </div>
+        </div>
             
         <!-- Link de Convite -->
         <div class="invite-container">
@@ -28,15 +53,16 @@
             <div class="invite-box">
                 <input type="text" id="invite-link" readonly>
                 <button id="copy-invite-btn">📋 Copiar Link</button>
+            </div>
         </div>
-        
-    </div>
     </div>
 
     <div id="resources-tab" class="tab-content">
         <div class="container">
             <div class="bando-nome">
                 <h1 id="bando-nome">Nome do Bando</h1>
+                <button id="editar-nome-bando" class="edit-button">✏️</button>
+                <input type="text" id="input-nome-bando" class="edit-mode">
             </div>
     
             <div class="content">
@@ -51,7 +77,7 @@
                 </div>
     
                 <div class="box membros">
-                    <h2>Membros</h2>
+                    <h2>Membros <button id="add-member-btn">+</button></h2>
                     <ul id="bando-membros"></ul>
                 </div>
     
@@ -62,8 +88,65 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <div id="shield-tab" class="tab-content"> <!-- Conteúdo da nova aba -->
+        <div class="container">
+            <div class="box anotacoes-mestre">
+                <h2>Anotações do Mestre</h2>
+                <textarea id="mestre-anotacoes" rows="5" placeholder="Escreva aqui..."></textarea>
+            </div>
     
+            <div class="box inimigos">
+                <h2>Inimigos <button id="add-enemy-btn">+</button></h2>
+                <ul id="enemy-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar novo membro -->
+    <div id="add-member-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-modal-btn">&times;</span>
+            <h2>Adicionar Novo Membro</h2>
+            <input type="text" id="new-member-name" placeholder="Nome do Membro">
+            <button id="save-member-btn">Salvar</button>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar novo inimigo -->
+    <div id="add-enemy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-enemy-modal-btn">&times;</span>
+            <h2>Adicionar Novo Inimigo</h2>
+            <input type="text" id="enemy-name" placeholder="Nome do Inimigo">
+            <input type="number" id="enemy-max-health" placeholder="Vida Máxima">
+            <input type="number" id="enemy-current-health" placeholder="Vida Atual">
+            <input type="text" id="enemy-damage" placeholder="Dano">
+            <input type="text" id="enemy-defense" placeholder="Defesa">
+            <input type="text" id="enemy-movement" placeholder="Movimento">
+            <textarea id="enemy-description" rows="3" placeholder="Descrição"></textarea>
+            <textarea id="enemy-skills" rows="3" placeholder="Habilidades"></textarea>
+            <button id="save-enemy-btn">Salvar</button>
+        </div>
+    </div>
+
+    <!-- Modal para visualizar dados do inimigo -->
+    <div id="view-enemy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-view-enemy-modal-btn">&times;</span>
+            <input type="text" id="view-enemy-name" class="editable-input" disabled>
+            <div id="view-enemy-health-bar"></div>
+            <p><strong>Vida Atual:</strong> <input type="number" id="edit-enemy-current-health"> / <input type="number" id="edit-enemy-max-health"></p>
+            <p><strong>Dano:</strong> <input type="text" id="edit-enemy-damage"></p>
+            <p><strong>Defesa:</strong> <input type="text" id="edit-enemy-defense"></p>
+            <p><strong>Movimento:</strong> <input type="text" id="edit-enemy-movement"></p>
+            <p><strong>Descrição:</strong> <textarea id="edit-enemy-description" rows="3"></textarea></p>
+            <p><strong>Habilidades:</strong> <textarea id="edit-enemy-skills" rows="3"></textarea></p>
+            <button id="save-enemy-changes-btn">Salvar</button>
+        </div>
+    </div>
+
     <script type="module" src=".././admin/"></script>
     <script type="module" src="../src/js/meusjogos.js"></script>
 </body>

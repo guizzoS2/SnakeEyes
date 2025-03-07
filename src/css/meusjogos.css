@@ -230,6 +230,64 @@
     font-size: 16px;
 }
 
+/* Estilos para o botão de adicionar membro */
+#add-member-btn {
+    background-color: #8b4513;
+    color: #f7e9d1;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-left: 10px;
+}
+
+#add-member-btn:hover {
+    background-color: #a0522d;
+}
+
+/* Estilos para o botão de remover membro */
+.remove-member-btn {
+    background-color: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.remove-member-btn:hover {
+    background-color: #a52a2a;
+}
+
+/* Estilos para o botão de edição */
+.edit-button {
+    background-color: #8b4513;
+    color: #f7e9d1;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.edit-button:hover {
+    background-color: #a0522d;
+}
+
+/* Estilos para o input de edição */
+.edit-mode {
+    display: none;
+    font-size: 16px;
+    padding: 5px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    text-align: center;
+}
+
 /* Anotações Gerais */
 .notes-container {
     background-color: #f4e3c2;
@@ -267,47 +325,36 @@
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
 }
 
 .modal-content {
-    background: #fff;
+    background-color: #fefefe;
+    margin: 15% auto;
     padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #888;
+    width: 80%;
 }
 
-.modal-content h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-.modal-content ul {
-    list-style: none;
-    padding: 0;
-}
-
-.modal-content li {
-    padding: 10px;
-    border: 1px solid #8b5e34;
-    border-radius: 5px;
-    margin-bottom: 5px;
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
     cursor: pointer;
-    background-color: #f5e4c3;
-}
-
-.modal-content li:hover {
-    background-color: #e5c89c;
 }
 
 /* Estilo dos personagens */
@@ -444,20 +491,14 @@
 /* Inputs Editáveis */
 .editable-input {
     width: 100%;
-    border: 2px solid #8b5e34;
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #8b4513;
     border-radius: 8px;
-    font-size: 16px;
-    background: #fffbe6;
-    padding: 5px;
-    text-align: center;
-    font-weight: bold;
-    transition: border 0.2s ease-in-out;
-}
-
-.editable-input:focus {
-    outline: none;
-    border-color: #a66f3d;
-    background: #fef2d1;
+    box-sizing: border-box;
+    font-family: 'Special Elite', cursive;
+    background-color: #f7e9d1;
+    color: #4b2e05;
 }
 
 /* Botão de Salvar */
@@ -500,6 +541,15 @@ body {
     border: 4px solid #5e3b1e;
     border-radius: 12px;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Espaço entre os elementos */
+}
+
+.bando-nome h1 {
+    margin: 0;
+    text-align: center;
 }
 
 /* Organização dos blocos */
@@ -629,4 +679,262 @@ body {
 .button-group {
     display: flex;
     gap: 5px;
+}
+
+/* Estilos para o modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #fff8dc;
+    padding: 20px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.close-button {
+    background-color: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-button:hover {
+    background-color: #a52a2a;
+}
+
+/* Estilização dos inputs no modal de inimigos */
+#add-enemy-modal input[type="text"],
+#add-enemy-modal input[type="number"],
+#add-enemy-modal textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Special Elite', cursive;
+    background-color: #f7e9d1;
+    color: #4b2e05;
+}
+
+#add-enemy-modal button {
+    background-color: #8b4513;
+    color: #f7e9d1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Special Elite', cursive;
+}
+
+#add-enemy-modal button:hover {
+    background-color: #4b2e05;
+}
+
+/* Estilização do textarea na seção de anotações do mestre */
+#shield-tab .box.anotacoes-mestre textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Special Elite', cursive;
+    background-color: #f7e9d1;
+    color: #4b2e05;
+    resize: vertical;
+}
+
+/* Estilização da lista de inimigos */
+#enemy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#enemy-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f4e3c2;
+    padding: 10px;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+#enemy-list button {
+    background-color: #8b4513;
+    color: #f7e9d1;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Special Elite', cursive;
+}
+
+#enemy-list button:hover {
+    background-color: #4b2e05;
+}
+
+#enemy-list .delete-button {
+    background-color: #8b0000;
+}
+
+#enemy-list .delete-button:hover {
+    background-color: #a52a2a;
+}
+
+/* Estilização do modal de visualização de inimigos */
+#view-enemy-modal .modal-content {
+    text-align: left;
+}
+
+#view-enemy-health-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #d9d9d9;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#view-enemy-health-bar .health-fill {
+    height: 100%;
+    background-color: #8b0000;
+    border-radius: 8px;
+}
+
+/* Estilização dos inputs no modal de visualização de inimigos */
+#view-enemy-modal input[type="number"],
+#view-enemy-modal input[type="text"],
+#view-enemy-modal textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Special Elite', cursive;
+    background-color: #f7e9d1;
+    color: #4b2e05;
+}
+
+#view-enemy-modal button {
+    background-color: #8b4513;
+    color: #f7e9d1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Special Elite', cursive;
+}
+
+#view-enemy-modal button:hover {
+    background-color: #4b2e05;
+}
+
+.health-bar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.health-bar {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.health-fill {
+    height: 20px;
+    background-color: red;
+    width: 0;
+    transition: width 0.3s;
+}
+
+.health-controls {
+    display: flex;
+    align-items: center;
+}
+
+.health-controls button {
+    margin: 0 5px;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.status-bar .fill {
+    position: relative;
+    flex-grow: 1;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.status-bar .health-fill {
+    height: 100%;
+    background-color: red;
+    width: 0;
+    transition: width 0.3s;
+}
+
+.status-bar .text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+}
+
+.status-bar button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.status-bar button:hover {
+    background-color: #e0e0e0;
 }
