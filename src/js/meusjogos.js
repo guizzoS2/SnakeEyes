@@ -385,7 +385,7 @@ async function salvarAnotacoes() {
         await updateDoc(campanhaRef, {
             "bando.anotacaoGeral": anotacaoTexto
         });
-        alert("Anotações salvas!");
+        // alert("Anotações salvas!");
     } catch (error) {
         console.error("Erro ao salvar anotações:", error);
         alert("Erro ao salvar.");
@@ -950,3 +950,4 @@ document.getElementById('editar-nome-bando').addEventListener('click', async () 
 });
 
 window.alterarValor = alterarValor;
+document.getElementById("salvar-anotacoes").addEventListener("click", salvarAnotacoes);

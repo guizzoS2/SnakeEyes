@@ -4,29 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Bandos</title>
-    <link rel="stylesheet" href="../src/css/geral.css">
     <link rel="stylesheet" href="../src/css/meusjogos.css">
+    <link rel="stylesheet" href="../src/css/geral.css">
 </head>
 <body>
     <h1>Meus Bandos</h1>
 
-    <!-- Botão para adicionar personagem -->
-    <button id="btn-add-character">Adicionar Personagem</button>
+    <div class="tabs">
+        <button class="tab-button active" data-tab="characters-tab">Geral</button>
+        <button class="tab-button" data-tab="resources-tab">Bando</button>
+    </div>
 
     <!-- Modal para escolher personagem -->
     <div id="character-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Escolha um Personagem</h2>
-            <ul id="character-list"></ul>
+            <ul id="character-list" class="character-list"></ul>
         </div>
     </div>
 
-    <!-- Lista de personagens na campanha -->
-    <div class="character-list">
-        <h2>Personagens na Campanha</h2>
-        <ul id="lista-personagens"></ul>
+    <div id="characters-tab" class="tab-content active">
+        <!-- Lista de personagens na campanha -->
+        <section class="character-section">
+            <div class="section-header">
+                <h2>Personagens na Campanha<button id="btn-add-character" class="btn-add">+</button></h2>
+            </div>
+            <ul id="lista-personagens" class="character-list"></ul>
+        </section>
+        <!-- Seção da mão na mesa -->
+        <section class="hand-section">
+            <h2>Mão na Mesa</h2>
+            <div id="hand" class="hand"></div>
+            <div id="hand-controls">
+                <button id="sort-by-suit">Ordenar por Naipe</button>
+                <button id="sort-by-value">Ordenar por Valor</button>
+            </div>
+        </section>
     </div>
+
+    <div id="resources-tab" class="tab-content">
+        <div class="container">
+            <div class="bando-nome">
+                <h1 id="bando-nome">Nome do Bando</h1>
+                <input type="text" id="input-nome-bando" class="edit-mode">
+            </div>
+    
+            <div class="content">
+                <div class="box relacoes">
+                    <h2>Relações</h2>
+                    <ul id="relations-list"></ul>
+                </div>
+    
+                <div class="box recursos">
+                    <h2>Recursos</h2>
+                    <ul id="resources-list"></ul>
+                </div>
+    
+                <div class="box membros">
+                    <h2>Membros</h2>
+                    <ul id="bando-membros"></ul>
+                </div>
+    
+                <div class="box anotacoes">
+                    <h2>Anotações</h2>
+                    <textarea id="bando-anotacoes" rows="5" placeholder="Escreva aqui..."></textarea>
+                    <button id="salvar-anotacoes">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src=".././firebaseConfig.js"></script>
     <script type="module" src="../src/js/meusbandos.js"></script>
 </body>

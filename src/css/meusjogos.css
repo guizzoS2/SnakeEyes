@@ -31,6 +31,53 @@
     justify-content: center;
 }
 
+.modal-content .character-list {
+    display: flex;
+    flex-direction: column; /* Organiza os itens em uma coluna */
+    gap: 15px;
+    padding: 20px;
+    background: #f5e4c3;
+    border: 3px solid #8b5e34;
+    border-radius: 15px;
+    margin-top: 20px;
+    width: 80%; 
+    margin: 0 auto; 
+}
+
+.modal-content .character-list li {
+    cursor: pointer;
+}
+
+
+.modal-content .character-list .character-card {
+    background: #f4e3c2;
+    padding: 15px;
+    border: 3px solid #8b4513;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.modal-content .character-list li .adjust-button:hover {
+    transform: scale(1.05);
+}
+
+.modal-content .character-list li {
+    font-size: 18px;
+    /* color: #4b2e05; */
+    /* border: #4b2e05 2px solid;
+    border-radius: 8px; */
+    background-color: #f5e4c3;
+    list-style-type: none;
+}
+
+.modal-content .character-list .character-card .stats {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
 /* .character-card {
     padding: 15px;
     border: 3px solid #8b5e34;
@@ -92,6 +139,65 @@
     transition: transform 0.2s ease-in-out;
 }
 
+/* Adicione ou ajuste as classes CSS conforme necessário */
+.hand {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+    background: #f5e4c3;
+    border: 3px solid #8b5e34;
+    border-radius: 15px;
+    margin-top: 20px;
+    
+}
+
+.hand-section .hand {
+    width: 80%; /* Define a largura como 80% */
+    margin: 0 auto; /* Centraliza a div */
+}
+
+.card {
+    width: 80px;
+    height: 120px;
+    background-size: cover;
+    border: 2px solid #8b4513;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card-game-container{
+    width: 70%;
+}
+
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+#hand-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#hand-controls button {
+    background-color: #8b4513;
+    color: #f7e9d1;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#hand-controls button:hover {
+    background-color: #a66f3d;
+}
 
 /* .hand-container .card {
     width: 80px;
@@ -364,6 +470,8 @@
     border: 3px solid #8b5e34;
     border-radius: 15px;
     margin-top: 20px;
+    width: 80%; 
+    margin: 0 auto; 
 }
 
 /* Estilizando as abas */
@@ -616,11 +724,15 @@ body {
 /* Anotações */
 .anotacoes textarea {
     width: 100%;
-    border-radius: 5px;
+    max-width: 100%; /* Adicione esta linha */
     padding: 10px;
-    font-family: 'Special Elite', cursive;
-    background: #fffbe6;
     border: 2px solid #8b4513;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Special Elite', cursive;
+    background-color: #f7e9d1;
+    color: #4b2e05;
+    resize: vertical;
 }
 
 .anotacoes button {
@@ -704,15 +816,14 @@ body {
 }
 
 .modal-content {
-    background-color: #fff8dc;
+    background-color: #fefefe;
+    margin: 15% auto;
     padding: 20px;
-    border: 3px solid #8b4513;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 90%;
-    max-height: 80%;
-    overflow-y: auto;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; /* Limite máximo de largura */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 10px;
 }
 
 .close-button {
@@ -727,10 +838,25 @@ body {
     right: 10px;
     font-size: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .close-button:hover {
     background-color: #a52a2a;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* Estilização dos inputs no modal de inimigos */
@@ -818,6 +944,8 @@ body {
 /* Estilização do modal de visualização de inimigos */
 #view-enemy-modal .modal-content {
     text-align: left;
+    max-width: 40%;
+    max-height: 80%;
 }
 
 #view-enemy-health-bar {
@@ -897,8 +1025,33 @@ body {
 .status-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    /* margin-top: 5px; */
 }
+/* 
+.health-bar {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background-color: #ccc;
+    margin: 0 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.health-fill {
+    height: 100%;
+    background-color: red;
+    transition: width 0.3s;
+}
+
+.health-value {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    font-weight: bold;
+} */
 
 .status-bar .fill {
     position: relative;
@@ -937,4 +1090,42 @@ body {
 
 .status-bar button:hover {
     background-color: #e0e0e0;
+}
+
+#enemy-list .health-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+#enemy-list .health-fill {
+    height: 100%;
+    background-color: red;
+    width: 0;
+    transition: width 0.3s;
+}
+
+.section-header {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-add {
+    background-color: #8b4513;
+    color: #f7e9d1;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-left: 10px;
+}
+ 
+
+.btn-add:hover {
+    background-color: #a66f3d;
 }
