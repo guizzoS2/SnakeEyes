@@ -76,23 +76,53 @@
             <form id="adicionar-habilidade-form">
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" required>
-
+    
                 <label for="descricao">Descrição:</label>
                 <textarea id="descricao" required></textarea>
-
+    
                 <label>Requisito:</label>
                 <div style="display: flex; gap: 10px;">
                     <input type="text" id="requiAt" placeholder="Atributo" required>
                     <input type="number" id="requiVal" placeholder="Valor" required>
                 </div>
-
+    
                 <label for="tipo">Tipo de Habilidade:</label>
                 <select id="tipo">
                     <option value="0">Geral</option>
                     <option value="1">Marca</option>
+                    <option value="2">Tática</option>
                 </select>
-
+    
                 <button type="submit" class="action-button">Adicionar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-editar-habilidade" class="modal hidden">
+        <div class="modal-content">
+            <span id="fechar-modal-editar" class="close-button">X</span>
+            <h2>Editar Habilidade</h2>
+            <form id="editar-habilidade-form">
+                <label for="editar-nome">Nome:</label>
+                <input type="text" id="editar-nome" required>
+    
+                <label for="editar-descricao">Descrição:</label>
+                <textarea id="editar-descricao" required></textarea>
+    
+                <label>Requisito:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="editar-requiAt" placeholder="Atributo" required>
+                    <input type="number" id="editar-requiVal" placeholder="Valor" required>
+                </div>
+    
+                <label for="editar-tipo">Tipo de Habilidade:</label>
+                <select id="editar-tipo">
+                    <option value="0">Geral</option>
+                    <option value="1">Marca</option>
+                    <option value="2">Tática</option>
+                </select>
+    
+                <button type="submit" class="action-button">Salvar</button>
             </form>
         </div>
     </div>
@@ -100,44 +130,53 @@
     <script type="module" src="../src/js/admin.js"></script>
     <script type="module">
         import { db } from '../firebaseConfig.js';
-        import { collection, doc, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-
+        import { collection, doc, getDocs, setDoc, deleteDoc, getDoc, updateDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+        
         const modal = document.getElementById('modal-habilidade');
         const abrirModalBtn = document.getElementById('abrir-modal');
         const fecharModalBtn = document.getElementById('fechar-modal');
         const form = document.getElementById('adicionar-habilidade-form');
-
-        // Função para abrir o modal
+        
+        const modalEditar = document.getElementById('modal-editar-habilidade');
+        const fecharModalEditarBtn = document.getElementById('fechar-modal-editar');
+        const formEditar = document.getElementById('editar-habilidade-form');
+        
+        // Função para abrir o modal de adicionar
         abrirModalBtn.addEventListener('click', () => {
             modal.classList.remove('hidden');
         });
-
-        // Função para fechar o modal
+        
+        // Função para fechar o modal de adicionar
         fecharModalBtn.addEventListener('click', () => {
             modal.classList.add('hidden');
         });
-
+        
+        // Função para fechar o modal de editar
+        fecharModalEditarBtn.addEventListener('click', () => {
+            modalEditar.classList.add('hidden');
+        });
+        
         // Função para adicionar a habilidade ao banco
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-
+        
             const nome = document.getElementById('nome').value.trim();
             const descricao = document.getElementById('descricao').value.trim();
             const atributo = document.getElementById('requiAt').value.trim();
             const valor = parseInt(document.getElementById('requiVal').value);
             const tipo = parseInt(document.getElementById('tipo').value);
-
+        
             const habilidadeId = nome.toLowerCase();  // Converte o nome para ID válido
-
+        
             try {
                 await setDoc(doc(db, "habilidades", habilidadeId), {
                     nome: nome,
                     descricao: descricao,
-                    requiAt: atributo ,
+                    requiAt: atributo,
                     requiVal: valor,
                     tipo: tipo
                 });
-
+        
                 alert('Habilidade adicionada com sucesso!');
                 modal.classList.add('hidden');  // Fecha o modal após adicionar
                 carregarHabilidades();  // Recarrega a tabela
@@ -145,7 +184,7 @@
                 console.error('Erro ao adicionar habilidade:', error);
             }
         });
-
+        
         // Função para carregar habilidades
         async function carregarHabilidades() {
             const habilidadesTable = document.getElementById('habilidades-table');
@@ -166,8 +205,107 @@
                 `;
             });
         }
+        // Função para excluir habilidade
+        window.excluirHabilidade = async function (id) {
+            if (confirm('Tem certeza que deseja excluir esta habilidade?')) {
+                try {
+                    // Verifica se algum personagem possui a habilidade
+                    const personagensQuery = query(collection(db, "personagens"), where("dadosPersonagem.habilidades", "array-contains", id));
+                    const personagensSnapshot = await getDocs(personagensQuery);
+
+                    // Remove a habilidade de todos os personagens que a possuem
+                    const batch = writeBatch(db);
+                    personagensSnapshot.forEach((personagemDoc) => {
+                        const personagemRef = doc(db, "personagens", personagemDoc.id);
+                        const personagemData = personagemDoc.data();
+                        const habilidadesAtualizadas = personagemData.dadosPersonagem.habilidades.filter(habilidadeId => habilidadeId !== id);
+                        batch.update(personagemRef, { "dadosPersonagem.habilidades": habilidadesAtualizadas });
+                    });
+                    await batch.commit();
+
+                    // Exclui a habilidade do banco de dados
+                    await deleteDoc(doc(db, "habilidades", id));
+                    alert('Habilidade excluída com sucesso!');
+                    carregarHabilidades();  // Recarrega a tabela
+                } catch (error) {
+                    console.error('Erro ao excluir habilidade:', error);
+                }
+            }
+        };
+
+        
+        // Função para editar habilidade
+        window.editarHabilidade = async function (id) {
+            try {
+                const docRef = doc(db, "habilidades", id);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const habilidade = docSnap.data();
+                    const nomeAntigo = habilidade.nome;
+
+                    // Preenche o formulário de edição com os dados da habilidade
+                    document.getElementById('editar-nome').value = habilidade.nome;
+                    document.getElementById('editar-descricao').value = habilidade.descricao;
+                    document.getElementById('editar-requiAt').value = habilidade.requiAt;
+                    document.getElementById('editar-requiVal').value = habilidade.requiVal;
+                    document.getElementById('editar-tipo').value = habilidade.tipo;
+
+                    // Abre o modal de edição
+                    modalEditar.classList.remove('hidden');
+
+                    // Atualiza a habilidade no banco ao salvar
+                    formEditar.onsubmit = async (event) => {
+                        event.preventDefault();
+
+                        const novoNome = document.getElementById('editar-nome').value.trim();
+                        const descricao = document.getElementById('editar-descricao').value.trim();
+                        const atributo = document.getElementById('editar-requiAt').value.trim();
+                        const valor = parseInt(document.getElementById('editar-requiVal').value);
+                        const tipo = parseInt(document.getElementById('editar-tipo').value);
+
+                        try {
+                            // Atualiza a habilidade no banco de dados
+                            await updateDoc(docRef, {
+                                nome: novoNome,
+                                descricao: descricao,
+                                requiAt: atributo,
+                                requiVal: valor,
+                                tipo: tipo
+                            });
+
+                            // Verifica se algum personagem possui a habilidade e atualiza o nome
+                            const personagensQuery = query(collection(db, "personagens"), where("dadosPersonagem.habilidades", "array-contains", nomeAntigo));
+                            const personagensSnapshot = await getDocs(personagensQuery);
+
+                            const batch = writeBatch(db);
+                            personagensSnapshot.forEach((personagemDoc) => {
+                                const personagemRef = doc(db, "personagens", personagemDoc.id);
+                                const personagemData = personagemDoc.data();
+                                const habilidadesAtualizadas = personagemData.dadosPersonagem.habilidades.map(habilidadeNome => {
+                                    return habilidadeNome === nomeAntigo ? novoNome : habilidadeNome;
+                                });
+                                batch.update(personagemRef, { "dadosPersonagem.habilidades": habilidadesAtualizadas });
+                            });
+                            await batch.commit();
+
+                            alert('Habilidade atualizada com sucesso!');
+                            modalEditar.classList.add('hidden');  // Fecha o modal após editar
+                            carregarHabilidades();  // Recarrega a tabela
+                        } catch (error) {
+                            console.error('Erro ao atualizar habilidade:', error);
+                        }
+                    };
+                } else {
+                    console.log('Nenhum documento encontrado!');
+                }
+            } catch (error) {
+                console.error('Erro ao buscar habilidade:', error);
+            }
+        };
 
         carregarHabilidades();
     </script>
+
 </body>
 </html>

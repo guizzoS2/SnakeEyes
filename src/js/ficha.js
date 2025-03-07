@@ -478,6 +478,10 @@ document.addEventListener('DOMContentLoaded', () => {
         carregarHabilidadesDoBanco(0, 'habilidades-lista-modal');
     });
 
+    document.getElementById('tab-taticas').addEventListener('click', () => {
+        carregarHabilidadesDoBanco(2, 'taticas-lista-modal'); 
+    });
+
     const editButtonAtributos = document.getElementById('editar-atributos');
     let isEditingAtributos = false;
     editButtonAtributos.addEventListener('click', async () => {
@@ -791,4 +795,44 @@ document.addEventListener("DOMContentLoaded", function () {
             editButtonStatus.textContent = '✏️';  // Volta para o botão de edição
         }
     });
+
+    document.getElementById('tab-habilidades').addEventListener('click', () => {
+        document.getElementById('modal-habilidades').classList.add('visible');
+        document.getElementById('modal-habilidades').classList.remove('hidden');
+        document.getElementById('modal-marcas').classList.add('hidden');
+        document.getElementById('modal-marcas').classList.remove('visible');
+        document.getElementById('modal-taticas').classList.add('hidden');
+        document.getElementById('modal-taticas').classList.remove('visible');
+
+        document.getElementById('tab-habilidades').classList.add('active');
+        document.getElementById('tab-marcas').classList.remove('active');
+        document.getElementById('tab-taticas').classList.remove('active');
+    });
+
+    document.getElementById('tab-marcas').addEventListener('click', () => {
+        document.getElementById('modal-marcas').classList.add('visible');
+        document.getElementById('modal-marcas').classList.remove('hidden');
+        document.getElementById('modal-habilidades').classList.add('hidden');
+        document.getElementById('modal-habilidades').classList.remove('visible');
+        document.getElementById('modal-taticas').classList.add('hidden');
+        document.getElementById('modal-taticas').classList.remove('visible');
+
+        document.getElementById('tab-marcas').classList.add('active');
+        document.getElementById('tab-habilidades').classList.remove('active');
+        document.getElementById('tab-taticas').classList.remove('active');
+    });
+
+    document.getElementById('tab-taticas').addEventListener('click', () => {
+        document.getElementById('modal-taticas').classList.add('visible');
+        document.getElementById('modal-taticas').classList.remove('hidden');
+        document.getElementById('modal-habilidades').classList.add('hidden');
+        document.getElementById('modal-habilidades').classList.remove('visible');
+        document.getElementById('modal-marcas').classList.add('hidden');
+        document.getElementById('modal-marcas').classList.remove('visible');
+
+        document.getElementById('tab-taticas').classList.add('active');
+        document.getElementById('tab-habilidades').classList.remove('active');
+        document.getElementById('tab-marcas').classList.remove('active');
+    });
+
 });

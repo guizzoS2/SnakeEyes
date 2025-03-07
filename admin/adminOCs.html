@@ -70,16 +70,16 @@
     <script type="module" src="../src/js/admin.js"></script>
     <script type="module">
             import { db } from '../firebaseConfig.js';
-            import { collection, getDocs, doc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+            import { collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
             async function carregarPersonagens() {
-                const charactersTable = document.getElementById('characters-table');
-                charactersTable.innerHTML = '';
+            const charactersTable = document.getElementById('characters-table');
+            charactersTable.innerHTML = '';
 
-                const querySnapshot = await getDocs(collection(db, "personagens"));
-                querySnapshot.forEach((doc) => {
-                    const personagem = doc.data();
-                    charactersTable.innerHTML += `
+            const querySnapshot = await getDocs(collection(db, "personagens"));
+            querySnapshot.forEach((doc) => {
+                const personagem = doc.data();
+                charactersTable.innerHTML += `
                     <tr>
                         <td>${personagem.dadosPersonagem.nome}</td>
                         <td>${personagem.userId}</td>
@@ -90,9 +90,25 @@
                         </td>
                     </tr>
                 `;
-                });
-            }
+            });
+        }
 
+            window.excluirPersonagem = async function (id) {
+            if (confirm('Tem certeza que deseja excluir este personagem?')) {
+                try {
+                    await deleteDoc(doc(db, "personagens", id));
+                    alert('Personagem excluído com sucesso!');
+                    carregarPersonagens();  // Recarrega a tabela
+                } catch (error) {
+                    console.error('Erro ao excluir personagem:', error);
+                }
+            }
+        };
+
+        // Função para editar personagem
+        window.editarPersonagem = function (id) {
+            window.location.href = `../ficha/ficha.html?id=${id}`;
+        };
         carregarPersonagens();
     </script>
 </body>

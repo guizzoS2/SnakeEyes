@@ -92,37 +92,69 @@
         </div>
     </div>
 
+    <!-- Modal para editar antecedentes -->
+    <div id="modal-editar-antecedente" class="modal hidden">
+        <div class="modal-content">
+            <span id="fechar-modal-editar" class="close-button">X</span>
+            <h2>Editar Antecedente</h2>
+            <form id="editar-antecedente-form">
+                <label for="editar-nome">Nome:</label>
+                <input type="text" id="editar-nome" required>
+
+                <label for="editar-habilidade">Habilidade:</label>
+                <input type="text" id="editar-habilidade" required>
+
+                <label for="editar-bonus">Bônus:</label>
+                <input type="text" id="editar-bonus" required>
+
+                <label for="editar-descricao">Descrição:</label>
+                <textarea id="editar-descricao" required></textarea>
+
+                <button type="submit" class="action-button">Salvar</button>
+            </form>
+        </div>
+    </div>
+
     <script type="module" src="../src/js/admin.js"></script>
     <script type="module">
         import { db } from '../firebaseConfig.js';
-        import { collection, doc, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-
+        import { collection, doc, getDocs, setDoc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+        
         const modal = document.getElementById('modal-antecedente');
         const abrirModalBtn = document.getElementById('abrir-modal');
         const fecharModalBtn = document.getElementById('fechar-modal');
         const form = document.getElementById('adicionar-antecedente-form');
-
-        // Abrir o modal
+        
+        const modalEditar = document.getElementById('modal-editar-antecedente');
+        const fecharModalEditarBtn = document.getElementById('fechar-modal-editar');
+        const formEditar = document.getElementById('editar-antecedente-form');
+        
+        // Função para abrir o modal de adicionar
         abrirModalBtn.addEventListener('click', () => {
             modal.classList.remove('hidden');
         });
-
-        // Fechar o modal
+        
+        // Função para fechar o modal de adicionar
         fecharModalBtn.addEventListener('click', () => {
             modal.classList.add('hidden');
         });
-
-        // Adicionar o antecedente ao banco
+        
+        // Função para fechar o modal de editar
+        fecharModalEditarBtn.addEventListener('click', () => {
+            modalEditar.classList.add('hidden');
+        });
+        
+        // Função para adicionar o antecedente ao banco
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-
+        
             const nome = document.getElementById('nome').value.trim();
             const habilidade = document.getElementById('habilidade').value.trim();
             const bonus = document.getElementById('bonus').value.trim();
             const descricao = document.getElementById('descricao').value.trim();
-
-            const antecedenteId = nome.toLowerCase();
-
+        
+            const antecedenteId = nome.toLowerCase();  // Converte o nome para ID válido
+        
             try {
                 await setDoc(doc(db, "antecedentes", antecedenteId), {
                     nome: nome,
@@ -130,20 +162,20 @@
                     bonus: bonus,
                     descricao: descricao
                 });
-
+        
                 alert('Antecedente adicionado com sucesso!');
-                modal.classList.add('hidden');  // Fecha o modal
-                carregarAntecedentes();  // Recarrega a lista
+                modal.classList.add('hidden');  // Fecha o modal após adicionar
+                carregarAntecedentes();  // Recarrega a tabela
             } catch (error) {
                 console.error('Erro ao adicionar antecedente:', error);
             }
         });
-
+        
         // Função para carregar antecedentes
         async function carregarAntecedentes() {
             const antecedentesTable = document.getElementById('antecedentes-table');
             antecedentesTable.innerHTML = '';
-
+        
             const querySnapshot = await getDocs(collection(db, "antecedentes"));
             querySnapshot.forEach((doc) => {
                 const antecedente = doc.data();
@@ -160,7 +192,70 @@
                 `;
             });
         }
-
+        
+        // Função para excluir antecedente
+        window.excluirAntecedente = async function (id) {
+            if (confirm('Tem certeza que deseja excluir este antecedente?')) {
+                try {
+                    await deleteDoc(doc(db, "antecedentes", id));
+                    alert('Antecedente excluído com sucesso!');
+                    carregarAntecedentes();  // Recarrega a tabela
+                } catch (error) {
+                    console.error('Erro ao excluir antecedente:', error);
+                }
+            }
+        };
+        
+        // Função para editar antecedente
+        window.editarAntecedente = async function (id) {
+            try {
+                const docRef = doc(db, "antecedentes", id);
+                const docSnap = await getDoc(docRef);
+        
+                if (docSnap.exists()) {
+                    const antecedente = docSnap.data();
+        
+                    // Preenche o formulário de edição com os dados do antecedente
+                    document.getElementById('editar-nome').value = antecedente.nome;
+                    document.getElementById('editar-habilidade').value = antecedente.habilidade;
+                    document.getElementById('editar-bonus').value = antecedente.bonus;
+                    document.getElementById('editar-descricao').value = antecedente.descricao;
+        
+                    // Abre o modal de edição
+                    modalEditar.classList.remove('hidden');
+        
+                    // Atualiza o antecedente no banco ao salvar
+                    formEditar.onsubmit = async (event) => {
+                        event.preventDefault();
+        
+                        const nome = document.getElementById('editar-nome').value.trim();
+                        const habilidade = document.getElementById('editar-habilidade').value.trim();
+                        const bonus = document.getElementById('editar-bonus').value.trim();
+                        const descricao = document.getElementById('editar-descricao').value.trim();
+        
+                        try {
+                            await updateDoc(docRef, {
+                                nome: nome,
+                                habilidade: habilidade,
+                                bonus: bonus,
+                                descricao: descricao
+                            });
+        
+                            alert('Antecedente atualizado com sucesso!');
+                            modalEditar.classList.add('hidden');  // Fecha o modal após editar
+                            carregarAntecedentes();  // Recarrega a tabela
+                        } catch (error) {
+                            console.error('Erro ao atualizar antecedente:', error);
+                        }
+                    };
+                } else {
+                    console.log('Nenhum documento encontrado!');
+                }
+            } catch (error) {
+                console.error('Erro ao buscar antecedente:', error);
+            }
+        };
+        
         carregarAntecedentes();
     </script>
 </body>
